@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}HOTEL LÃ BODO - Retrieve Supplier{% endblock %}
+
+{% block content %}
+<h1 class="display-5">Supplier</h1>
+<div>
+  {% if count == 0 %}
+  <p>There are no Suppliers.</p>
+  {% elif count == 1 %}
+  <p>There is 1 Supplier.</p>
+  {% else %}
+  <p>There are {{ count }} Suppliers.</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Company Name</th>
+        <th>UEN Number</th>
+        <th>Email</th>
+        <th>Product Name</th>
+        <th>Product Name</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for supplier in suppliers_list %}
+      <tr>
+        <td>{{ supplier.get_company_name() }}</td>
+        <td>{{ supplier.get_uen_number() }}</td>
+        <td>{{ supplier.get_email() }}</td>
+        <td>{{ supplier.get_product_name() }}</td>
+        <td>{{ supplier.get_new_product_name() }}</td>
+        <td><a href="/updateSupplier/{{supplier.get_company_name()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_supplier', company_name=supplier.get_company_name())}}" method="POST">
+            <!--
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{supplier.get_company_name()}} {{supplier.get_uen_number()}}?');">
+            -->
+              <!-- Button to Open the Modal -->
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{supplier.get_company_name()}}">
+                Delete
+              </button>
+
+              <!-- The Modal -->
+              <div class="modal" id="myModal_{{supplier.get_company_name()}}">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Delete Confirmation</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      Are you sure you want to delete Supplier: {{supplier.get_company_name()}}, UEN Number: {{supplier.get_uen_number()}}?
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <input type="submit" value="Delete" class="btn btn-danger">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

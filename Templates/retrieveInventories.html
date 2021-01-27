@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}HOTEL LÃ BODO - Retrieve Inventory{% endblock %}
+
+{% block content %}
+<h1 class="display-5">Item List</h1>
+<div>
+  {% if count == 0 %}
+  <p>There are no Item listed.</p>
+  {% elif count == 1 %}
+  <p>There is 1 Item listed.</p>
+  {% else %}
+  <p>There are {{ count }} Item listed.</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Supplier</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for inventory in inventories_list %}
+      <tr>
+        <td>{{ inventory.get_item_name() }}</td>
+        <td>{{ inventory.get_supplier() }}</td>
+        <td>{{ inventory.get_product_name() }}</td>
+        <td>{{ inventory.get_quantity() }}</td>
+        <td><a href="/updateInventory/{{inventory.get_item_name()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_inventory', item_name=inventory.get_item_name())}}" method="POST">
+            <!--
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{inventory.get_item_name()}} {{inventory.get_supplier()}}?');">
+            -->
+              <!-- Button to Open the Modal -->
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{inventory.get_item_name()}}">
+                Delete
+              </button>
+
+              <!-- The Modal -->
+              <div class="modal" id="myModal_{{inventory.get_item_name()}}">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Delete Confirmation</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      Are you sure you want to delete {{inventory.get_item_name()}} {{inventory.get_supplier()}}?
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <input type="submit" value="Delete" class="btn btn-danger">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends "server_base.html "%}
+
+{% block css%}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static',filename='vendor/slick/slick/slick.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='vendor/slick/slick/slick-theme.css') }}">
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+{% from "includes/_formHelper.html" import render_field %}
+
+<body id="page-top">
+                <!-- Begin Page Content -->
+
+                <div class="container-fluid">
+                  <button type="button" class="btn btn-secondary">Guest Details</button>
+                  <button type="button" class="btn btn-outline-secondary">Hospitals</button>
+                  <button type="button" class="btn btn-outline-secondary">Occupations</button>
+                  <button type="button" class="btn btn-outline-secondary">Industries</button>
+                  <button type="button" class="btn btn-outline-secondary">Edit required fields</button>
+                  <hr>
+                <div class="row flex-lg-nowrap">
+
+                  <div class="col">
+                    <div class="row">
+                      <div class="col mb-3">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="e-profile">
+                              <div class="row">
+                                <div class="col-12 col-sm-auto mb-3">
+                                  <div class="mx-auto" style="width: 140px;">
+                                    <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+                                      <img class="img-thumbnail" src="img/jisoo.jpg" alt="">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                  <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{guest.get_name()}}</h4>
+
+
+                                  </div>
+                                  <div class="text-center text-sm-right">
+                                    <span class="badge badge-secondary">Guest</span>
+                                    <span class="badge badge-secondary">No Grade</span>
+                                    <span class="badge badge-secondary">No Priority</span>
+                                    <div class="text-muted"><small>Joined 15 Nov 2020</small></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <ul class="nav nav-tabs">
+                                <li class="nav-item"><a href="" class="active nav-link">Information</a></li>
+                              </ul>
+                              <div class="tab-content pt-3">
+                                <div class="tab-pane active">
+                                  <form class="form" novalidate="" method="POST" action="">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                            {{ render_field(form.name, class="form-control") }}
+                                          </div>
+                                          </div>
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Username</label>
+                                              <input class="form-control" type="text" name="username" placeholder="sooyaaa__" value="sooyaaa__" readonly>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Email</label>
+                                              <input class="form-control" type="text" placeholder="peeepeepoopoo@gmail.com" readonly>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                            {{ render_field(form.occupation, class="form-control") }}
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                            {{ render_field(form.location, class="form-control") }}
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                            {{ render_field(form.industry, class="form-control") }}
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12 mb-5">
+                                            <div class="form-group">
+                                            {{ render_field(form.transport, class="form-check-input") }}
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12 col-sm-6 mb-3">
+                                            <div class="form-group">
+                                              <label>Grade</label>
+                                              <input class="form-control" type="text" value="{{guest.get_grade()}}"  readonly>
+                                            </div>
+                                          </div>
+                                          <div class="col-12 col-sm-6 mb-3">
+                                            <div class="form-group">
+                                              <label>Priority</label>
+                                              <input class="form-control" type="text" value="{{guest.get_priority()}}"  readonly>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col d-flex justify-content-end">
+                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                      </div>
+                                    </div>
+                                    
+                                  </form>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-md-3 mb-3">
+                        <div class="card mb-3">
+                          <div class="card-body">
+                            <div class="px-xl-3">
+                              <button class="btn btn-block btn-secondary">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Switch Guest</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+  {{ super() }}
+  <script src="{{ url_for('static',filename='vendor/slick/slick/slick.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/slick_carousel.js') }}"></script>
+
+{% endblock %}
