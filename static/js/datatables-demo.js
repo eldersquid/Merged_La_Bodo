@@ -34,7 +34,7 @@ $(document).ready(function () {
                    $("#deleteMulti").on("click", function() {
                        var js_data = JSON.stringify(hospitals);
                        $.ajax({
-                           url: '/deletemulti',
+                           url: '/occupation_multi',
                            type : 'post',
                            contentType: 'application/json',
                            dataType : 'json',
@@ -65,6 +65,22 @@ $(document).ready(function () {
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
     $('#dataTable2').DataTable( {
+
+        columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]]
+    } );
+} );
+
+$(document).ready(function() {
+    $('#dataTable').DataTable( {
 
         columnDefs: [ {
             orderable: false,

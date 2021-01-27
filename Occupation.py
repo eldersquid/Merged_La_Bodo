@@ -1,5 +1,5 @@
 class Occupation:
-    occupationList=["","Doctor","Paramedic","Registered Nurse","Patient Care Assistant","Family and General Practitioner","Others"]
+    occupationList=["N/A","Doctor","Paramedic","Registered Nurse","Patient Care Assistant","Family and General Practitioner","Others"]
     occupationDict=[{"Occupation" : "N/A", "Industry" : "N/A" },
                     {"Occupation" : "Doctor", "Industry" : "Medical" },
                     {"Occupation": "Paramedic", "Industry" : "Medical"  },

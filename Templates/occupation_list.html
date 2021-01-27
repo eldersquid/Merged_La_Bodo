@@ -57,6 +57,7 @@
                                 <table class="table table-bordered table-hover" id="hospitalTable" width="100%" cellspacing="1">
                                     <thead>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Occupation</th>
                                             <th>Industry</th>
                                             <th></th>
@@ -65,6 +66,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
+                                          <th>ID</th>
                                           <th>Occupation</th>
                                           <th>Industry</th>
                                           <th></th>
@@ -74,6 +76,7 @@
                                     <tbody>
                                       {% for occupation in occupation_list %}
                                       <tr>
+                                        <td>{{ occupation.get_occupation_id() }}</td>
                                         <td> {{ occupation.get_occupation() }} </td>
                                         <td>{{ occupation.get_industry() }}</td>
                                         <td><a href="/occupation-edit/{{occupation.get_occupation_id()}}" class="btn btn-warning">Update</a></td>
@@ -116,9 +119,85 @@
 
                                     </tbody>
                                 </table>
-                            </div>
+
+
+
+
+
+                          </div>
                         </div>
                     </div>
+                    <div class="row mt-3">
+                      <div class="col-4">
+
+                        <form action="{{url_for('occupation_reset')}}" method="POST">
+                          <!-- Modal -->
+                          <div class="modal fade" id="resetDefault" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="ResetModalTitle">Are you sure?</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  Do you want to reset all occupations to default values?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Reset" class="btn btn-info">
+
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+                        <button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#resetDefault">
+
+                        <span>Reset</span>
+                        </button>
+                        </form>
+                      </div>
+
+                            <div class="col-4">
+
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="deleteModal_multiOccupation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      Do you really want to delete selected Occupations? This process cannot be undone.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" id="deleteMulti" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_multiOccupation" data-dismiss="modal"><i class="far fa-times-circle"></i>Delete</button>
+
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                            <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#deleteModal_multiOccupation">
+                            <i class="far fa-times-circle"></i>
+                            <span>Delete</span>
+                            </button>
+
+                          </div>
+                        </div>
 
 
                 </div>
@@ -128,13 +207,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
+
             <!-- End of Footer -->
 
         </div>

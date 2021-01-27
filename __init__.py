@@ -847,8 +847,8 @@ def occupation_list():
             occupation.set_occupation_id(occupation_id)
             occupation_id += 1
         occupation_id-=1
-        occupationdb["hospital_id"] = occupation_id
-        occupationdb["Hospitals"] = occupation_Dict
+        occupationdb["occupation_id"] = occupation_id
+        occupationdb["Occupations"] = occupation_Dict
 
 
     print(occupation_Dict)
@@ -945,7 +945,7 @@ def delete_occupation(id):
     occupation_choices=[]
     occupationdb = shelve.open("occupation.db")
     occupation_dict = occupationdb["Occupations"]
-    occupation_choices=occupationdb["occupation_choices"]
+    occupation_choices=occupationdb["Occupation_choices"]
 
     occupation_name = occupation_dict[id].get_name()
     occupation_dict.pop(id)
@@ -953,6 +953,50 @@ def delete_occupation(id):
 
     occupationdb["Occupations"] = occupation_dict
     occupationdb["Occupation_choices"] = occupation_choices
+    occupationdb.close()
+    return redirect(url_for('occupation_list'))
+
+@app.route('/occupation_multi',methods=["GET", "POST"])
+def occupation_multi():
+    occupation_dict = {}
+    occupation_choices = []
+    occupation_name=""
+    occupationdb = shelve.open("occupation.db")
+    occupation_dict = occupationdb["Occupations"]
+    occupation_choices = occupationdb["Occupation_choices"]
+
+    if request.method == 'POST':
+        data = request.json
+        for x in data:
+            occupation_name=occupation_dict[int(x)].get_occupation()
+            occupation_dict.pop(int(x))
+            occupation_choices.remove(occupation_name)
+
+        occupationdb["Occupations"] = occupation_dict
+        print(occupation_choices)
+        occupationdb["Occupation_choices"] = occupation_choices
+        occupationdb.close()
+        return jsonify(data)
+    return redirect(url_for('occupation_list'))
+
+@app.route('/occupation-reset', methods=["POST"])
+def occupation_reset():
+    occupationdb = shelve.open("occupation.db")
+    occupation_Dict = {}
+    occupation_Dict = occupationdb["Occupations"]
+    occupation_id = int(occupationdb["occupation_id"])
+    print("Resetting occupations.")
+    occupation_id = 1
+    occupationdb["Occupation_choices"] = Occupation.occupationList
+    for x in Occupation.occupationDict:
+        occupation = Occupation(x["Occupation"], x["Industry"])
+        occupation_Dict[occupation_id] = occupation
+        occupation.set_occupation_id(occupation_id)
+        occupation_id += 1
+        print(occupation_id)
+    occupation_id -= 1
+    occupationdb["occupation_id"] = occupation_id
+    occupationdb["Occupations"] = occupation_Dict
     occupationdb.close()
     return redirect(url_for('occupation_list'))
 
