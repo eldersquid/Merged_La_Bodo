@@ -8,6 +8,16 @@ class Occupation:
                     {"Occupation": "Family and General Practitioner", "Industry" : "Medical"},
                     {"Occupation": "Others", "Industry" : "N/A"},
                     ]
+    occupationChoices={
+                        1 : {"N/A" : "N/A"},
+                        2: {"Doctor": "Medical"},
+                        3: {"Paramedic": "Medical"},
+                        4: {"Registered Nurse": "Medical"},
+                        5: {"Patient Care Assistant": "Medical"},
+                        6: {"Family and General Practitioner": "Medical"},
+                        7: {"Others": "N/A"}
+
+    }
 
 
     def __init__(self,occupation,industry):

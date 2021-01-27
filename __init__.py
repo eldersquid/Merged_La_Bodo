@@ -714,7 +714,6 @@ def hospital_multi():
 def hospital_reset():
     hospitaldb = shelve.open("hospital.db")
     hospital_Dict = {}
-    hospital_Dict = hospitaldb["Hospitals"]
     hospital_id = int(hospitaldb["hospital_id"])
     print("Resetting hospitals.")
     hospital_id = 0
@@ -798,8 +797,8 @@ def hospital_edit(id):
             print("Error opening hospital database.")
 
         hospital=hospitalDict.get(id)
-        hospital_list[id] = createHospital.hospital_name.data
         hospital.set_name(createHospital.hospital_name.data)
+        hospital_list[id] = createHospital.hospital_name.data
         hospital.set_address(createHospital.hospital_address.data)
         hospital.set_contact(createHospital.hospital_contact.data)
         hospital.set_beds(createHospital.hospital_beds.data)
@@ -916,10 +915,13 @@ def occupation_edit(id):
             print("Error opening Occupation database.")
 
         occupation=occupationDict.get(id)
-        occupation_list[id] = createOccupation.occupation_name.data
+        test=occupation.get_occupation()
         occupation.set_occupation(createOccupation.occupation_name.data)
+        occupation_list.remove(test)
+        occupation_list.append(createOccupation.occupation_name.data)
+        print(occupation_list)
         occupation.set_industry(createOccupation.occupation_industry.data)
-        occupationdb["Hospitals"]= occupationDict
+        occupationdb["Occupations"]= occupationDict
         occupationdb["Occupation_choices"] = occupation_list
         occupationdb.close()
         return redirect(url_for('occupation_list'))
@@ -983,10 +985,10 @@ def occupation_multi():
 def occupation_reset():
     occupationdb = shelve.open("occupation.db")
     occupation_Dict = {}
-    occupation_Dict = occupationdb["Occupations"]
     occupation_id = int(occupationdb["occupation_id"])
-    print("Resetting occupations.")
+    print("Resetting occupations using the reset button.")
     occupation_id = 1
+    print(occupation_id)
     occupationdb["Occupation_choices"] = Occupation.occupationList
     for x in Occupation.occupationDict:
         occupation = Occupation(x["Occupation"], x["Industry"])
