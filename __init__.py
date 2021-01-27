@@ -1114,70 +1114,6 @@ def request_selectguest():
 #     listing=jsonify(guestList)
 #     return listing
 
-@app.route('/request-create//<int:roomnum>', methods=["GET","POST"])
-def request_create(roomnum):
-    createRequest=RequestForm(request.form)
-
-    if request.method== "POST" and createRequest.validate():
-        print("1st choice")
-        guestDict={}
-        request_id = 0
-        requestDict = {}
-        try:
-            db=shelve.open("guests.db")
-            guestDict=db["Guest_RoomNumber"]
-            print(guestDict)
-        except:
-            print("No guests found.")
-
-        try:
-            requestdb=shelve.open("requests.db")
-            requestDict=requestdb["Requests"]
-            print(requestDict)
-        except:
-            print("No requests found.")
-        guest = guestDict.get(roomnum)
-        print(guest)
-        guest.set_request_type(createRequest.type.data)
-        guest.set_request_topic(createRequest.topic.data)
-        guest.set_request_details(createRequest.details.data)
-        request_id+=1
-        guest.set_request_id(request_id)
-        requestDict[guest.get_request_id()] = guest
-        requestdb["Requests"] = requestDict
-        db.close()
-        requestdb.close()
-        return redirect(url_for('request_list'))
-    else:
-        print("2nd choice of creating request")
-        guestDict = {}
-        requestDict = {}
-        try:
-            db=shelve.open("guests.db")
-            guestDict=db["Guest_RoomNumber"]
-            guestDict2=db["Guests"]
-            print(guestDict)
-            print(guestDict2)
-        except:
-            print("No guests found.")
-
-        try:
-            requestdb=shelve.open("requests.db")
-            requestDict=requestdb["Requests"]
-            print(requestDict)
-        except:
-            print("No requests found.")
-            request_id=0
-        guest = guestDict.get(roomnum)
-
-        createRequest.type.data = guest.get_request_type()
-        createRequest.topic.data = guest.get_request_topic()
-        createRequest.details.data = guest.get_request_details()
-
-        requestdb.close()
-        db.close()
-
-    return render_template("request_create.html",form=createRequest,guest=guest)
 
 @app.route('/request-create/<int:roomnum>', methods=["GET","POST"])
 def create_request(roomnum):
@@ -1281,6 +1217,20 @@ def edit_request(id):
 
 
         return render_template('request_edit.html',guest=guest,form=createRequest)
+
+
+@app.route('/delete-request/<int:id>', methods=['POST'])
+def delete_request(id):
+    request_dict = {}
+    requestdb = shelve.open("requests.db")
+    request_dict = requestdb["Requests"]
+
+    request_dict.pop(id)
+
+    requestdb["Requests"] = request_dict
+    request.close()
+
+    return redirect(url_for('request_list'))
 
 
 

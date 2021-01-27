@@ -82,7 +82,7 @@
                                           <td> {{request.get_request_topic()}} </td>
                                           <td><a href="/edit-request/{{request.get_request_id()}}" class="btn btn-warning">Update</a></td>
                                           <td>
-                                            <form action="{{url_for('delete_guest', id=request.get_request_id())}}" method="POST">
+                                            <form action="{{url_for('delete_request', id=request.get_request_id())}}" method="POST">
 
                                               <!-- Modal -->
                                               <div class="modal fade" id="deleteModal_{{ request.get_request_id() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -95,11 +95,11 @@
                                                       </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                      Do you really want to delete this guest? This process cannot be undone.
+                                                      Mark this request as done?
                                                     </div>
                                                     <div class="modal-footer">
                                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                      <input type="submit" value="Delete" class="btn btn-danger">
+                                                      <input type="submit" value="Done" class="btn btn-danger">
                                                     </div>
                                                   </div>
                                                 </div>
@@ -109,7 +109,7 @@
 
                                             <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#deleteModal_{{ request.get_request_id() }}">
                                             <i class="far fa-times-circle"></i>
-                                            <span>Delete</span>
+                                            <span>Mark as Done</span>
                                           </button>
                                           </form>
                                         </td>
