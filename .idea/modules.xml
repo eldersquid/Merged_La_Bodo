@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Inventory/.idea/Inventory.iml" filepath="$PROJECT_DIR$/../Inventory/.idea/Inventory.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Merged La Bodo.iml" filepath="$PROJECT_DIR$/.idea/Merged La Bodo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SimpleWebApplication/.idea/SimpleWebApplication.iml" filepath="$PROJECT_DIR$/../SimpleWebApplication/.idea/SimpleWebApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Supplier/.idea/Supplier.iml" filepath="$PROJECT_DIR$/../Supplier/.idea/Supplier.iml" />
     </modules>
   </component>
 </project>

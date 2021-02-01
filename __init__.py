@@ -15,6 +15,7 @@ import shelve ,Reservation, Review,smtplib,ssl
 import json
 import random
 import PackageDeal
+from ProductCat import *
 
 
 
@@ -1216,9 +1217,113 @@ def delete_request(id):
 
 #ziyuan's part
 
-@app.route('/contactUs')
-def contact_us():
-    return render_template('contactUs.html')
+@app.route('/createProduct', methods=['GET', 'POST'])
+def createProduct():
+    createProductForm = CreateProductForm(request.form)
+    if request.method == "POST" and createProductForm.validate():
+        productcat_list = []
+        db = shelve.open("productname.db")
+        productcat_dict = {}
+        try:
+            productcat_list = db["Product_Selection"]
+            productcat_dict = db["Product_Name"]
+            productcat_id = int(db["Product_ID"])
+        except:
+            print("Error in retrieving Product Name from productname.db.")
+            db["Product_Selection"] = ProductCat.productList
+            productcat_id = 1
+            for x in ProductCat.productDict:
+                productcat = ProductCat(x)
+                productcat_dict[productcat_id] = productcat
+                productcat.set_productcat_id(productcat_id)
+                productcat_id += 1
+            productcat_id -= 1
+            db["Product_ID"] = productcat_id
+            db["Product_Name"] = productcat_dict
+            productcat_list = db["Product_Selection"]
+
+        productcat = ProductCat(createProductForm.productcat.data)
+        productcat_id += 1
+        productcat.set_productcat_id(productcat_id)
+        productcat_list.append(productcat.get_productcat())
+        productcat_dict[productcat.get_productcat_id()] = productcat
+        db["Product_ID"] = productcat_id
+        db["Product_Name"] = productcat_dict
+        db["Product_Selection"] = productcat_list
+        db.close()
+        return redirect(url_for('retrieve_productcat'))
+    return render_template("createProduct.html", form=createProductForm)
+
+
+@app.route('/retrieveProduct')
+def retrieve_productcat():
+    createProductForm = CreateProductForm(request.form)
+    db = shelve.open("productname.db")
+    productcat_list = []
+    productcat_dict = {}
+    try:
+        productcat_dict = db["Product_Name"]
+        productcat_id = int(db["Product_ID"])
+    except:
+        print("Error in retrieving Product Name from productname.db.")
+        productcat_id = 1
+        db["Product_Selection"] = ProductCat.productList
+        for x in ProductCat.productDict:
+            productcat = ProductCat(x["Product Category"])
+            productcat_dict[productcat_id] = productcat
+            productcat.set_productcat_id(productcat_id)
+            productcat_id += 1
+        productcat_id -= 1
+        db["Product_ID"] = productcat_id
+        db["Product_Name"] = productcat_dict
+
+    for key in productcat_dict:
+        productcat = productcat_dict.get(key)
+        productcat_list.append(productcat)
+
+    db.close()
+    return render_template("ProductCat.html", productcat_list=productcat_list)
+
+
+@app.route('/deleteProductCat/<int:id>', methods=['POST'])
+def delete_productcat(id):
+    productcat_dict = {}
+    productcat_select = []
+    db = shelve.open("productname.db")
+    productcat_dict = db["Product_Name"]
+    productcat_select = db["Product_Selection"]
+
+    product_category = productcat_dict[id].get_productcat()
+    productcat_dict.pop(id)
+    productcat_select.remove(product_category)
+
+    db["Product_Name"] = productcat_dict
+    db["Product_Selection"] = productcat_select
+    db.close()
+    return redirect(url_for('retrieve_productcat'))
+
+
+@app.route('/product_multi',methods=["GET", "POST"])
+def product_multi():
+    productcat_dict = {}
+    productcat_select = []
+    product_category = ""
+    db = shelve.open("productname.db")
+    productcat_dict = db["Product_Name"]
+    productcat_select = db["Product_Selection"]
+
+    if request.method == 'POST':
+        data = request.json
+        for x in data:
+            product_category = productcat_dict[int(x)].get_productcat()
+            productcat_dict.pop(int(x))
+            productcat_select.remove(product_category)
+
+        db["Product_Name"] = productcat_dict
+        db["Product_Selection"] = productcat_select
+        db.close()
+        return jsonify(data)
+    return redirect(url_for('retrieve_productcat'))
 
 
 @app.route('/createSupplier', methods=['GET', 'POST'])
