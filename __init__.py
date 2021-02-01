@@ -932,6 +932,7 @@ def occupation_multi():
 
         occupationdb["Occupations"] = occupation_dict
         print(occupation_choices)
+        print("hello")
         occupationdb["Occupation_choices"] = occupation_choices
         occupationdb.close()
         return jsonify(data)
@@ -1303,24 +1304,29 @@ def delete_productcat(id):
     return redirect(url_for('retrieve_productcat'))
 
 
-@app.route('/product_multi',methods=["GET", "POST"])
-def product_multi():
+@app.route('/selectmulti',methods=["GET", "POST"])
+def productcat_selectmulti():
     productcat_dict = {}
-    productcat_select = []
-    product_category = ""
+    productcat_choices = []
+    productcat_name=""
     db = shelve.open("productname.db")
     productcat_dict = db["Product_Name"]
-    productcat_select = db["Product_Selection"]
+    productcat_choices = db["Product_Selection"]
+    print("hello1")
 
     if request.method == 'POST':
         data = request.json
+        print("hello2")
         for x in data:
-            product_category = productcat_dict[int(x)].get_productcat()
+            productcat_name = productcat_dict[int(x)].get_productcat()
             productcat_dict.pop(int(x))
-            productcat_select.remove(product_category)
+            productcat_choices.remove(productcat_name)
+            print("hello4")
 
         db["Product_Name"] = productcat_dict
-        db["Product_Selection"] = productcat_select
+        print(productcat_choices)
+        print("hello5")
+        db["Product_Selection"] = productcat_choices
         db.close()
         return jsonify(data)
     return redirect(url_for('retrieve_productcat'))
@@ -1682,8 +1688,7 @@ def createOrder():
 
         port = 587  # For SSL
         smtp_server = "smtp.gmail.com"
-        sender_email = "hotel.la.bodo@gmail.com"  # Enter your address
-        # receiver_email = email  # Enter receiver address
+        sender_email = "hotel.la.bodo@gmail.com"
         password = "Admin-123"
         subject = "Order From Hotel La Bodo"
         text = "Dear " + createOrderForm.supplier.data + ",\n" + "\nWe would like to order another " + str(
@@ -1694,9 +1699,9 @@ def createOrder():
         context = ssl.create_default_context()
         try:
             with smtplib.SMTP(smtp_server, port) as server:
-                server.ehlo()  # Can be omitted
+                server.ehlo()
                 server.starttls(context=context)
-                server.ehlo()  # Can be omitted
+                server.ehlo()
                 server.login(sender_email, password)
                 server.sendmail(sender_email, email, message)
         except:
