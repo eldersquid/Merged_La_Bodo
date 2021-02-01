@@ -22,6 +22,7 @@ import random
 app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
 print("Hell oworld")
+print("hi world")
 
 #Gerald's part
 
