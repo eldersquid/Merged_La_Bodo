@@ -11,7 +11,7 @@ from Inventory import *
 from Partnerships import *
 from Order import *
 from Request import *
-import shelve ,Reservation, Review,smtplib
+import shelve ,Reservation, Review,smtplib,ssl
 import json
 import random
 
@@ -21,10 +21,6 @@ app.config["SECRET_KEY"]= "@ajhdfbajshd"
 
 
 #Gerald's part
-
-@app.route('/cart-test',methods=["GET","POST"])
-def cart_test():
-    return render_template("lmao.html")
 
 @app.route('/Demo')
 def Demo():
@@ -88,7 +84,7 @@ def createReview():
     if request.method == 'POST' and createReviewForm.validate():
         reviews_dict = {}
         review_count_review_id = 0
-        db = shelve.open('review', 'c')
+        db = shelve.open('review')
         print("chicken")
 
         try:
@@ -106,14 +102,14 @@ def createReview():
         print(review_count_review_id)
         db['review_count_review_id'] = review_count_review_id
 
-        reviews_dict[review.get_review_id()] = [review.get_reviewfirst_name(), review.get_reviewlast_name(), review.get_reviewfeedback()]
+        reviews_dict[review.get_review_id()] = [review.get_review_id(), review.get_reviewfirst_name(), review.get_reviewlast_name(), review.get_reviewfeedback()]
         db['Reviews'] = reviews_dict
         print(reviews_dict)
         db.close()
         return redirect(url_for('user_home'))
     return render_template('createReview.html', form=createReviewForm)
 
-@app.route('/adm_retrieveReservation')
+@app.route('/adm_retrieveReservation', methods = ['POST','GET'])
 def adm_retrieveReservation():
     reservations_dict = {}
     try:
@@ -127,21 +123,23 @@ def adm_retrieveReservation():
     for key in reservations_dict:
         reservation = reservations_dict.get(key)
         reservations_list.append(reservation)
-    return render_template('adm_retrieveReservation.html', count=len(reservations_list), reservations_list = reservations_list)
-def retrieveReview():
+    print(reservations_list)
+
     reviews_dict = {}
     try:
         db = shelve.open('review', 'r')
         reviews_dict = db ['Reviews']
         db.close()
+        print(reviews_dict)
     except:
-        print("Unable to open storage.db")
+        print("Unable to open Reviews.db")
 
     reviews_list = []
     for key in reviews_dict:
         review = reviews_dict.get(key)
         reviews_list.append(review)
-    return render_template('adm_retrieveReservation.html', count_review=len(reviews_list), reviews_list=reviews_list)
+    print(reviews_list)
+    return render_template('adm_retrieveReservation.html', count_review=len(reviews_list), reviews_list=reviews_list, count=len(reservations_list), reservations_list = reservations_list)
 
 @app.route('/adm_updateReservation/<int:id>/', methods=['GET', 'POST'])
 def update_Reservation(id):
@@ -184,16 +182,8 @@ def update_Reservation(id):
 
     return render_template('adm_updateReservation.html')
 
-@app.route('/confirmation/<int:id>')
-def confirmationReservation(id):
-    confirmationReservation_form = CreateReservationForm(request.form)
-    reservation_dict = {}
-    db = shelve.open('storage.db','w')
-    reservation_dict = db['Reservations']
-
-    user = reservation_dict.get(id)
-    confirmationReservation_form.first_name.data = Reservation.get_first_name()
-    confirmationReservation_form.last_name.data = Reservation.get_last_name()
+@app.route('/confirmation')
+def confirmationReservation():
 
     return render_template('confirmationReservation.html')
 
@@ -202,7 +192,6 @@ def adm_deleteReservation(id):
     reservations_dict = {}
     db = shelve.open('storage.db', 'w')
     reservations_dict = db['Reservations']
-
     reservations_dict.pop(id)
 
     db['Reservations'] = reservations_dict
@@ -210,13 +199,12 @@ def adm_deleteReservation(id):
 
     return redirect(url_for('adm_retrieveReservation'))
 
-@app.route('/adm_deleteReview', methods=['POST'])
-def adm_deleteReview():
-    reviews_dict = {}
+@app.route('/adm_deleteReview/<id>', methods=['POST','GET'])
+def adm_deleteReview(id):
     db = shelve.open('review', 'w')
     reviews_dict = db['Reviews']
 
-    reviews_dict.pop()
+    reviews_dict.pop(int(id))
 
     db['Reviews'] = reviews_dict
     db.close()
@@ -590,43 +578,6 @@ def delete_gp(id):
     return redirect(url_for('server_guests'))
 
 
-# @app.route("/hospital-create",methods=["GET","POST"])
-# def hospital_create():
-#     createHospital= HospitalForm(request.form)
-#     if request.method== "POST" and createHospital.validate():
-#         hospital_list = []
-#         hospitaldb = shelve.open("hospital.db")
-#         hospital_dict={}
-#         try:
-#             hospital_list = hospitaldb["Hospital_choices"]
-#             hospital_dict=hospitaldb["Hospitals"]
-#             hospital_id= int(hospitaldb["hospital_id"])
-#         except:
-#             print("Error in retrieving database. Restoring default hospitals.")
-#             hospitaldb["Hospital_choices"] = Hospital.hospitalList
-#             hospital_id = 0
-#             for x in Hospital.hospitalDict:
-#                 hospital = Hospital(x["Name"], x["Address"])
-#                 hospital_dict[hospital_id] = hospital
-#                 hospital.set_hospital_id(hospital_id)
-#                 hospital_id += 1
-#             hospitaldb["hospital_id"] = hospital_id
-#             hospitaldb["Hospitals"] = hospital_dict
-#             hospital_list = hospitaldb["Hospital_choices"]
-#
-#         hospital = Hospital(createHospital.hospital_name.data,createHospital.hospital_address.data)
-#         hospital_id+=1
-#         hospital.set_hospital_id(hospital_id)
-#         hospital_list.append(hospital.get_name())
-#         print(hospital_list)
-#         hospital_dict[hospital.get_hospital_id()] = hospital
-#         hospitaldb["hospital_id"]=hospital_id
-#         hospitaldb["Hospitals"] = hospital_dict
-#         hospitaldb["Hospital_choices"]=hospital_list
-#         hospitaldb.close()
-#         return redirect(url_for('hospital_list'))
-#     return render_template("hospital_create.html",form=createHospital)
-
 
 @app.route("/hospital-create",methods=["GET","POST"])
 def hospital_create():
@@ -949,7 +900,7 @@ def delete_occupation(id):
     occupation_dict = occupationdb["Occupations"]
     occupation_choices=occupationdb["Occupation_choices"]
 
-    occupation_name = occupation_dict[id].get_name()
+    occupation_name = occupation_dict[id].get_occupation()
     occupation_dict.pop(id)
     occupation_choices.remove(occupation_name)
 
@@ -1261,7 +1212,6 @@ def delete_request(id):
 
 #ZY's part
 
-
 @app.route('/contactUs')
 def contact_us():
     return render_template('contactUs.html')
@@ -1279,11 +1229,6 @@ def createSupplier():
         productname_db["Product Name"] = Supplier.productList
         productname_list = productname_db["Product Name"]
 
-    # if createSupplierForm.new_product_name.data == "":
-    #     pass
-    # else:
-    #     productname_list.append(createSupplierForm.new_product_name.data)
-    # productname_db["Product Name"] = productname_list
     if createSupplierForm.new_product_name.data == "" or createSupplierForm.new_product_name.data == " ":
         pass
     else:
@@ -1477,7 +1422,7 @@ def retrieve_inventories():
 
 
 @app.route('/updateInventory/<item_name>/', methods=['GET', 'POST'])
-def update_inventory(id):
+def update_inventory(item_name):
     suppliers_dict = {}
     try:
         db = shelve.open('supplier.db', 'r')
@@ -1512,7 +1457,7 @@ def update_inventory(id):
         db = shelve.open('inventory.db', 'w')
         inventories_dict = db['Inventories']
 
-        inventory = inventories_dict.get(id)
+        inventory = inventories_dict.get(item_name)
         inventory.set_item_name(update_inventory_form.item_name.data)
         inventory.set_supplier(update_inventory_form.supplier.data)
         inventory.set_product_name(update_inventory_form.product_name.data)
@@ -1529,7 +1474,7 @@ def update_inventory(id):
         inventories_dict = db['Inventories']
         db.close()
 
-        inventory = inventories_dict.get(id)
+        inventory = inventories_dict.get(item_name)
         update_inventory_form.item_name.data = inventory.get_item_name()
         update_inventory_form.supplier.data = inventory.get_supplier()
         update_inventory_form.product_name.data = inventory.get_product_name()
@@ -1548,6 +1493,7 @@ def delete_inventory(item_name):
     db.close()
 
     return redirect(url_for('retrieve_inventories'))
+
 
 @app.route('/createOrder', methods=['GET', 'POST'])
 def createOrder():
@@ -1608,7 +1554,7 @@ def createOrder():
         except:
             print("Error in retrieving Order List from order.db.")
         order = Order(createOrderForm.item_name.data, createOrderForm.product_name.data,
-                              createOrderForm.supplier.data, createOrderForm.quantity.data, createOrderForm.remarks.data)
+                      createOrderForm.supplier.data, createOrderForm.quantity.data, createOrderForm.remarks.data)
         # auto increment order_id from shelve
         order_count_id = order_count_id + 1
         order.set_order_id(order_count_id)
@@ -1623,30 +1569,34 @@ def createOrder():
             if createOrderForm.supplier.data == key:
                 email = suppliers_email[count]
             count += 1
-        print(supplierorder)
+        print(email)
 
+        port = 587  # For SSL
+        smtp_server = "smtp.gmail.com"
+        sender_email = "hotel.la.bodo@gmail.com"  # Enter your address
+        # receiver_email = email  # Enter receiver address
+        password = "Admin-123"
+        subject = "Order From Hotel La Bodo"
+        text = "Dear " + createOrderForm.supplier.data + ",\n" + "\nWe would like to order another " + str(
+            createOrderForm.quantity.data) \
+               + " " + createOrderForm.item_name.data + ".\n\nAdditional Remarks:" + "\n" + createOrderForm.remarks.data + "\n\nWe hope to hear from you soon!\n" + "Sincerely,\nHotel La Bodo"
+        message = "Subject: {}\n\n{}".format(subject, text)
 
-        FROM = "hotel.la.bodo@gmail.com"
-        # password = Admin-123
-        TO = [email]
-        SUBJECT = "New Order from HOTEL LÃ BODO"
-        TEXT = "We would like to order " + createOrderForm.item_name.data + ". Quantity: " + str(createOrderForm.quantity.data) + ". " + createOrderForm.remarks.data
+        context = ssl.create_default_context()
+        try:
+            with smtplib.SMTP(smtp_server, port) as server:
+                server.ehlo()  # Can be omitted
+                server.starttls(context=context)
+                server.ehlo()  # Can be omitted
+                server.login(sender_email, password)
+                server.sendmail(sender_email, email, message)
+        except:
+            print("fail")
+        print(message)
 
-        message = """\
-        From: %s
-        To: %s
-        Subject: %s
-
-        %s
-        """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
-
-        # Send the mail
-
-        server = smtplib.SMTP('localhost')
-        server.sendmail(FROM, TO, message)
-        server.quit()
         return redirect(url_for('retrieve_order'))
     return render_template('createOrder.html', form=createOrderForm)
+
 
 @app.route('/retrieveOrder')
 def retrieve_order():
@@ -1699,9 +1649,10 @@ def retrieve_order():
 
 
 
+
 #Gabriel's part
 
-@app.route('/createPartnerships', methods = ['GET' , 'POST'])
+@app.route('/createPartnerships', methods=['GET', 'POST'])
 def createPartnerships():
     createPartnershipsForm = CreatePartnershipsForm(request.form)
     if request.method == 'POST' and createPartnershipsForm.validate():
@@ -1714,14 +1665,9 @@ def createPartnerships():
         except:
             print('Error in retrieving Company Name from ')
 
-
-
-
-
         partnerships = Partnerships(createPartnershipsForm.company.data,
-                                                 createPartnershipsForm.resources.data,
-                                                 createPartnershipsForm.industry.data)
-
+                                    createPartnershipsForm.resources.data,
+                                    createPartnershipsForm.industry.data)
 
         company_dict[partnerships.get_company()] = partnerships
         db['company'] = company_dict
@@ -1730,10 +1676,6 @@ def createPartnerships():
         print("hello")
         return redirect(url_for('retrievePartnerships'))
     return render_template('createPartnerships.html', form=createPartnershipsForm)
-
-
-
-
 
 
 @app.route('/retrievePartnerships')
@@ -1754,7 +1696,9 @@ def retrievePartnerships():
         partnerships_list.append(partnerships)
     print("bye")
 
-    return render_template('retrievePartnerships.html', count=len(partnerships_list), partnerships_list=partnerships_list)
+    return render_template('retrievePartnerships.html', count=len(partnerships_list),
+                           partnerships_list=partnerships_list)
+
 
 @app.route('/updatePartnerships/<company>', methods=['GET', 'POST'])
 def updatePartnerships(company):
@@ -1769,7 +1713,6 @@ def updatePartnerships(company):
         partnerships.set_resources(update_partnerships_form.resources.data)
         partnerships.set_industry(update_partnerships_form.industry.data)
 
-
         db['partnerships'] = partnerships_dict
         db.close()
 
@@ -1779,9 +1722,6 @@ def updatePartnerships(company):
         db = shelve.open('company.db')
         partnerships_dict = db['company']
 
-
-
-
         partnerships = partnerships_dict.get(company)
 
         update_partnerships_form.company.data = partnerships.get_company()
@@ -1790,9 +1730,8 @@ def updatePartnerships(company):
 
         db.close()
 
-
-
         return render_template('updatePartnerships.html', form=update_partnerships_form, partnerships=partnerships)
+
 
 @app.route('/deletePartnerships', methods=['POST'])
 def deletePartnerships(company):
@@ -1805,32 +1744,32 @@ def deletePartnerships(company):
 
     return redirect(url_for('retrievePartnerships.html'))
 
-@app.route('/createPackageDeal', methods=['GET','POST'])
+
+@app.route('/createPackageDeal', methods=['GET', 'POST'])
 def createPackageDeal():
     print("hi")
     createPackageDealForm = CreatePackageDeal(request.form)
     print("hi")
     if request.method == 'POST' and createPackageDealForm.validate():
         print("chicken")
-        attraction_dict = {}
-        db = shelve.open('attraction.db', 'c')
+        attractions_dict = {}
+        db = shelve.open('attractions.db', 'c')
         try:
-            attraction_dict = db['attraction']
+            attractions_dict = db['attraction']
 
         except:
             print('Error in retrieving Package Deal from ')
+        pd = PackageDeal(createPackageDealForm.attractions.data,
+                         createPackageDealForm.transport.data,
+                         createPackageDealForm.price.data,
+                         createPackageDealForm.code.data)
 
-            PackageDeal = createPackageDeal(createPackageDealForm.attraction.data,
-                                        createPackageDealForm.transport.data,
-                                        createPackageDealForm.price.data,
-                                        createPackageDealForm.code.date)
+        attractions_dict[pd.get_attractions()] = pd
+        db['attraction'] = attractions_dict
 
-            attraction_dict[PackageDeal.get_attraction()] = PackageDeal
-            db['attraction'] = attraction_dict
-
-            db.close()
-            print("hello")
-            return redirect(url_for('retrievePackageDeal'))
+        db.close()
+        print("hello")
+        return redirect(url_for('retrievePackageDeal'))
     return render_template('createPackageDeal.html', form=createPackageDealForm)
 
 
@@ -1855,6 +1794,7 @@ def retrievePackageDeal():
 
     return render_template('retrievePackageDeal.html', count=len(attractions_list), attractions_list=attractions_list)
 
+
 @app.route('/updatePackageDeal/<attractions>', methods=['GET', 'POST'])
 def updatePackageDeal(packagedeal):
     update_packagedeal_form = CreatePackageDeal(request.form)
@@ -1869,8 +1809,6 @@ def updatePackageDeal(packagedeal):
         packagedeal.set_price(update_packagedeal_form.industry.data)
         packagedeal.set_code(update_packagedeal_form.industry.data)
 
-
-
         db['package'] = packagedeal_dict
         db.close()
 
@@ -1880,9 +1818,6 @@ def updatePackageDeal(packagedeal):
         db = shelve.open('attractions.db')
         packagedeal_dict = db['attraction']
 
-
-
-
         packagedeal = packagedeal_dict.get(packagedeal)
 
         update_packagedeal_form.attractions.data = packagedeal.get_attractions()
@@ -1890,15 +1825,12 @@ def updatePackageDeal(packagedeal):
         update_packagedeal_form.price.data = packagedeal.get_price()
         update_packagedeal_form.code.data = packagedeal.get_code()
 
-
         db.close()
-
-
 
         return render_template('updatePackageDeal.html', form=update_packagedeal_form, packagedeal=packagedeal)
 
 
-@app.route('/deletePackageDeal', methods=['POST'])
+@app.route('/deletePackageDeal/<attractions>', methods=['POST'])
 def deletePackageDeal(attractions):
     attractions_dict = {}
     db = shelve.open('attractions.db', 'w')
@@ -1907,52 +1839,67 @@ def deletePackageDeal(attractions):
     db['attraction'] = attractions_dict
     db.close()
 
-    return redirect(url_for('retrievePackageDeal.html'))
+    return redirect(url_for('retrievePackageDeal'))
 
 
+@app.route('/createUser', methods=['GET', 'POST'])
+def create_user():
+    sign_up_form = Signup(request.form)
+    if request.method == 'POST' and sign_up_form.validate():
+        users_dict = {}
+        db = shelve.open('storage.db', 'c')
+
+        try:
+            users_dict = db['Users']
+        except:
+            print("Error in retrieving Users from storage.db.")
+
+        user = User.User(sign_up_form.name.data, sign_up_form.email.data,
+                         sign_up_form.gender.data, sign_up_form.password.data, sign_up_form.repeat_password.data)
+        users_dict[user.get_user_id()] = user
+        db['Users'] = users_dict
+
+        users_dict = db['Users']
+        user = users_dict[user.get_user_id()]
+        print(user.get_first_name(), user.get_last_name(), "was stored in storage.db successfully with user_id ==",
+              user.get_user_id())
+
+        db.close()
+
+        return redirect(url_for('home'))
+    return render_template('createUser.html', form=sign_up_form)
 
 
-@app.route('/login', methods = ['GET', 'POST'])
-def login():
-    error = None
-    Login_form = Login(request.form)
-    if request.method == "POST" and Login_form.validate():
-        staff_dict = {}
-        db = shelve.open('storage.db', 'r')
-        staff_dict = db['Staff']
-        for staff_id in staff_dict:
-            username = request.form['username']
-            password = request.form['password']
-            if username == 'staff' and password == 'password':
-                session['username'] = username
-                session['password'] = password
-                return redirect(url_for('home'))
-            elif request.form['username'] == 'staff' and request.form['password'] == 'password':
-                return redirect(url_for('pee'))
-            else:
-                print("error")
-    return render_template('login.html', error = error)
-
-
-
-
-@app.route('/logout')
-def logout():
-   session.pop('username', None)
-   return redirect(url_for('login'))
-
-
-
-
-
-
-
-
-
-
-
-
-
+# @app.route('/loginstaff', methods = ['GET', 'POST'])
+# def staff_login():
+#     error = None
+#     if request.method == 'POST':
+#         staff_dict = {}
+#         db = shelve.open('storage.db', 'r')
+#         staff_dict = db['Staff']
+#         for staff_id in staff_dict:
+#             staff = staff_dict.get(staff_id)
+#             if request.form['username'] == staff.get_username() and request.form['password'] == staff.get_password():
+#                 session['staff_account'] = staff.get_staff_id()
+#                 session['staff_username'] = staff.get_username()
+#                 return redirect(url_for('home'))
+#             elif request.form['username'] == 'staff' and request.form['password'] == 'password':
+#                 return redirect(url_for('retrieveStaff'))
+#             else:
+#                 error = 'Invalid Staff'
+#
+#     return render_template('loginstaff.html', error=error)
+#
+#
+#
+# @app.route('/home')
+# def staff_home():
+#     return render_template('home.html')
+#
+# @app.route('/logout')
+# def logout():
+#    session.pop('username', None)
+#    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':

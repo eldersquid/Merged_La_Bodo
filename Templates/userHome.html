@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/royal_style.css') }}">
 {% endblock %}
+<br>
+<br>
+<div>
+    <center><h1>HOTEL LA BODO RESTAURANT</h1></center>
+</div>
 
 <section class="about_history_area section_gap">
     <div class="container" style="padding-top: 200px;">
@@ -15,7 +20,7 @@
         <div class="row">
             <div class="col-md-6 d_flex align-items-center">
                 <div class="about_content ">
-                    <h2 class="title title_color">HOTEL LA BODO</h2>
+                    <h2 class="title title_color">DINE IN</h2>
                     <p>We believe the choices we make about what we eat, where it comes from and how it’s prepared have a direct and powerful impact on the health of individuals, communities and the environment</p>
                     <a href="{{ url_for('createReservation') }}" class="button_hover theme_btn_two">Book Reservation</a>
                 </div>
@@ -35,19 +40,21 @@
         <br>
         <br>
         <h3 class="card-title mb-4" style="width: 100%; text-align: center; border-bottom: 1px solid #000; line-height: 0.1em; margin: 10px 0 20px;"><span style="background:#fff; padding: 0 50px;">~ Pre-orders ~</span></h3>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
-    <div>
-    <a href="{{ url_for('createReview') }}" class="button_hover theme_btn_two float-right">Write a review</a>
-    </div>
+
 </section>
-
-
+  <center><a href="{{ url_for('createReview') }}" class="button_hover theme_btn_two ">Write a review</a></center>
 
 <!--================ Testimonial Area  =================-->
 <section class="testimonial_area section_gap">
     <div class="container">
         <div class="section_title text-center">
-            <h2 class="title_color">Testimonial from our Customers</h2>
+            <h2 class="title_color">Feedback from our Customers</h2>
         </div>
 
             {% for review in reviews_list %}
@@ -55,8 +62,8 @@
             <div class="media testimonial_item">
                 <img class="rounded-circle" src="static/image/testtimonial-1.jpg" alt="">
                 <div class="media-body">
-                    <a href="#"><h4 class="sec_h4"> {{ review[0] + ' ' + review[1] }} </h4></a>
-                    <p>{{ review[2] }} </p>
+                    <a href="#"><h4 class="sec_h4"> {{ review[1] + ' ' + review[2] }} </h4></a>
+                    <p>{{ review[3] }} </p>
                 </div>
             </div>
             {% endfor %}

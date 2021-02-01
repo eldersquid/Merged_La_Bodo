@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField, ValidationError
+from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField,BooleanField, ValidationError
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import DateField
 from wtforms.fields.html5 import EmailField
@@ -42,6 +42,7 @@ class RequestForm(Form):
 class ChooseGuest(Form):
     guest_name = SelectField("Guest Name",[validators.DataRequired()], choices=[], default="")
 
+
 class CreateSupplierForm(Form):
     company_name = StringField('Company Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     uen_number = IntegerField('UEN Number', [validators.DataRequired()])
@@ -64,16 +65,19 @@ class CreateOrderForm(Form):
     quantity = IntegerField('Quantity', [validators.NumberRange(min=1), validators.DataRequired()])
     remarks = TextAreaField('Remarks', [validators.Optional()])
 
+
 class CreatePartnershipsForm(Form):
     company = StringField('Company', [validators.Length(min=1, max=150), validators.DataRequired()])
     resources = StringField('Resources', [validators.Length(min=1, max=150), validators.DataRequired()])
     industry = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])
 
+
 class CreatePackageDeal(Form):
-    attractions = StringField('Attraction',[validators.Length(min=1, max=150), validators.DataRequired()])
+    attractions = StringField('Attraction', [validators.Length(min=1, max=150), validators.DataRequired()])
     transport = StringField('Transport', [validators.Length(min=1, max=150), validators.DataRequired()])
     price = StringField('Price', [validators.Length(min=1, max=150), validators.DataRequired()])
     code = StringField('Code', [validators.Length(min=1, max=150), validators.DataRequired()])
+
 
 class Login(Form):
     username = StringField('Username', [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -81,11 +85,16 @@ class Login(Form):
 
 
 class Signup(Form):
-    name = StringField('Full Name', [validators.Length(min=1, max=150), validators.DataRequired()])
-    username = StringField('Username', [validators.Length(min=1, max=150), validators.DataRequired()])
+    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     email = StringField('Email', [validators.Length(min=1, max=150), validators.DataRequired()])
+    gender = SelectField('Gender', [validators.DataRequired()],
+                         choices=[('', 'Select'), ('F', 'Female'), ('M', 'Male')], default='')
     password = StringField('Password', [validators.Length(min=1, max=150), validators.DataRequired()])
     repeat_password = StringField('Repeat Password', [validators.Length(min=1, max=150), validators.DataRequired()])
+    accept_tos = BooleanField('I accept the Terms of Service and Privacy Notice (updated Jan 28. 2420)',
+                              [validators.DataRequired()])
+
+
 
 
 # class RoomForm(Form):

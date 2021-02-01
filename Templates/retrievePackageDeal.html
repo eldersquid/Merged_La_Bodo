@@ -24,7 +24,7 @@
       </tr>
     </thead>
     <tbody>
-    {% for packagedeal in attractions_list %}
+    {% for attractions in attractions_list %}
       <tr>
         <td>{{ attractions.get_attractions() }}</td>
         <td>{{ attractions.get_transport() }}</td>
@@ -33,9 +33,7 @@
         <td><a href="/updatePackageDeal/{{attractions.get_attractions()}}" class="btn btn-warning">Update</a></td>
         <td>
           <form action="{{url_for('deletePackageDeal', attractions=attractions.get_attractions())}}" method="POST">
-            <!--
-            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{partnerships.get_company()}} {{partnerships.get_resources()}}?');">
-            -->
+
               <!-- Button to Open the Modal -->
               <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{attractions.get_attractions()}}">
                 Delete

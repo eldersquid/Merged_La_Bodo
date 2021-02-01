@@ -2,19 +2,20 @@
 {% block title %}HOTEL LÃ BODO - Retrieve Order{% endblock %}
 
 {% block content %}
-<h1 class="display-5">Order Sent</h1>
-<div>
-  {% if count == 0 %}
-  <p>There are no Order being Sent.</p>
-  {% elif count == 1 %}
-  <p>There is 1 Order is Sent.</p>
-  {% else %}
-  <p>There are {{ count }} Order Sent.</p>
-  {% endif %}
-</div>
-<div>
-  <table class="table table-striped">
-    <thead>
+<div class= "container-fluid">
+  <h1 class="display-5">Order Sent</h1>
+  <div>
+    {% if count == 0 %}
+    <p>There are no Order being Sent.</p>
+    {% elif count == 1 %}
+    <p>There is 1 Order is Sent.</p>
+    {% else %}
+    <p>There are {{ count }} Order Sent.</p>
+    {% endif %}
+  </div>
+  <div>
+    <table class="table table-striped">
+      <thead>
       <tr>
         <th>Order ID</th>
         <th>Item Name</th>
@@ -24,9 +25,9 @@
         <th>Remarks</th>
         <th></th>
       </tr>
-    </thead>
-    <tbody>
-    {% for order in order_list %}
+      </thead>
+      <tbody>
+      {% for order in order_list %}
       <tr>
         <td>{{ order.get_order_id() }}</td>
         <td>{{ order.get_item_name() }}</td>
@@ -35,8 +36,9 @@
         <td>{{ order.get_quantity() }}</td>
         <td>{{ order.get_remarks() }}</td>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

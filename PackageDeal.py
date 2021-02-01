@@ -1,8 +1,8 @@
 class PackageDeal:
 
-    def __init__(self, attraction, transport, price, code):
+    def __init__(self, attractions, transport, price, code):
 
-        self.__attraction = attraction
+        self.__attractions = attractions
         self.__transport = transport
         self.__price = price
         self.__code = code
@@ -11,11 +11,11 @@ class PackageDeal:
 
 
 
-    def set_attraction(self, attraction):
-        self.__attraction = attraction
+    def set_attractions(self, attractions):
+        self.__attractions = attractions
 
-    def get_attraction(self):
-        return self.__attraction
+    def get_attractions(self):
+        return self.__attractions
 
     def set_transport(self, transport):
         self.__transport = transport
