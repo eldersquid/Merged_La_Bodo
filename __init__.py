@@ -14,6 +14,7 @@ from Request import *
 import shelve ,Reservation, Review,smtplib,ssl
 import json
 import random
+import PackageDeal
 
 
 
@@ -21,8 +22,7 @@ import random
 
 app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
-print("Hell oworld")
-print("hi world")
+
 
 #Gerald's part
 
@@ -1763,7 +1763,7 @@ def createPackageDeal():
 
         except:
             print('Error in retrieving Package Deal from ')
-        pd = PackageDeal(createPackageDealForm.attractions.data,
+        pd = PackageDeal.PackageDeal(createPackageDealForm.attractions.data,
                          createPackageDealForm.transport.data,
                          createPackageDealForm.price.data,
                          createPackageDealForm.code.data)
