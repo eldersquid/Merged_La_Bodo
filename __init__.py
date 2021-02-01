@@ -1851,7 +1851,7 @@ def login_user():
     log_in_user_form = Login(request.form)
     if request.method == 'POST' and log_in_user_form.validate():
         customer_dict = {}
-        db = shelve.open('storage.db', 'r')
+        db = shelve.open('guests.db', 'r')
         try:
             customer_dict = db['CustomerInfo']
         except:
