@@ -22,10 +22,7 @@ import PackageDeal
 
 app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
-print("Hell oworld")
-print("hi world")
-print("gab hi world")
-print("hiii")
+
 
 #Gerald's part
 
