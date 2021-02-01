@@ -1846,32 +1846,26 @@ def deletePackageDeal(attractions):
     return redirect(url_for('retrievePackageDeal'))
 
 
-@app.route('/createUser', methods=['GET', 'POST'])
-def create_user():
-    sign_up_form = Signup(request.form)
-    if request.method == 'POST' and sign_up_form.validate():
-        users_dict = {}
-        db = shelve.open('storage.db', 'c')
-
+@app.route('/login', methods = ['GET', 'POST'])
+def login_user():
+    log_in_user_form = Login(request.form)
+    if request.method == 'POST' and log_in_user_form.validate():
+        customer_dict = {}
+        db = shelve.open('storage.db', 'r')
         try:
-            users_dict = db['Users']
+            customer_dict = db['CustomerInfo']
         except:
-            print("Error in retrieving Users from storage.db.")
+            print('Error in retrieving information')
 
-        user = User.User(sign_up_form.name.data, sign_up_form.email.data,
-                         sign_up_form.gender.data, sign_up_form.password.data, sign_up_form.repeat_password.data)
-        users_dict[user.get_user_id()] = user
-        db['Users'] = users_dict
+        username = log_in_user_form.username.data
+        password = log_in_user_form.password.data
+        if username in customer_dict:
+            real_password = customer_dict[username].get_password()
+            if password == real_password:
+                session['user_created'] = customer_dict[username].get_name()
+                session['Username'] = username
 
-        users_dict = db['Users']
-        user = users_dict[user.get_user_id()]
-        print(user.get_first_name(), user.get_last_name(), "was stored in storage.db successfully with user_id ==",
-              user.get_user_id())
-
-        db.close()
-
-        return redirect(url_for('home'))
-    return render_template('createUser.html', form=sign_up_form)
+    return render_template('login.html', form = log_in_user_form)
 
 
 # @app.route('/loginstaff', methods = ['GET', 'POST'])
