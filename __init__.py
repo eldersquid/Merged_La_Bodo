@@ -22,7 +22,9 @@ import PackageDeal
 
 app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
-
+print("Hell oworld")
+print("hi world")
+print("gab hi world")
 
 #Gerald's part
 
@@ -1763,7 +1765,7 @@ def createPackageDeal():
 
         except:
             print('Error in retrieving Package Deal from ')
-        pd = PackageDeal.PackageDeal(createPackageDealForm.attractions.data,
+        pd = PackageDeal(createPackageDealForm.attractions.data,
                          createPackageDealForm.transport.data,
                          createPackageDealForm.price.data,
                          createPackageDealForm.code.data)
