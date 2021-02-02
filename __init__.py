@@ -1321,11 +1321,11 @@ def productcat_selectmulti():
             productcat_name = productcat_dict[int(x)].get_productcat()
             productcat_dict.pop(int(x))
             productcat_choices.remove(productcat_name)
-            print("hello4")
+            print("hello3")
 
         db["Product_Name"] = productcat_dict
         print(productcat_choices)
-        print("hello5")
+        print("hello4")
         db["Product_Selection"] = productcat_choices
         db.close()
         return jsonify(data)
