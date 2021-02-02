@@ -17,14 +17,14 @@
 
  $(document).ready(function() {
     var oTable = $('#productcatTable').DataTable();
-    var hospitals = [];
+    var productcat = [];
 
     $('#productcatTable tbody').on('click', 'tr', function() {
      $(this).toggleClass('selected');
      var pos = oTable.row(this).index();
      var row = oTable.row(pos).data();
-     hospitals.push(row[0]);
-     console.log(hospitals);
+     productcat.push(row[0]);
+     console.log(productcat);
 
 
     });

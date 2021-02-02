@@ -1335,24 +1335,7 @@ def productcat_selectmulti():
 @app.route('/createSupplier', methods=['GET', 'POST'])
 def createSupplier():
     createSupplierForm = CreateSupplierForm(request.form)
-    productname_list = []
-    productname_db = shelve.open("productname.db")
-    try:
-        productname_list = productname_db["Product Name"]
 
-    except:
-        productname_db["Product Name"] = Supplier.productList
-        productname_list = productname_db["Product Name"]
-
-    if createSupplierForm.new_product_name.data == "" or createSupplierForm.new_product_name.data == " ":
-        pass
-    else:
-        seen = set()
-        if createSupplierForm.new_product_name.data not in seen:
-            productname_list.append(createSupplierForm.new_product_name.data)
-    productname_db["Product Name"] = productname_list
-    productnameChoices = list(zip(productname_list, productname_list))
-    createSupplierForm.product_name.choices = productnameChoices
 
     if request.method == 'POST' and createSupplierForm.validate():
         suppliers_dict = {}
@@ -1364,8 +1347,7 @@ def createSupplier():
 
             print("Error in retrieving Supplier from supplier.db.")
         supplier = Supplier(createSupplierForm.company_name.data, createSupplierForm.uen_number.data,
-                            createSupplierForm.email.data, createSupplierForm.product_name.data,
-                            createSupplierForm.new_product_name.data)
+                            createSupplierForm.email.data, createSupplierForm.product_name.data)
 
         suppliers_dict[supplier.get_company_name()] = supplier
         db['Suppliers'] = suppliers_dict
@@ -1402,15 +1384,10 @@ def update_supplier(company_name):
         productname_list = productname_db["Product Name"]
 
     except:
-        productname_db["Product Name"] = Supplier.productList
-        productname_list = productname_db["Product Name"]
-    if createSupplierForm.new_product_name.data == "" or createSupplierForm.new_product_name.data == " ":
-        pass
-    else:
-        seen = set()
-        if createSupplierForm.new_product_name.data not in seen:
-            productname_list.append(createSupplierForm.new_product_name.data)
-    productname_db["Product Name"] = productname_list
+        productname_db["Product_Name"] = Supplier.productList
+        productname_list = productname_db["Product_Name"]
+
+    productname_db["Product_Name"] = productname_list
     productnameChoices = list(zip(productname_list, productname_list))
     createSupplierForm.product_name.choices = productnameChoices
 
@@ -1424,20 +1401,19 @@ def update_supplier(company_name):
         supplier.set_uen_number(createSupplierForm.uen_number.data)
         supplier.set_email(createSupplierForm.email.data)
         supplier.set_product_name(createSupplierForm.product_name.data)
-        supplier.set_new_product_name(createSupplierForm.new_product_name.data)
         productname_list = []
         productname_db = shelve.open("productname.db")
         try:
-            productname_list = productname_db["Product Name"]
+            productname_list = productname_db["Product_Name"]
 
         except:
-            productname_db["Product Name"] = Supplier.productList
-            productname_list = productname_db["Product Name"]
+            productname_db["Product_Name"] = Supplier.productList
+            productname_list = productname_db["Product_Name"]
         if createSupplierForm.new_product_name.data == "":
             pass
         else:
             productname_list.append(createSupplierForm.new_product_name.data)
-        productname_db["Product Name"] = productname_list
+        productname_db["Product_Name"] = productname_list
 
         db['Suppliers'] = suppliers_dict
         db.close()
@@ -1454,7 +1430,6 @@ def update_supplier(company_name):
         createSupplierForm.uen_number.data = supplier.get_uen_number()
         createSupplierForm.email.data = supplier.get_email()
         createSupplierForm.product_name.data = supplier.get_product_name()
-        createSupplierForm.new_product_name.data = supplier.get_new_product_name()
 
         return render_template('updateSupplier.html', form=createSupplierForm)
 
@@ -1492,13 +1467,13 @@ def createInventory():
     productname_list = []
     productname_db = shelve.open("productname.db")
     try:
-        productname_list = productname_db["Product Name"]
+        productname_list = productname_db["Product_Name"]
 
     except:
-        productname_db["Product Name"] = Supplier.productList
-        productname_list = productname_db["Product Name"]
+        productname_db["Product_Name"] = Supplier.productList
+        productname_list = productname_db["Product_Name"]
 
-    productname_db["Product Name"] = productname_list
+    productname_db["Product_Name"] = productname_list
     productnameChoices = list(zip(productname_list, productname_list))
     createInventoryForm.product_name.choices = productnameChoices
 

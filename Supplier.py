@@ -1,13 +1,10 @@
 class Supplier:
-    productList = ['Select', 'Mask', 'Face Shield', 'Surgical Gloves', 'Infrared Thermometer',
-                   'Pulse Oximeter', 'Air Filter', 'Bedpan Washer Disinfector']
 
-    def __init__(self, company_name, uen_number, email, product_name, new_product_name):
+    def __init__(self, company_name, uen_number, email, product_name):
         self.__company_name = company_name
         self.__uen_number = uen_number
         self.__email = email
         self.__product_name = product_name
-        self.__new_product_name = new_product_name
 
     def set_company_name(self, company_name):
         self.__company_name = company_name
@@ -33,11 +30,3 @@ class Supplier:
     def get_product_name(self):
         return self.__product_name
 
-    def set_new_product_name(self, new_product_name):
-        if new_product_name == "" or new_product_name == " ":
-            pass
-        else:
-            self.__new_product_name = new_product_name
-
-    def get_new_product_name(self):
-        return self.__new_product_name

@@ -66,8 +66,7 @@ class CreateSupplierForm(Form):
     company_name = StringField('Company Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     uen_number = IntegerField('UEN Number', [validators.DataRequired()])
     email = EmailField('Email', [validators.Email(), validators.DataRequired()])
-    product_name = SelectField('Product Name 1', [validators.DataRequired()], choices=[], default='Select')
-    new_product_name = StringField('Product Name 2 (Optional)', [validators.Length(max=150)])
+    product_name = SelectField('Product Name', [validators.DataRequired()], choices=[], default='Select')
 
 
 class CreateInventoryForm(Form):
