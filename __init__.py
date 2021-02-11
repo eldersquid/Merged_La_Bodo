@@ -9,6 +9,7 @@ from Occupation import *
 from Vehicle import *
 from Supplier import *
 from Inventory import *
+from Industry import *
 from Partnerships import *
 from Order import *
 from Request import *
@@ -24,6 +25,11 @@ from ProductCat import *
 
 app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
+
+
+@app.route('/geo')
+def nat_geo():
+    return render_template('geolocation_test.html')
 
 
 #Gerald's part
@@ -391,6 +397,7 @@ def test_guest():
     hospitaldb = shelve.open("hospital.db")
     occupation_list = []
     occupationdb=shelve.open("occupation.db")
+    industry_list=[]
     try:
         hospital_list = hospitaldb["Hospital_choices"]
 
@@ -401,20 +408,27 @@ def test_guest():
 
     try:
         occupation_list = occupationdb["Occupation_choices"]
+        industry_list= occupationdb["Industry_choices"]
 
     except:
-        print("Restoring default occupations.")
+        print("Restoring default occupations and industries.")
         occupationdb["Occupation_choices"] = Occupation.occupationList
+        occupationdb["Industry_choices"] = Industry.industryList
+        industry_list= occupationdb["Industry_choices"]
         occupation_list = occupationdb["Occupation_choices"]
 
     print(hospital_list)
     print(occupation_list)
     hospitalChoices=list(zip(hospital_list,hospital_list))
     occupationChoices=list(zip(occupation_list,occupation_list))
+    industryChoices = list(zip(industry_list, industry_list))
     createBooking.location.choices = hospitalChoices
     createBooking.occupation.choices = occupationChoices
+    createBooking.industry.choices= industryChoices
+    print(createBooking.industry.choices)
     form.location.choices = hospitalChoices
     form.occupation.choices = occupationChoices
+    form.industry.choices=industryChoices
 
 
     if request.method== "POST" and createBooking.validate():
@@ -817,6 +831,7 @@ def occupation_list():
     for key in occupation_Dict:
         occupation = occupation_Dict.get(key)
         occupation_list.append(occupation)
+    print(occupation_list)
 
     # hosp = dict(Counter(hospital_list))
     occupationdb.close()
@@ -826,17 +841,29 @@ def occupation_list():
 @app.route("/occupation-create",methods=["GET","POST"])
 def occupation_create():
     createOccupation= OccupationForm(request.form)
+    occupation_list = []
+    occupationdb = shelve.open("occupation.db")
+    occupation_dict = {}
+    industry_list = []
+    try:
+        industry_list = occupationdb["Industry_choices"]
+    except:
+        print("Error in loading industries. Resetting..")
+        occupationdb["Industry_choices"] = Industry.industryList
+        industry_list = occupationdb["Industry_choices"]
+
+    industryChoices = list(zip(industry_list, industry_list))
+    createOccupation.occupation_industry.choices = industryChoices
+    print(industryChoices)
+
+
     if request.method== "POST" and createOccupation.validate():
-        occupation_list = []
-        occupationdb = shelve.open("occupation.db")
-        occupation_dict={}
         try:
             occupation_list = occupationdb["Occupation_choices"]
             occupation_dict=occupationdb["Occupations"]
             occupation_id= int(occupationdb["occupation_id"])
         except:
-            print("Error in retrieving database. Restoring default occupations.")
-            occupationdb["Occupation_choices"] = Occupation.occupationList
+            print("Error in retrieving database. Restoring default occupations and industries.")
             occupation_id = 1
             print(occupation_id)
             for x in Occupation.occupationDict:
@@ -861,6 +888,46 @@ def occupation_create():
         occupationdb.close()
         return redirect(url_for('occupation_list'))
     return render_template("occupation_create.html",form=createOccupation)
+
+
+@app.route("/industry-create", methods=["GET", "POST"])
+def industry_create():
+    createIndustry = IndustryForm(request.form)
+    if request.method == "POST" and createIndustry.validate():
+        industry_list = []
+        industrydb = shelve.open("occupation.db")
+        industry_dict = {}
+        try:
+            industry_list = industrydb["Industry_choices"]
+            industry_dict = industrydb["Industries"]
+            industry_id = int(industrydb["industry_id"])
+        except:
+            print("Error in retrieving database. Restoring default industries.")
+            industrydb["Industry_choices"] = Industry.industryList
+            industry_id = 1
+            print(industry_id)
+            for x in Industry.industryDict:
+                industry = Industry(x["Industry"])
+                industry_dict[industry_id] = industry
+                industry.set_industry_id(industry_id)
+                industry_id += 1
+            industry_id -= 1
+            industrydb["industry_id"] = industry_id
+            industrydb["Industries"] = industry_dict
+            industry_list = industrydb["Industry_choices"]
+
+        industry = Industry(createIndustry.industry_name.data)
+        industry_id += 1
+        industry.set_industry_id(industry_id)
+        industry_list.append(industry.get_industry())
+        print(industry_list)
+        industry_dict[industry.get_industry_id()] = industry
+        industrydb["industry_id"] = industry_id
+        industrydb["Industries"] = industry_dict
+        industrydb["Industry_choices"] = industry_list
+        industrydb.close()
+        return redirect(url_for('occupation_list'))
+    return render_template("industry_create.html", form=createIndustry)
 
 @app.route('/occupation-edit/<int:id>',methods=["GET","POST"])
 def occupation_edit(id):

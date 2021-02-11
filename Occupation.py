@@ -1,4 +1,5 @@
-class Occupation:
+from Industry import *
+class Occupation(Industry):
     occupationList=["N/A","Doctor","Paramedic","Registered Nurse","Patient Care Assistant","Family and General Practitioner","Others"]
     occupationDict=[{"Occupation" : "N/A", "Industry" : "N/A" },
                     {"Occupation" : "Doctor", "Industry" : "Medical" },
@@ -8,6 +9,8 @@ class Occupation:
                     {"Occupation": "Family and General Practitioner", "Industry" : "Medical"},
                     {"Occupation": "Others", "Industry" : "N/A"},
                     ]
+
+
     occupationChoices={
                         1 : {"N/A" : "N/A"},
                         2: {"Doctor": "Medical"},
@@ -21,8 +24,8 @@ class Occupation:
 
 
     def __init__(self,occupation,industry):
+        super().__init__(industry)
         self.__occupation = occupation
-        self.__industry = industry
 
     def get_occupation(self):
         return self.__occupation
@@ -35,9 +38,3 @@ class Occupation:
 
     def set_occupation_id(self,occupation_id):
         self.__occupation_id= int(occupation_id)
-
-    def get_industry(self):
-        return self.__industry
-
-    def set_industry(self,industry):
-        self.__industry = industry
