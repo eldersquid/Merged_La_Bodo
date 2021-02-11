@@ -649,7 +649,10 @@ def hospital_create():
     hospital_dict = {}
     data = hospitaldb["hospital_search"]
     split_name=data.split(",")
-    print(split_name)
+    hospital_name=""
+    for i in split_name:
+        if "Hospital" in i:
+            hospital_name=i
     print("This is data from hospital create : ",data)
     params= {
         "key" : "AIzaSyCO5-kE5NU-8iLRbhk-nG5vgcWedjXgPMg",
@@ -660,11 +663,14 @@ def hospital_create():
     #API Call
     response = requests.get(base_url,params=params).json()
     response.keys()
-    print(response.keys())
-    if response["status"] == "OK":
-        print(response)
+    try:
+        hospital_address= response["results"][0]["formatted_address"]
+    except:
+        print("No address found.")
+        hospital_address=data
     if request.method== "POST" and createHospital.validate():
         try:
+            print("YESSS")
             hospital_list = hospitaldb["Hospital_choices"]
             hospital_dict=hospitaldb["Hospitals"]
             hospital_id= int(hospitaldb["hospital_id"])
@@ -682,7 +688,7 @@ def hospital_create():
             hospital_list = hospitaldb["Hospital_choices"]
 
         hospital_id += 1
-        hospital = Hospital(createHospital.hospital_name.data,createHospital.hospital_address.data,createHospital.hospital_contact.data,createHospital.hospital_beds.data)
+        hospital = Hospital(hospital_name,hospital_address,createHospital.hospital_contact.data,createHospital.hospital_beds.data)
         hospital.set_hospital_id(hospital_id)
         hospital_list.append(hospital.get_name())
         print(hospital_list)
@@ -692,7 +698,7 @@ def hospital_create():
         hospitaldb["Hospital_choices"]=hospital_list
         hospitaldb.close()
         return redirect(url_for('hospital_list'))
-    return render_template("hospital_create.html",form=createHospital,data=data)
+    return render_template("hospital_create.html",form=createHospital,data=data,hospital_name=hospital_name,hospital_address=hospital_address)
 
 @app.route('/delete-hospital/<int:id>', methods=['POST'])
 def delete_hospital(id):

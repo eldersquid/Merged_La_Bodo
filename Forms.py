@@ -45,8 +45,6 @@ class GradeForm(Form):
 
 
 class HospitalForm(Form):
-    hospital_name = StringField('Hospital Name', [validators.Length(min=1, max=150), validators.DataRequired()])
-    hospital_address = StringField('Address', [validators.Length(min=1, max=150), validators.DataRequired()])
     hospital_beds = IntegerField('Number of Beds', [validators.required()])
     hospital_contact = StringField('Contact Number', [validators.Length(9), validators.DataRequired()])
 
