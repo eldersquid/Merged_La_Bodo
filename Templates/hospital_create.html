@@ -24,8 +24,6 @@
 
               </div>
                 <!-- Begin Page Content -->
-
-                <div id="map"></div>
                 <br>
 
                 <div class="container-fluid">
@@ -52,7 +50,8 @@
                                         <div class="row">
                                           <div class="col">
                                             <div class="form-group">
-                                              {{ render_field(form.hospital_name, class="form-control controls", id="pac-input") }}
+                                              <label>Searched Location</label>
+                                              <input type="text" id="location" class="form-control" value="{{data}}">
                                             </div>
                                           </div>
                                         </div>
@@ -101,27 +100,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12 col-md-3 mb-3">
-                        <div class="card mb-3">
-                          <div class="card-body">
-                            <div class="px-xl-3">
-                              <button class="btn btn-block btn-secondary">
-                                <i class="fas fa-plus-circle"></i>
-                                <span>Add</span>
-                              </button>
-                              <button class="btn btn-block btn-outline-info">
-                                <i class="fas fa-edit"></i>
-                                <span>Edit</span>
-                              </button>
-                              <button class="btn btn-block btn-outline-danger">
-                                <i class="far fa-times-circle"></i>
-                                <span>Delete</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
 
-                      </div>
                     </div>
 
                   </div>
@@ -180,6 +159,7 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO5-kE5NU-8iLRbhk-nG5vgcWedjXgPMg&callback=initAutocomplete&libraries=places&v=weekly"
     defer
   ></script>
-  <script src="{{ url_for('static',filename='js/google_map.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/natgeowild.js') }}"></script>
+
 
   {% endblock %}

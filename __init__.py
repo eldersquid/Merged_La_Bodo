@@ -17,6 +17,7 @@ import shelve ,Reservation, Review,smtplib,ssl
 import json
 import random
 import PackageDeal
+import requests
 from ProductCat import *
 
 
@@ -602,15 +603,67 @@ def delete_gp(id):
 
     return redirect(url_for('server_guests'))
 
+@app.route("/hospital-search",methods=["GET","POST"])
+def hospital_search():
+    if request.method == 'POST':
+        data=request.json
+        print("succesS?")
+    return render_template("hospital_search.html")
 
+
+@app.route("/hospital-select", methods=["GET", "POST"])
+def hospital_select():
+    if request.method == 'POST':
+        hospitaldb=shelve.open("hospital.db")
+        data = request.json
+        hospitaldb["hospital_search"]=data
+        print(data)
+        return jsonify(data)
+    return redirect(url_for('hospital_list'))
+
+
+
+
+# @app.route('/requestSelectGuest')
+# def request_selectguest():
+#     guestDict = {}
+#     db = shelve.open("guests.db")
+#     try:
+#         guestDict = db["Guest_RoomNumber"]
+#     except:
+#         print("No guests found.")
+#         guestDict = {}
+#
+#     guest_list = []
+#     for key in guestDict:
+#         guest = guestDict.get(key)
+#         guest_list.append(guest)
+#     db.close()
+#     return render_template("request_selectguest.html", guest_list=guest_list, guest=guest)
 
 @app.route("/hospital-create",methods=["GET","POST"])
 def hospital_create():
     createHospital= HospitalForm(request.form)
+    hospital_list = []
+    hospitaldb = shelve.open("hospital.db")
+    hospital_dict = {}
+    data = hospitaldb["hospital_search"]
+    split_name=data.split(",")
+    print(split_name)
+    print("This is data from hospital create : ",data)
+    params= {
+        "key" : "AIzaSyCO5-kE5NU-8iLRbhk-nG5vgcWedjXgPMg",
+        "address" : data
+
+    }
+    base_url ="https://maps.googleapis.com/maps/api/geocode/json?"
+    #API Call
+    response = requests.get(base_url,params=params).json()
+    response.keys()
+    print(response.keys())
+    if response["status"] == "OK":
+        print(response)
     if request.method== "POST" and createHospital.validate():
-        hospital_list = []
-        hospitaldb = shelve.open("hospital.db")
-        hospital_dict={}
         try:
             hospital_list = hospitaldb["Hospital_choices"]
             hospital_dict=hospitaldb["Hospitals"]
@@ -639,7 +692,7 @@ def hospital_create():
         hospitaldb["Hospital_choices"]=hospital_list
         hospitaldb.close()
         return redirect(url_for('hospital_list'))
-    return render_template("hospital_create.html",form=createHospital)
+    return render_template("hospital_create.html",form=createHospital,data=data)
 
 @app.route('/delete-hospital/<int:id>', methods=['POST'])
 def delete_hospital(id):
@@ -1217,24 +1270,6 @@ def request_selectguest():
     db.close()
     return render_template("request_selectguest.html",guest_list=guest_list,guest=guest)
 
-
-
-# @app.route('/nameAutoComplete')
-# def nameAutoComplete():
-#     guestDict = {}
-#     guestList=[]
-#     db = shelve.open("guests.db")
-#     try:
-#         guestDict = db["Guests"]
-#     except:
-#         print("No guests found.")
-#
-#     for id in guestDict:
-#         guest=guestDict[id]
-#         guestList.append({guest.get_guest_id() : guest.get_name()})
-#     print(guestList)
-#     listing=jsonify(guestList)
-#     return listing
 
 
 @app.route('/request-create/<int:roomnum>', methods=["GET","POST"])
