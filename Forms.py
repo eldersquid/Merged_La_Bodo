@@ -1,10 +1,24 @@
 from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField, \
-    BooleanField, ValidationError
+    BooleanField, ValidationError, TimeField
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import DateField
-from wtforms.fields.html5 import EmailField
+from wtforms.fields.html5 import EmailField, TelField
 from wtforms.validators import DataRequired
 import phonenumbers
+
+class CreateReservationForm(Form):
+    first_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    last_name = StringField('Last Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    email = EmailField('Email', [validators.Length(min=8,max=200), validators.DataRequired()])
+    contact = TelField('Contact no.', [validators.length(min=1, max=30), validators.DataRequired()])
+    date = StringField('Date')
+    time_slot = TimeField('Time')
+    remarks = TextAreaField('Remarks', [validators.Optional()])
+
+class CreateReviewForm(Form):
+    reviewfeedback = TextAreaField('Testimonals from customers', [validators.Optional()])
+    reviewfirst_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    reviewlast_name = StringField('Last Name', [validators.Length(min=1, max=150), validators.DataRequired()])
 
 
 class GuestBooking(Form):
@@ -45,6 +59,14 @@ class OccupationForm(Form):
     occupation_name = StringField('Occupation', [validators.Length(min=1, max=150), validators.DataRequired()])
     occupation_industry = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])
     description = TextAreaField('Description', [validators.Optional()])
+
+class VehicleForm(Form):
+    vehicle_name = StringField("Driver's Name", [validators.Length(min=1, max=150), validators.DataRequired()])
+    vehicle_model = StringField('Vehicle Model:', )
+    vehicle_car_plate = StringField('License Plate no.', )
+    vehicle_contact = StringField('Contact Number', [validators.Length(9), validators.DataRequired()])
+    vehicle_location = SelectField('Assign Hospital Location', [validators.DataRequired()],
+                           choices=[], default="")
 
 
 class RequestForm(Form):
