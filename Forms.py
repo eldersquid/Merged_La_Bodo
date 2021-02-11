@@ -10,13 +10,9 @@ import phonenumbers
 class GuestBooking(Form):
     name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     industry = SelectField('Industry', [validators.DataRequired()],
-                           choices=[("", ""), ("Medical", "Medical"), ("Others", "Others")], default="")
+                           choices=[], default="")
     occupation = SelectField('Occupation', [validators.DataRequired()],
-                             choices=[("none", ""), ("Doctor", "Doctor"), ("Paramedic", "Paramedic"),
-                                      ("Registered Nurse", "Registered Nurse"),
-                                      ("Patient Care Assistant", "Patient Care Assistant"),
-                                      ("Family and General Practitioner", "Family and General Practitioner"),
-                                      ("Others", "Others")], default="")
+                             choices=[], default="")
     location = SelectField("Location of Workplace", [validators.DataRequired()], choices=[], default="")
     transport = RadioField('Transport Required?', choices=[('Yes', 'Yes'), ('No', 'No')], default='Y')
 
@@ -43,8 +39,13 @@ class HospitalForm(Form):
 
 class OccupationForm(Form):
     occupation_name = StringField('Occupation', [validators.Length(min=1, max=150), validators.DataRequired()])
-    occupation_industry = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])
+    occupation_industry = SelectField('Industry', [validators.DataRequired()],
+                                      choices=[], default="")
     description = TextAreaField('Description', [validators.Optional()])
+
+
+class IndustryForm(Form):
+    industry_name = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])
 
 
 class RequestForm(Form):

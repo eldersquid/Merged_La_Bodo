@@ -59,38 +59,7 @@ $(document).ready(function(){
     }
     testimonialSlider();
 
-//Date Picker
 
-		var dateSelect     = $('#flight-datepicker');
-		var dateDepart     = $('#start-date');
-		var dateReturn     = $('#end-date');
-		var spanDepart     = $('.date-depart');
-		var spanReturn     = $('.date-return');
-		var spanDateFormat = 'ddd, MMMM D yyyy';
-
-		dateSelect.datepicker({
-			autoclose: true,
-			format: "mm.dd.yyyy",
-			maxViewMode: 0,
-			startDate: "now"
-		});
-
-
-		//Date Picker
-
-		var dateSelect     = $('#flight-datepicker-1');
-		var dateDepart     = $('#start-date-1');
-		var dateReturn     = $('#end-date-1');
-		var spanDepart     = $('.date-depart');
-		var spanReturn     = $('.date-return');
-		var spanDateFormat = 'ddd, MMMM D yyyy';
-
-		dateSelect.datepicker({
-			autoclose: true,
-			format: "dd.M",
-			maxViewMode: 0,
-			startDate: "now"
-		});
 
     //------- Mailchimp js --------//
 
@@ -106,11 +75,6 @@ $(document).ready(function(){
 	}
 	parallaxEffect();
 
-
-    $('select').niceSelect();
-    $('#datetimepicker11,#datetimepicker1').datetimepicker({
-        daysOfWeekDisabled: [0, 6]
-    });
 
      /*---------gallery isotope js-----------*/
     function galleryMasonry(){

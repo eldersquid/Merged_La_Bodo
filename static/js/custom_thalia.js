@@ -81,40 +81,7 @@
     });
 
 
-	$(document).ready(function() {
-
-		//Date Picker
-
-		var dateSelect     = $('#flight-datepicker');
-		var dateDepart     = $('#start-date');
-		var dateReturn     = $('#end-date');
-		var spanDepart     = $('.date-depart');
-		var spanReturn     = $('.date-return');
-		var spanDateFormat = 'ddd, MMMM D yyyy';
-
-		dateSelect.datepicker({
-			autoclose: true,
-			format: "dd.mm.yyyy",
-			maxViewMode: 0,
-			startDate: "now"
-		});
-
-
-		//Date Picker
-
-		var dateSelect     = $('#flight-datepicker-1');
-		var dateDepart     = $('#start-date-1');
-		var dateReturn     = $('#end-date-1');
-		var spanDepart     = $('.date-depart');
-		var spanReturn     = $('.date-return');
-		var spanDateFormat = 'ddd, MMMM D yyyy';
-
-		dateSelect.datepicker({
-			autoclose: true,
-			format: "dd.M",
-			maxViewMode: 0,
-			startDate: "now"
-		});
+	
 
 
 		//Scroll back to top
