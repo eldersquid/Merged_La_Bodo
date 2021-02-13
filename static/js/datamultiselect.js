@@ -30,7 +30,7 @@
     });
 
  $(document).ready(function () {
-                    $("#deleteMulti").on("click", function() {
+                    $("#selectMulti").on("click", function() {
                         var js_data = JSON.stringify(productcat);
                         $.ajax({
                             url: '/selectmulti',

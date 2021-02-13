@@ -1515,6 +1515,7 @@ def productcat_selectmulti():
     productcat_dict = {}
     productcat_choices = []
     productcat_name=""
+    chooselist = []
     db = shelve.open("productname.db")
     productcat_dict = db["Product_Name"]
     productcat_choices = db["Product_Selection"]
@@ -1526,9 +1527,11 @@ def productcat_selectmulti():
         print(data)
         for x in data:
             productcat_name = productcat_dict[int(x)].get_productcat()
-            productcat_dict.pop(int(x))
-            productcat_choices.remove(productcat_name)
+            chooselist.append(productcat_name)
+            # productcat_dict.pop(int(x))
+            # productcat_choices.remove(productcat_name)
             print("hello3")
+            print(chooselist, "hello")
 
         db["Product_Name"] = productcat_dict
         print(productcat_choices)
