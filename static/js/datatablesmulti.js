@@ -31,7 +31,7 @@
 
  $(document).ready(function () {
                     $("#deleteMulti").on("click", function() {
-                        var js_data = JSON.stringify(hospitals);
+                        var js_data = JSON.stringify(productcat);
                         $.ajax({
                             url: '/selectmulti',
                             type : 'post',

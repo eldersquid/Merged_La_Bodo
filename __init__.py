@@ -1523,6 +1523,7 @@ def productcat_selectmulti():
     if request.method == 'POST':
         data = request.json
         print("hello2")
+        print(data)
         for x in data:
             productcat_name = productcat_dict[int(x)].get_productcat()
             productcat_dict.pop(int(x))
@@ -1656,7 +1657,7 @@ def delete_supplier(company_name):
 def createInventory():
     suppliers_dict = {}
     try:
-        db = shelve.open('supplier.db', 'r')
+        db = shelve.open('supplier.db')
         suppliers_dict = db['Suppliers']
         db.close()
     except:
@@ -1676,7 +1677,7 @@ def createInventory():
         productname_list = productname_db["Product_Name"]
 
     except:
-        productname_db["Product_Name"] = Supplier.productList
+        productname_db["Product_Name"] = ProductCat.productList
         productname_list = productname_db["Product_Name"]
 
     productname_db["Product_Name"] = productname_list
@@ -1741,7 +1742,7 @@ def update_inventory(item_name):
         productname_list = productname_db["Product Name"]
 
     except:
-        productname_db["Product Name"] = Supplier.productList
+        productname_db["Product Name"] = ProductCat.productList
         productname_list = productname_db["Product Name"]
 
     productname_db["Product Name"] = productname_list
