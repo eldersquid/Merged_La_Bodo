@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField, PasswordField, TimeField
+from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField, PasswordField, TimeField, ValidationError
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import DateField
 from wtforms.fields.html5 import EmailField, TelField
@@ -22,7 +22,6 @@ class CreateReviewForm(Form):
 
 
 class GuestBooking(Form):
-    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     industry = SelectField('Industry', [validators.DataRequired()],
                            choices=[], default="")
     occupation = SelectField('Occupation', [validators.DataRequired()],
@@ -32,9 +31,14 @@ class GuestBooking(Form):
 
 
 class BookingForm(FlaskForm):
-    bookindate = DateField('CHECK-IN DATE', format='%Y-%m-%d')
-    bookoutdate = DateField('CHECK-OUT DATE', format='%Y-%m-%d')
+    bookindate = DateField('Check-In Date', format='%Y-%m-%d')
+    bookoutdate = DateField('Check-Out Date', format='%Y-%m-%d')
     submit = SubmitField('Submit')
+
+class BookRoomType(Form):
+    room_type = SelectField('Room Type',
+                        choices=[("", ""), ("Small Room", "Small Room"), ("Apartment", "Apartment"), ("Big Apartment", "Big Apartment"), ("Villa", "Villa")], default="")
+    room_number= IntegerField('Room Number', [validators.required()])
 
 
 class GradeForm(Form):

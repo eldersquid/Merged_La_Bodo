@@ -38,6 +38,7 @@ def payNowPls():
 
         print(data)
         return jsonify(data)
+    return render_template("hospital_list.html")
 
 
 #Gerald's part
@@ -441,7 +442,13 @@ def test_guest():
             print("Error in Guest Database. Try again.")
 
 
-        guest = Guest(createBooking.name.data,createBooking.industry.data,createBooking.occupation.data,createBooking.location.data,createBooking.transport.data)
+        guest = Guest(session["Name"],createBooking.industry.data,createBooking.occupation.data,createBooking.location.data,createBooking.transport.data)
+        guest.set_name(session["Name"])
+        guest.set_email(session["Email"])
+        guest.set_deals(session["Deals"])
+        guest.set_username(session["CurrentUsername"])
+        guest.set_check_in(session["bookindate"])
+        guest.set_check_out(session["bookoutdate"])
         guest_id+=1
         guest.set_guest_id(guest_id)
         guest.set_room_number(session['room_number'])
@@ -519,6 +526,8 @@ def assign_grade(id):
 def edit_guest(id):
     gradeForm= GradeForm(request.form)
     createBooking = GuestBooking(request.form)
+    createCheckInOut = BookingForm(request.form)
+    createRoomType = BookRoomType(request.form)
     hospital_list=[]
     hospitaldb = shelve.open("hospital.db")
     occupation_list = []
@@ -542,7 +551,8 @@ def edit_guest(id):
         except:
             print("Error opening guest database.")
         guest=guestDict.get(id)
-        guest.set_name(createBooking.name.data)
+        guest.set_room_number(createRoomType.room_number.data)
+        guest.set_room_type(createRoomType.room_type.data)
         guest.set_occupation(createBooking.occupation.data)
         guest.set_industry(createBooking.industry.data)
         guest.set_location(createBooking.location.data)
@@ -559,7 +569,8 @@ def edit_guest(id):
             print("Error opening guests database.")
 
         guest=guestDict.get(id)
-        createBooking.name.data=guest.get_name()
+        createRoomType.room_number.data = guest.get_room_number()
+        createRoomType.room_type.data = guest.get_room_type()
         createBooking.occupation.data=guest.get_occupation()
         createBooking.industry.data = guest.get_industry()
         createBooking.location.data = guest.get_location()
@@ -570,7 +581,38 @@ def edit_guest(id):
 
 
 
-        return render_template('guest_edit.html',guest=guest,form=createBooking,guestForm=gradeForm)
+        return render_template('guest_edit.html',guest=guest,form=createBooking,guestForm=gradeForm,checkInOut=createCheckInOut, roomType=createRoomType)
+
+
+@app.route('/edit-checkInOut/<int:id>', methods=["GET", "POST"])
+def edit_checkInOut(id):
+    createCheckInOut = BookingForm(request.form)
+
+    if request.method == "POST" and createCheckInOut.validate():
+        guestDict = {}
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("Error opening guest database.")
+        guest = guestDict.get(id)
+        guest.set_check_in(createCheckInOut.bookindate.data)
+        guest.set_check_out(createCheckInOut.bookoutdate.data)
+        db["Guests"] = guestDict
+        db.close()
+        return redirect(url_for('server_guests'))
+    else:
+        guestDict = {}
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("Error opening guests database.")
+
+        guest = guestDict.get(id)
+        db.close()
+
+        return render_template('checkInOut_edit.html', guest=guest, form=createCheckInOut)
 
 
 @app.route('/delete-guest/<int:id>', methods=['POST'])
@@ -2178,6 +2220,9 @@ def create_user():
 
         users_dict[user.get_username()] = user
         session['CurrentUsername'] = user.get_username()
+        session["Name"]= user.get_name()
+        session["Email"] = user.get_email()
+        session["Deals"] = user.get_deals()
         db['Users'] = users_dict
         db.close()
         print('working')
