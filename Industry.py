@@ -5,7 +5,7 @@ class Industry:
         {"Industry": "Medical"}]
 
     def __init__(self,industry):
-        self.__industry=industry
+        self.__industry = industry
 
     def get_industry(self):
         return self.__industry
