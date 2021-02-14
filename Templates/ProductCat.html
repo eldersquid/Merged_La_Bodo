@@ -12,7 +12,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <div class="col d-flex justify-content-end">
-    <a class="btn btn-outline-secondary ml-1" href="{{ url_for('createProduct') }}"><i class="fas fa-plus-circle"></i> Create New</a>
+    <a class="btn btn-outline-secondary ml-1" href="{{ url_for('createProduct') }}"><i class="fas fa-plus-circle"></i> Create New Category</a>
   </div>
 
   <!-- Modal -->
@@ -97,7 +97,7 @@
   </div>
   <div class="col-4">
     <!-- Modal -->
-    <div class="modal fade" id="deleteModal_multiProductcat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="selectModal_multiProductcat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -107,22 +107,23 @@
             </button>
           </div>
           <div class="modal-body">
-            Do you really want to delete selected Product Category? This process cannot be undone.
+            Confirm selection of product category?
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" id="deleteMulti" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_multiProductcat" data-dismiss="modal">
-              Delete
+            <button type="button" id="selectMulti" class="btn btn-info" data-toggle="modal" data-target="#selectModal_multiProductcat" data-dismiss="modal">
+              Confirm
             </button>
           </div>
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#deleteModal_multiProductcat">
-      <span>Delete</span>
+    <button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#selectModal_multiProductcat">
+      <span>Select</span>
     </button>
   </div>
 </div>
+<br>
 {% endblock %}
 
 {% block script %}
@@ -133,5 +134,5 @@
 <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js" charset="utf-8"></script>
 
 <!-- Page level custom scripts -->
-<script src="{{ url_for('static',filename='js/datatablesmulti.js') }}"></script>
+<script src="{{ url_for('static',filename='js/datamultiselect.js') }}"></script>
 {% endblock %}

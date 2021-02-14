@@ -18,6 +18,7 @@ import json
 import random
 import PackageDeal
 import requests
+import shelve, User, Staff
 from ProductCat import *
 
 
@@ -1527,6 +1528,7 @@ def productcat_selectmulti():
     productcat_dict = {}
     productcat_choices = []
     productcat_name=""
+    chooselist = []
     db = shelve.open("productname.db")
     productcat_dict = db["Product_Name"]
     productcat_choices = db["Product_Selection"]
@@ -1535,11 +1537,14 @@ def productcat_selectmulti():
     if request.method == 'POST':
         data = request.json
         print("hello2")
+        print(data)
         for x in data:
             productcat_name = productcat_dict[int(x)].get_productcat()
-            productcat_dict.pop(int(x))
-            productcat_choices.remove(productcat_name)
+            chooselist.append(productcat_name)
+            # productcat_dict.pop(int(x))
+            # productcat_choices.remove(productcat_name)
             print("hello3")
+            print(chooselist, "hello")
 
         db["Product_Name"] = productcat_dict
         print(productcat_choices)
@@ -1668,7 +1673,7 @@ def delete_supplier(company_name):
 def createInventory():
     suppliers_dict = {}
     try:
-        db = shelve.open('supplier.db', 'r')
+        db = shelve.open('supplier.db')
         suppliers_dict = db['Suppliers']
         db.close()
     except:
@@ -1688,7 +1693,7 @@ def createInventory():
         productname_list = productname_db["Product_Name"]
 
     except:
-        productname_db["Product_Name"] = Supplier.productList
+        productname_db["Product_Name"] = ProductCat.productList
         productname_list = productname_db["Product_Name"]
 
     productname_db["Product_Name"] = productname_list
@@ -1753,7 +1758,7 @@ def update_inventory(item_name):
         productname_list = productname_db["Product Name"]
 
     except:
-        productname_db["Product Name"] = Supplier.productList
+        productname_db["Product Name"] = ProductCat.productList
         productname_list = productname_db["Product Name"]
 
     productname_db["Product Name"] = productname_list
@@ -2148,60 +2153,171 @@ def deletePackageDeal(attractions):
 
     return redirect(url_for('retrievePackageDeal'))
 
+@app.route('/createUser', methods=['GET', 'POST'])
+def create_user():
+    sign_up_form = Signup(request.form)
+    print("yeeyee")
+    if request.method == 'POST' and sign_up_form.validate():
+        print("ass")
+        users_dict = {}
+        db = shelve.open('storage.db', 'c')
+        try:
+            users_dict = db['Users']
+            print("haircut")
+        except:
+            print("Error in retrieving Users from storage.db.")
 
-@app.route('/login', methods = ['GET', 'POST'])
+        user = User.User(sign_up_form.name.data,
+                         sign_up_form.username.data,
+                         sign_up_form.email.data,
+                         sign_up_form.gender.data,
+                         sign_up_form.phone_num.data,
+                         sign_up_form.password.data,
+                         sign_up_form.deals.data
+                         )
+
+        users_dict[user.get_username()] = user
+        session['CurrentUsername'] = user.get_username()
+        db['Users'] = users_dict
+        db.close()
+        print('working')
+        return redirect(url_for('profile'))
+    return render_template('createUser.html', form=sign_up_form)
+
+@app.route('/GuestL', methods = ['GET', 'POST'])
 def login_user():
     log_in_user_form = Login(request.form)
     if request.method == 'POST' and log_in_user_form.validate():
         customer_dict = {}
-        db = shelve.open('guests.db', 'r')
+        db = shelve.open('storage.db', 'r')
         try:
-            customer_dict = db['CustomerInfo']
+            customer_dict = db['Users']
         except:
             print('Error in retrieving information')
 
         username = log_in_user_form.username.data
         password = log_in_user_form.password.data
+        print('1')
         if username in customer_dict:
             real_password = customer_dict[username].get_password()
+            print('2')
             if password == real_password:
-                session['user_created'] = customer_dict[username].get_name()
-                session['Username'] = username
+              session['CurrentUsername'] = username
+              print('3')
+              return redirect(url_for('profile'))
+    return render_template('GuestL.html', form = log_in_user_form)
 
-    return render_template('login.html', form = log_in_user_form)
+@app.route('/GuestL')
+def logout():
+    session.pop('CurrentUsername', None)
+    return redirect(url_for('GuestL'))
+
+@app.route('/createStaff', methods=['GET', 'POST'])
+def create_staff():
+    staff_sign_up_form = Staff_Signup(request.form)
+    print("yeeyee")
+    if request.method == 'POST' and staff_sign_up_form.validate():
+        print("ass")
+        staff_dict = {}
+        db = shelve.open('storage.db', 'c')
+        try:
+            staff_dict = db['Staff']
+            print("haircut")
+        except:
+            print("Error in retrieving Users from storage.db.")
+
+        staff = Staff.Staff(staff_sign_up_form.id.data,
+                            staff_sign_up_form.email.data,
+                            staff_sign_up_form.password.data,
+                            )
+
+        staff_dict[staff.get_id()] = staff
+        session['CurrentID'] = staff.get_id()
+        db['Staff'] = staff_dict
+        db.close()
+        print('working')
+        return redirect(url_for('login_staff'))
+    return render_template('createStaff.html', form=staff_sign_up_form)
+
+@app.route('/StaffL', methods = ['GET', 'POST'])
+def login_staff():
+    log_in_staff_form = Staff_Login(request.form)
+    if request.method == 'POST' and log_in_staff_form.validate():
+        staff_dict = {}
+        db = shelve.open('storage.db', 'r')
+        try:
+            staff_dict = db['Staff']
+        except:
+            print('Error in retrieving information')
+
+        id = log_in_staff_form.id.data
+        password = log_in_staff_form.password.data
+        print('1')
+        if id in staff_dict:
+            real_password = staff_dict[id].get_password()
+            print('2')
+            if password == real_password:
+              session['CurrentID'] = id
+              print('3')
+              return redirect(url_for('home'))
+    return render_template('StaffL.html', form = log_in_staff_form)
 
 
-# @app.route('/loginstaff', methods = ['GET', 'POST'])
-# def staff_login():
-#     error = None
-#     if request.method == 'POST':
-#         staff_dict = {}
-#         db = shelve.open('storage.db', 'r')
-#         staff_dict = db['Staff']
-#         for staff_id in staff_dict:
-#             staff = staff_dict.get(staff_id)
-#             if request.form['username'] == staff.get_username() and request.form['password'] == staff.get_password():
-#                 session['staff_account'] = staff.get_staff_id()
-#                 session['staff_username'] = staff.get_username()
-#                 return redirect(url_for('home'))
-#             elif request.form['username'] == 'staff' and request.form['password'] == 'password':
-#                 return redirect(url_for('retrieveStaff'))
-#             else:
-#                 error = 'Invalid Staff'
-#
-#     return render_template('loginstaff.html', error=error)
-#
-#
-#
-# @app.route('/home')
-# def staff_home():
-#     return render_template('home.html')
-#
-# @app.route('/logout')
-# def logout():
-#    session.pop('username', None)
-#    return redirect(url_for('login'))
+@app.route('/StaffL')
+def staff_logout():
+    session.pop('CurrentID', None)
+    return redirect(url_for('StaffL'))
 
+
+@app.route('/profile')
+def profile():
+    customer_dict = {}
+    db = shelve.open('storage.db', 'r')
+    try:
+        customer_dict = db['Users']
+    except:
+        print('error')
+    id = session['CurrentUsername']
+    user = customer_dict[id]
+    return render_template('profile.html', user = user)
+
+@app.route('/updateProfile/<id>/', methods=['GET','POST'])
+def updateProfile(id):
+    update_profile = Signup(request.form)
+    if request.method == 'POST' and update_profile.validate():
+        users_dict = {}
+        db = shelve.open('storage.db')
+        users_dict = db['Users']
+
+        profile = users_dict.get(User)
+        profile.set_name(update_profile.name.data)
+        profile.set_username(update_profile.username.data)
+        profile.set_email(update_profile.email.data)
+        profile.set_phone_num(update_profile.phone_num.data)
+        profile.set_gender(update_profile.gender.data)
+        profile.set_password(update_profile.password.data)
+
+        db['Users'] = users_dict
+        db.close()
+
+        return redirect(url_for('updateProfile'))
+    else:
+        users_dict = {}
+        db = shelve.open('storage.db')
+        users_dict = db['Users']
+        id = session['CurrentUsername']
+        profile = users_dict[id]
+
+        update_profile.name.data = profile.get_name()
+        update_profile.username.data = profile.get_username()
+        update_profile.email.data = profile.get_email()
+        update_profile.phone_num.data = profile.get_phone_num()
+        update_profile.gender.data = profile.get_gender()
+        update_profile.password.data = profile.get_password()
+
+        db.close()
+
+        return render_template('updateProfile.html', form=update_profile,user=profile)
 
 if __name__ == '__main__':
     app.run(debug=True)

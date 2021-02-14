@@ -30,8 +30,8 @@
     });
 
  $(document).ready(function () {
-                    $("#deleteMulti").on("click", function() {
-                        var js_data = JSON.stringify(hospitals);
+                    $("#selectMulti").on("click", function() {
+                        var js_data = JSON.stringify(productcat);
                         $.ajax({
                             url: '/selectmulti',
                             type : 'post',
