@@ -1,0 +1,45 @@
+Index: Forms.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField,BooleanField, ValidationError\r\nfrom flask_wtf import FlaskForm\r\nfrom wtforms.fields.html5 import DateField\r\nfrom wtforms.fields.html5 import EmailField\r\nfrom wtforms.validators import DataRequired\r\nimport phonenumbers\r\n\r\n\r\nclass GuestBooking(Form):\r\n    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    industry = SelectField('Industry', [validators.DataRequired()], choices=[(\"\",\"\"),(\"Medical\",\"Medical\"),(\"Others\",\"Others\")], default=\"\")\r\n    occupation = SelectField('Occupation', [validators.DataRequired()], choices=[(\"none\",\"\"),(\"Doctor\", \"Doctor\"),( \"Paramedic\" ,\"Paramedic\"),( \"Registered Nurse\",\"Registered Nurse\"),( \"Patient Care Assistant\",\"Patient Care Assistant\"),( \"Family and General Practitioner\",\"Family and General Practitioner\"),(\"Others\", \"Others\")], default=\"\")\r\n    location = SelectField(\"Location of Workplace\",[validators.DataRequired()], choices=[], default=\"\")\r\n    transport = RadioField('Transport Required?', choices=[('Yes', 'Yes'), ('No', 'No')],default='Y')\r\n\r\nclass BookingForm(FlaskForm):\r\n    bookindate = DateField('CHECK-IN DATE', format='%Y-%m-%d')\r\n    bookoutdate = DateField('CHECK-OUT DATE', format='%Y-%m-%d')\r\n    submit = SubmitField('Submit')\r\n\r\nclass GradeForm(Form):\r\n    grade = SelectField('Grade', [validators.DataRequired()], choices=[(\"\",\"\"),(\"S\",\"S\"),(\"A\",\"A\"),(\"B\",\"B\"),(\"C\",\"C\")], default=\"\")\r\n    priority = SelectField('Priority', [validators.DataRequired()],\r\n                        choices=[(\"\", \"\"), (\"1\", \"1\"), (\"2\", \"2\"), (\"3\", \"3\"), (\"4\", \"4\"), (\"5\", \"5\")], default=\"\")\r\n\r\nclass HospitalForm(Form):\r\n    hospital_name = StringField('Hospital Name', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    hospital_address = StringField('Address', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    hospital_beds = IntegerField('Number of Beds', [validators.required()])\r\n    hospital_contact = StringField('Contact Number', [validators.Length(9), validators.DataRequired()])\r\n\r\nclass OccupationForm(Form):\r\n    occupation_name = StringField('Occupation', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    occupation_industry = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    description = TextAreaField('Description', [validators.Optional()])\r\n\r\nclass RequestForm(Form):\r\n    type = SelectField('Request Type', [validators.DataRequired()], choices=[(\"\",\"\"),(\"Normal\",\"Normal\"),(\"Urgent\",\"Urgent\")], default=\"\")\r\n    topic = StringField('Request Topic', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    details = TextAreaField('Details', [validators.Optional()])\r\n\r\nclass ChooseGuest(Form):\r\n    guest_name = SelectField(\"Guest Name\",[validators.DataRequired()], choices=[], default=\"\")\r\n\r\n\r\nclass CreateSupplierForm(Form):\r\n    company_name = StringField('Company Name', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    uen_number = IntegerField('UEN Number', [validators.DataRequired()])\r\n    email = EmailField('Email', [validators.Email(), validators.DataRequired()])\r\n    product_name = SelectField('Product Name 1', [validators.DataRequired()], choices=[], default='Select')\r\n    new_product_name = StringField('Product Name 2 (Optional)', [validators.Length(max=150)])\r\n\r\n\r\nclass CreateInventoryForm(Form):\r\n    item_name = StringField('Item Name', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    supplier = SelectField('Supplier', [validators.DataRequired()], choices=[], default='')\r\n    product_name = SelectField('Product Name', [validators.DataRequired()], choices=[], default='')\r\n    quantity = IntegerField('Quantity', [validators.NumberRange(min=1), validators.DataRequired()])\r\n\r\n\r\nclass CreateOrderForm(Form):\r\n    item_name = SelectField('Item Name', [validators.DataRequired()], choices=[], default='')\r\n    product_name = SelectField('Product Name', [validators.DataRequired()], choices=[], default='')\r\n    supplier = SelectField('Supplier', [validators.DataRequired()], choices=[], default='')\r\n    quantity = IntegerField('Quantity', [validators.NumberRange(min=1), validators.DataRequired()])\r\n    remarks = TextAreaField('Remarks', [validators.Optional()])\r\n\r\n\r\nclass CreatePartnershipsForm(Form):\r\n    company = StringField('Company', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    resources = StringField('Resources', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    industry = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n\r\n\r\nclass CreatePackageDeal(Form):\r\n    attractions = StringField('Attraction', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    transport = StringField('Transport', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    price = StringField('Price', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    code = StringField('Code', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n\r\n\r\nclass Login(Form):\r\n    username = StringField('Username', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    password = StringField('Password', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n\r\n\r\nclass Signup(Form):\r\n    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    email = StringField('Email', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    gender = SelectField('Gender', [validators.DataRequired()],\r\n                         choices=[('', 'Select'), ('F', 'Female'), ('M', 'Male')], default='')\r\n    password = StringField('Password', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    repeat_password = StringField('Repeat Password', [validators.Length(min=1, max=150), validators.DataRequired()])\r\n    accept_tos = BooleanField('I accept the Terms of Service and Privacy Notice (updated Jan 28. 2420)',\r\n                              [validators.DataRequired()])\r\n\r\n\r\n\r\n\r\n# class RoomForm(Form):\r\n#
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Forms.py	(revision e15e498d4cf3dd659cf427564572b77a253833c1)
++++ Forms.py	(date 1613128213384)
+@@ -1,4 +1,4 @@
+-from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField,BooleanField, ValidationError
++from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField,BooleanField, ValidationError, PasswordField
+ from flask_wtf import FlaskForm
+ from wtforms.fields.html5 import DateField
+ from wtforms.fields.html5 import EmailField
+@@ -80,20 +80,18 @@
+ 
+ 
+ class Login(Form):
+-    username = StringField('Username', [validators.Length(min=1, max=150), validators.DataRequired()])
+-    password = StringField('Password', [validators.Length(min=1, max=150), validators.DataRequired()])
++    username = StringField('Username', [validators.DataRequired()])
++    password = StringField('Password', [ validators.DataRequired()])
+ 
+ 
+ class Signup(Form):
+-    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+-    email = StringField('Email', [validators.Length(min=1, max=150), validators.DataRequired()])
+-    gender = SelectField('Gender', [validators.DataRequired()],
+-                         choices=[('', 'Select'), ('F', 'Female'), ('M', 'Male')], default='')
+-    password = StringField('Password', [validators.Length(min=1, max=150), validators.DataRequired()])
+-    repeat_password = StringField('Repeat Password', [validators.Length(min=1, max=150), validators.DataRequired()])
+-    accept_tos = BooleanField('I accept the Terms of Service and Privacy Notice (updated Jan 28. 2420)',
+-                              [validators.DataRequired()])
+-
++    name = StringField('Name', [ validators.DataRequired()])
++    username = StringField('Username', [ validators.DataRequired()])
++    email = StringField('Email', [ validators.DataRequired()])
++    phone_num = IntegerField('Phone Number', [ validators.DataRequired()])
++    gender = SelectField('Gender', [validators.DataRequired()], choices=[('', 'Select'), ('F', 'Female'), ('M', 'Male')] , default='')
++    password = PasswordField('Password', [validators.DataRequired(), validators.EqualTo('repeat_password', message ='Incorrect Password')])
++    repeat_password = PasswordField('Repeat Password')
+ 
+ 
+ 
