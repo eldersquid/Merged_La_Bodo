@@ -4,6 +4,7 @@ from wtforms.fields.html5 import DateField
 from wtforms.fields.html5 import EmailField, TelField
 from wtforms.validators import DataRequired
 import phonenumbers
+import shelve
 
 class CreateReservationForm(Form):
     first_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -37,22 +38,60 @@ class BookingForm(FlaskForm):
 
 
 class GradeForm(Form):
-    grade = SelectField('Grade', [validators.DataRequired()],
+    grade = SelectField('Grade',
                         choices=[("", ""), ("S", "S"), ("A", "A"), ("B", "B"), ("C", "C")], default="")
-    priority = SelectField('Priority', [validators.DataRequired()],
+    priority = SelectField('Priority',
                            choices=[("", ""), ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4"), ("5", "5")], default="")
+
+    def validate_grade(form,field):
+        if field.data=="":
+            raise ValidationError("Grade cannot be empty.")
+
+    def validate_priority(form, field):
+        if field.data == "":
+            raise ValidationError("Priority cannot be empty.")
+
 
 
 class HospitalForm(Form):
+    hospital_name = StringField('Hospital Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    hospital_address = StringField('Address', [validators.Length(min=1, max=150), validators.DataRequired()])
     hospital_beds = IntegerField('Number of Beds', [validators.required()])
-    hospital_contact = StringField('Contact Number', [validators.Length(9), validators.DataRequired()])
+    hospital_contact = StringField('Contact Number', [validators.DataRequired()])
+
+    def validate_hospital_name(form,field):
+        hospital_list=[]
+        hospitaldb = shelve.open("hospital.db")
+        hospital_list = hospitaldb["Hospital_choices"]
+        for hospitals in hospital_list:
+            if field.data == hospitals:
+                raise ValidationError("Existing hospital in database. Search for another hospital.")
+
+    # def validate_hospital_contact(form,field):
+    #     if len(field.data) > 9:
+    #         raise ValidationError("Invalid Contact Number. Try again.")
+    #     try:
+    #         x=phonenumbers.parse(field.data)
+    #
+
+
 
 
 class OccupationForm(Form):
-    occupation_name = StringField('Occupation', [validators.Length(min=1, max=150), validators.DataRequired()])
+    occupation_name = StringField('Occupation', [validators.Length(min=1, max=30), validators.DataRequired()])
     occupation_industry = SelectField('Industry', [validators.DataRequired()],
                                       choices=[], default="")
     description = TextAreaField('Description', [validators.Optional()])
+
+    def validate_occupation_name(form, field):
+        occupation_list = []
+        occupationdb = shelve.open("occupation.db")
+        occupation_list = occupationdb["Occupation_choices"]
+        for occupations in occupation_list:
+            if field.data == occupations:
+                raise ValidationError("Existing occupation in database. Enter a different occupation.")
+
+
 
 class VehicleForm(Form):
     vehicle_name = StringField("Driver's Name", [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -65,6 +104,14 @@ class VehicleForm(Form):
 
 class IndustryForm(Form):
     industry_name = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])
+
+    def validate_industry_name(form, field):
+        industry_list = []
+        occupationdb = shelve.open("occupation.db")
+        industry_list = occupationdb["Industry_choices"]
+        for industries in industry_list:
+            if field.data == industries:
+                raise ValidationError("Existing industry in database. Enter a different industry.")
 
 
 class RequestForm(Form):

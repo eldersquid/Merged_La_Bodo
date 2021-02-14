@@ -2,6 +2,7 @@
 // Shopping Cart API
 // ************************************************
 
+
 var shoppingCart = (function() {
   // =============================
   // Private methods and propeties
@@ -17,23 +18,29 @@ var shoppingCart = (function() {
   }
 
   // Save cart
+
   function saveCart() {
-    sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
-            $.ajax({
-                                   url: '/testing',
-                                   type : 'post',
-                                   contentType: 'application/json',
-                                   dataType : 'json',
-                                   data : js_data
-          }
+        sessionStorage.setItem("shoppingCart", JSON.stringify(cart));
+
+
+
+    }
+
+
+
+
 
     // Load cart
   function loadCart() {
     cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
+
+    if (cart === null) {
+      cart = [];
+    }
   }
-  if (sessionStorage.getItem("shoppingCart") != null) {
-    loadCart();
-  }
+
+  loadCart();
+
 
 
   // =============================
@@ -65,6 +72,9 @@ var shoppingCart = (function() {
         break;
       }
     }
+
+    saveCart();
+
   };
   // Remove item from cart
   obj.removeItemFromCart = function(name) {
@@ -89,7 +99,7 @@ var shoppingCart = (function() {
       }
     }
     saveCart();
-  }
+  };
 
   // Clear cart
   obj.clearCart = function() {
@@ -104,7 +114,7 @@ var shoppingCart = (function() {
       totalCount += cart[item].count;
     }
     return totalCount;
-  }
+  };
 
   // Total cart
   obj.totalCart = function() {
@@ -118,16 +128,20 @@ var shoppingCart = (function() {
   // List cart
   obj.listCart = function() {
     var cartCopy = [];
+    console.log("Listing cart");
+    console.log(cart);
     for(i in cart) {
       item = cart[i];
       itemCopy = {};
-      for(p in item) {
+      for(var p in item) {
         itemCopy[p] = item[p];
 
       }
       itemCopy.total = Number(item.price * item.count).toFixed(2);
       cartCopy.push(itemCopy)
     }
+    console.log("This is the shopping cart:")
+    console.log(shoppingCart);
     return cartCopy;
   }
 
@@ -143,7 +157,26 @@ var shoppingCart = (function() {
   // saveCart : Function
   // loadCart : Function
   return obj;
-})();
+} ) ();
+
+$(document).ready(function () {
+                   $("#pay_now").on("click", function() {
+                       var js_data = JSON.stringify(cart);
+                       $.ajax({
+                           url: '/payNowPls',
+                           type : 'post',
+                           contentType: 'application/json',
+                           dataType : 'json',
+                           data : js_data
+                       }).done(function(result) {
+                           console.log(result);
+                           window.location.href = "/hospital-list";
+                           $("#data").html(result);
+                       }).fail(function(jqXHR, textStatus, errorThrown) {
+                           console.log("fail: ",textStatus, errorThrown);
+                       });
+                   });
+               });
 
 
 // *****************************************
@@ -154,6 +187,9 @@ $('.add-to-cart').click(function(event) {
   event.preventDefault();
   var name = $(this).data('name');
   var price = Number($(this).data('price'));
+  console.log(name)
+  console.log(price)
+  console.log("Hi")
   shoppingCart.addItemToCart(name, price, 1);
   displayCart();
 });
@@ -171,9 +207,9 @@ function displayCart() {
   for(var i in cartArray) {
     output += "<tr>"
       + "<td>" + cartArray[i].name + "</td>"
-      + "<td>(" + cartArray[i].price + ")</td>"
+      + "<td>($" + cartArray[i].price + ") </td>"
       + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
-      + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
+      + "<input type='number' class=' item-count' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
       + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
       + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
       + " = "
