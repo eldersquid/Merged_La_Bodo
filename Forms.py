@@ -1,8 +1,7 @@
-from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators, SubmitField, IntegerField, \
-    BooleanField, ValidationError, TimeField
+from wtforms import *
 from flask_wtf import FlaskForm
-from wtforms.fields.html5 import DateField
-from wtforms.fields.html5 import EmailField, TelField
+from wtforms.fields.html5 import *
+from wtforms.fields.html5 import *
 from wtforms.validators import DataRequired
 import phonenumbers
 
@@ -78,16 +77,15 @@ class RequestForm(Form):
 class ChooseGuest(Form):
     guest_name = SelectField("Guest Name", [validators.DataRequired()], choices=[], default="")
 
-
 class CreateProductForm(Form):
-    productcat = StringField("New Product Category", [validators.Length(min=1, max=150), validators.DataRequired()])
+    product_name = StringField("New Product Category", [validators.Length(min=1, max=150), validators.DataRequired()])
 
 
 class CreateSupplierForm(Form):
     company_name = StringField('Company Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     uen_number = IntegerField('UEN Number', [validators.DataRequired()])
     email = EmailField('Email', [validators.Email(), validators.DataRequired()])
-    product_name = SelectField('Product Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    product_name = SelectMultipleField('Product Name', [validators.DataRequired()])
 
 
 class CreateInventoryForm(Form):

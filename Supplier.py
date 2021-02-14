@@ -1,5 +1,4 @@
 class Supplier:
-
     def __init__(self, company_name, uen_number, email, product_name):
         self.__company_name = company_name
         self.__uen_number = uen_number
@@ -29,4 +28,3 @@ class Supplier:
 
     def get_product_name(self):
         return self.__product_name
-

@@ -14,29 +14,7 @@
   <div class="col d-flex justify-content-end">
     <a class="btn btn-outline-secondary ml-1" href="{{ url_for('createProduct') }}"><i class="fas fa-plus-circle"></i> Create New Category</a>
   </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="deleteDesu" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Are you sure?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Do you really want to delete these records? This process cannot be undone.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger">Delete</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br>
-
+  <p></p>
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-body">
@@ -44,27 +22,24 @@
         <table class="table table-bordered table-hover" id="productcatTable" width="100%" cellspacing="1">
           <thead>
           <tr>
-            <th>ID</th>
             <th>Product Category</th>
             <th></th>
           </tr>
           </thead>
           <tfoot>
           <tr>
-            <th>ID</th>
             <th>Product Category</th>
             <th></th>
           </tr>
           </tfoot>
           <tbody>
-          {% for productcat in productcat_list %}
+          {% for productname in productcat_list %}
           <tr>
-            <td>{{ productcat.get_productcat_id() }}</td>
-            <td> {{ productcat.get_productcat() }} </td>
+            <td> {{ productname.get_product_name() }} </td>
             <td>
-              <form action="{{url_for('delete_productcat', id=productcat.get_productcat_id())}}" method="POST">
+              <form action="{{url_for('delete_productcat', product=productname.get_product_name())}}" method="POST">
                 <!-- Modal -->
-                <div class="modal fade" id="deleteModal_{{ productcat.get_productcat_id() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="deleteModal_{{ productname.get_product_name() }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -83,7 +58,7 @@
                     </div>
                   </div>
                 </div>
-                <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#deleteModal_{{ productcat.get_productcat_id() }}">
+                <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#deleteModal_{{ productname.get_product_name() }}">
                   <span>Delete</span>
                 </button>
               </form>
@@ -94,33 +69,6 @@
         </table>
       </div>
     </div>
-  </div>
-  <div class="col-4">
-    <!-- Modal -->
-    <div class="modal fade" id="selectModal_multiProductcat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Are you sure?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Confirm selection of product category?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" id="selectMulti" class="btn btn-info" data-toggle="modal" data-target="#selectModal_multiProductcat" data-dismiss="modal">
-              Confirm
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#selectModal_multiProductcat">
-      <span>Select</span>
-    </button>
   </div>
 </div>
 <br>
