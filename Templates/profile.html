@@ -23,7 +23,7 @@ button {
   display: inline-block;
   padding: 8px;
   color: white;
-  background-color: #000;
+  background-color: blue;
   text-align: center;
   cursor: pointer;
   width: 100%;
@@ -54,8 +54,15 @@ button:hover, a:hover {
   <p class="title">Email: {{user.get_email()}}</p>
   <p class="title">Password: {{user.get_password()}}</p>
   <p class="title">Package Deal: {{user.get_deals()}}</p>
+  <button>
+
   <a href="/GuestL" class="btn btn-primary">Back</a>
+  </button>
+  <button>
+
+
   <a href="/updateProfile/{{user.get_username()}}" class="btn btn-warning">Edit</a>
+  </button>
 </div>
 
 </body>

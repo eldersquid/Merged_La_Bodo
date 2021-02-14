@@ -60,118 +60,38 @@
                               <div class="tab-content pt-3">
                                 <div class="tab-pane active">
                                   <form class="form" novalidate="" method="POST" action="">
+                                    {{ form.csrt_token }}
 
-                                    <div class="row">
-                                      <div class="col">
                                         <div class="row">
                                           <div class="col">
                                             <div class="form-group">
-                                              <label>Name</label>
-                                              <input class="form-control" type="text" name="username"
-                                                     value="{{guest.get_name()}}" readonly>
-                                          </div>
-                                          </div>
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Username</label>
-                                              <input class="form-control" type="text" name="username"  value="{{guest.get_username()}}" readonly>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Email</label>
-                                              <input class="form-control" type="text" placeholder="{{guest.get_email()}}" readonly>
-                                            </div>
-                                          </div>
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Deal Selected</label>
-                                              <input class="form-control" type="text"
-                                                     placeholder="{{guest.get_deals()}}" readonly>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Check In Date</label>
+                                              <label>Former Check In Date</label>
                                               <input class="form-control" type="text" name="username"
                                                      value="{{guest.get_check_in()}}" readonly>
                                             </div>
                                           </div>
                                           <div class="col">
                                             <div class="form-group">
-                                              <label>Check Out Date</label>
+                                              <label>Former Check Out Date</label>
                                               <input class="form-control" type="text" name="username"
                                                      value="{{guest.get_check_out()}}" readonly>
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                            {{ render_field(form.occupation, class="form-control") }}
-                                          </div>
-                                          </div>
+
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="form-group">
+                                          {{ form.bookindate.label }} {{form.bookindate(class='datepicker form-control')}} {{form.hidden_tag()}}
                                         </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                            {{ render_field(form.location, class="form-control") }}
-                                          </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                            {{ render_field(form.industry, class="form-control") }}
-                                          </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-12 mb-5">
-                                            <div class="form-group">
-                                            {{ render_field(form.transport, class="form-check-input") }}
-                                          </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-12 mb-5">
-                                            <div class="form-group">
-                                              {{ render_field(form.transport, class="form-check-input") }}
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                              {{ render_field(roomType.room_type, class="form-control") }}
-                                            </div>
-                                          </div>
-                                          <div class="col">
-                                            <div class="form-group">
-                                              {{ render_field(roomType.room_number, class="form-control") }}
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-12 col-sm-6 mb-3">
-                                            <div class="form-group">
-                                              <label>Grade</label>
-                                              <input class="form-control" type="text" value="{{guest.get_grade()}}"  readonly>
-                                            </div>
-                                          </div>
-                                          <div class="col-12 col-sm-6 mb-3">
-                                            <div class="form-group">
-                                              <label>Priority</label>
-                                              <input class="form-control" type="text" value="{{guest.get_priority()}}"  readonly>
-                                            </div>
-                                          </div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="form-group">
+                                          {{ form.bookoutdate.label }} {{form.bookoutdate(class='datepicker form-control')}} {{form.hidden_tag()}}
                                         </div>
                                       </div>
                                     </div>
+
                                     <div class="row">
                                       <div class="col d-flex justify-content-end">
                                         <button class="btn btn-primary" type="submit">Save Changes</button>
@@ -191,7 +111,7 @@
                         <div class="card mb-3">
                           <div class="card-body">
                             <div class="px-xl-3">
-                              <a class="btn btn-block btn-secondary" href="/edit-checkInOut/{{guest.get_guest_id()}}">
+                              <a class="btn btn-block btn-secondary" href="{{ url_for('server_guests') }}">
                                 <i class="fa fa-sign-out"></i>
                                 <span>Switch Guest</span>
                               </a>
