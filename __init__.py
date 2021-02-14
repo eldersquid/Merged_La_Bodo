@@ -12,13 +12,14 @@ from Inventory import *
 from Industry import *
 from Partnerships import *
 from Order import *
+#from ProductItem import *
 from Request import *
 import shelve ,Reservation, Review,smtplib,ssl
 import json
 import random
 import PackageDeal
 import requests
-import shelve, User, Staff
+#import shelve, User, Staff
 from ProductCat import *
 
 
@@ -38,7 +39,30 @@ def nat_geo():
 
 @app.route('/Demo')
 def Demo():
+
     return render_template('TestuserHome.html')
+
+# @app.route('/Example')
+# def index():
+#     products = ProductItem.query.all()
+#     return render_template('Example.html',ProductItem=ProductItem)
+# def getproductitem():
+#     itemid = ProductItem.id
+#     productname = ProductItem.name
+#     productname = CartItem(product_id=itemid)
+#     db.session.add(ProductItem)
+#     db.session.commit()
+
+# @app.route('/cart/<int:product_id>', methods=['POST'])
+# def add_to_cart(product_id):
+#
+#     product = ProductItem.query.filter(ProductItem.id == product_id)
+#     cart_item = CartItem(product=product)
+#     db.session.add(cart_item)
+#     db.session.commit()
+#
+#     return render_tempate('Example.html', ProductItem=ProductItem)
+
 
 @app.route('/')
 def user_home():
@@ -70,7 +94,7 @@ def createReservation():
     if request.method == 'POST' and createReservationForm.validate():
         reservations_dict = {}
         reservation_count_id = 0
-        db = shelve.open('Reservation.db', 'c')
+        db = shelve.open('Reservation', 'c')
         try:
             reservations_dict = db['Reservations']
             reservation_count_id = int(db['reservation_count_id'])
@@ -127,7 +151,7 @@ def createReview():
 def adm_retrieveReservation():
     reservations_dict = {}
     try:
-        db = shelve.open('storage.db', 'r')
+        db = shelve.open('Reservation', 'r')
         reservations_dict = db['Reservations']
         db.close()
     except:
@@ -160,7 +184,7 @@ def update_Reservation(id):
     update_reservation_form = CreateReservationForm(request.form)
     if request.method == 'POST' and update_reservation_form.validate():
         reservations_dict = {}
-        db = shelve.open('storage.db', 'w')
+        db = shelve.open('Reservation', 'w')
         reservations_dict = db['Reservations']
 
         reservation = reservations_dict.get(id)
@@ -177,7 +201,7 @@ def update_Reservation(id):
         return redirect(url_for('adm_retrieveReservation'))
     else:
         reservations_dict = {}
-        db = shelve.open('storage.db', 'r')
+        db = shelve.open('Reservation', 'r')
         reservations_dict = db['Reservations']
         db.close()
 
@@ -204,7 +228,7 @@ def confirmationReservation():
 @app.route('/adm_deleteReservation/<int:id>', methods=['POST'])
 def adm_deleteReservation(id):
     reservations_dict = {}
-    db = shelve.open('storage.db', 'w')
+    db = shelve.open('Reservation', 'w')
     reservations_dict = db['Reservations']
     reservations_dict.pop(id)
 
@@ -232,7 +256,7 @@ def cart():
         name = item[0]
         cost = float(item[1])
 
-        if session['cart'].get(name):
+        if  session['cart'].get(name):
             session['cart'][name][1] += 1
             session['cart'][name][2] = round(session['cart'][name][1] * session['cart'][name][0], 2)
         else:
@@ -252,7 +276,112 @@ def create_menu():
     return render_template('adm_createMenu.html')
 
 
+@app.route('/vehicle-edit/<int:id>', methods = ["GET", "POST"])
+def vehicle_edit(id):
+    createVehicle = VehicleForm(request.form)
+    if request.method== "POST" and createVehicle.validate():
+        vehicleDict={}
+        vehicle_list=[]
+        try:
+            vehicledb=shelve.open("Vehicles")
+            vehicleDict = vehicledb["Vehicles"]
+            vehicle_list = vehicledb["Vehicle_choices"]
+            print(vehicle_list)
+        except:
+            print("Error opening Vehicle database.")
 
+        vehicle=vehicleDict.get(id)
+        test=vehicle.get_vehicle()
+        vehicle.set_vehicle(createVehicle.vehicle_name.data)
+        vehicle_list.remove(test)
+        vehicle_list.append(createVehicle.vehicle_name.data)
+        print(vehicle_list)
+        vehicledb["Vehicle"]= vehicleDict
+        vehicledb["Vehicle_choices"] = vehicle_list
+        vehicledb.close()
+        return redirect(url_for('vehicle_list'))
+    else:
+        print("2nd option desu")
+        vehicleDict = {}
+        try:
+            vehicledb = shelve.open("Vehicles")
+            vehicleDict = vehicledb["Vehicles"]
+        except:
+            print("Error opening vehicle database.")
+
+        vehicle=vehicleDict.get(id)
+        createVehicle.vehicle_name.data=vehicle.get_name()
+        createVehicle.vehicle_model.data=vehicle.get_model()
+        createVehicle.vehicle_car_plate.data = vehicle.get_car_plate()
+        createVehicle.vehicle_contact.data = vehicle.get_contact()
+        createVehicle.vehicle_location.data = vehicle.get_location()
+
+        return render_template('vehicle_edit.html',vehicle=vehicle,form=createVehicle)
+
+@app.route('/delete-vehicle/<int:id>', methods=['POST'])
+def delete_vehicle(id):
+    vehicle_dict = {}
+
+    vehicledb = shelve.open("Vehicles")
+    vehicle_dict = vehicledb["Vehicles"]
+
+    print(vehicle_dict)
+
+    vehicle_dict.pop(id)
+
+
+    vehicledb["Vehicles"] = vehicle_dict
+
+    vehicledb.close()
+    return redirect(url_for('vehicle_list'))
+
+@app.route('/vehicle-list')
+def vehicle_list():
+    vehicleDict = {}
+    db = shelve.open("Vehicles")
+    try:
+        vehicleDict = db["Vehicles"]
+    except:
+        print("No vehicles found.")
+        vehicleDict = {}
+
+    vehicle_list = []
+    print(vehicleDict)
+    for key in vehicleDict:
+        vehicle = vehicleDict.get(key)
+        vehicle_list.append(vehicle)
+
+    hospital_list = []
+    for key in vehicleDict:
+        guest = vehicleDict.get(key)
+        hospital = guest.get_location()
+        hospital_list.append(hospital)
+    hosp = dict(Counter(hospital_list))
+
+    db.close()
+
+    return render_template("vehicle_list.html",vehicle_list=vehicle_list, hosp=hosp)
+
+@app.route("/vehicle-create", methods = ["GET", "POST"])
+def vehicle_create():
+    createVehicle = VehicleForm(request.form)
+    hospitaldb = shelve.open("hospital.db")
+    hospital_list = hospitaldb["Hospital_choices"]
+    hospitalChoices = list(zip(hospital_list, hospital_list))
+    createVehicle.vehicle_location.choices = hospitalChoices
+
+    if request.method == "POST" and createVehicle.validate():
+        vehicle_list = []
+        vehicledb = shelve.open("Vehicles")
+        vehicle_dict = {}
+        try:
+            vehicle_list = vehicledb["vehicle_choices"]
+            vehicle_dict = vehicledb["Vehicles"]
+            vehicle_id = int(vehicledb["vehicle_id"])
+        except:
+            vehicle_list = []
+            vehicle_dict = {}
+            vehicle_id = 0
 
 
 
@@ -1121,125 +1250,7 @@ def rooms_list():
     roomsdb.close()
     return render_template("rooms_list.html",rooms_list=rooms_list,count=len(rooms_list))
 
-@app.route("/vehicle-create", methods = ["GET", "POST"])
-def vehicle_create():
-    createVehicle = VehicleForm(request.form)
-    hospitaldb = shelve.open("hospital.db")
-    hospital_list = hospitaldb["Hospital_choices"]
-    hospitalChoices = list(zip(hospital_list, hospital_list))
-    createVehicle.vehicle_location.choices = hospitalChoices
 
-    if request.method == "POST" and createVehicle.validate():
-        vehicle_list = []
-        vehicledb = shelve.open("Vehicles")
-        vehicle_dict = {}
-        try:
-            vehicle_list = vehicledb["vehicle_choices"]
-            vehicle_dict = vehicledb["Vehicles"]
-            vehicle_id = int(vehicledb["vehicle_id"])
-        except:
-            vehicle_list = []
-            vehicle_dict = {}
-            vehicle_id = 0
-
-        vehicle = Vehicle(createVehicle.vehicle_name.data, createVehicle.vehicle_model.data, createVehicle.vehicle_car_plate.data, createVehicle.vehicle_contact.data, createVehicle.vehicle_location.data)
-        vehicle_id += 1
-        vehicle.set_vehicle_id(vehicle_id)
-        vehicle_list.append(vehicle.get_vehicle_id())
-        print(vehicle_list)
-        vehicle_dict[vehicle.get_vehicle_id()] = vehicle
-        vehicledb["vehicle_id"] = vehicle_id
-        vehicledb["Vehicles"] = vehicle_dict
-        vehicledb["vehicle_choices"] = vehicle_list
-        vehicledb.close()
-        return redirect(url_for('vehicle_list'))
-    return render_template("vehicle_create.html", form=createVehicle)
-
-@app.route('/vehicle-edit/<int:id>', methods = ["GET", "POST"])
-def vehicle_edit(id):
-    createVehicle = VehicleForm(request.form)
-    if request.method== "POST" and createVehicle.validate():
-        vehicleDict={}
-        vehicle_list=[]
-        try:
-            vehicledb=shelve.open("Vehicles")
-            vehicleDict = vehicledb["Vehicles"]
-            vehicle_list = vehicledb["Vehicle_choices"]
-            print(vehicle_list)
-        except:
-            print("Error opening Vehicle database.")
-
-        vehicle=vehicleDict.get(id)
-        test=vehicle.get_vehicle()
-        vehicle.set_vehicle(createVehicle.vehicle_name.data)
-        vehicle_list.remove(test)
-        vehicle_list.append(createVehicle.vehicle_name.data)
-        print(vehicle_list)
-        vehicledb["Vehicle"]= vehicleDict
-        vehicledb["Vehicle_choices"] = vehicle_list
-        vehicledb.close()
-        return redirect(url_for('vehicle_list'))
-    else:
-        print("2nd option desu")
-        vehicleDict = {}
-        try:
-            vehicledb = shelve.open("Vehicles")
-            vehicleDict = vehicledb["Vehicles"]
-        except:
-            print("Error opening vehicle database.")
-
-        vehicle=vehicleDict.get(id)
-        createVehicle.vehicle_name.data=vehicle.get_name()
-        createVehicle.vehicle_model.data=vehicle.get_model()
-        createVehicle.vehicle_car_plate.data = vehicle.get_car_plate()
-        createVehicle.vehicle_contact.data = vehicle.get_contact()
-        createVehicle.vehicle_location.data = vehicle.get_location()
-
-        return render_template('vehicle_edit.html',vehicle=vehicle,form=createVehicle)
-
-@app.route('/delete-vehicle/<int:id>', methods=['POST'])
-def delete_vehicle(id):
-    vehicle_dict = {}
-
-    vehicledb = shelve.open("Vehicles")
-    vehicle_dict = vehicledb["Vehicles"]
-
-    print(vehicle_dict)
-
-    vehicle_dict.pop(id)
-
-
-    vehicledb["Vehicles"] = vehicle_dict
-
-    vehicledb.close()
-    return redirect(url_for('vehicle_list'))
-
-@app.route('/vehicle-list')
-def vehicle_list():
-    vehicleDict = {}
-    db = shelve.open("Vehicles")
-    try:
-        vehicleDict = db["Vehicles"]
-    except:
-        print("No vehicles found.")
-        vehicleDict = {}
-
-    vehicle_list = []
-    print(vehicleDict)
-    for key in vehicleDict:
-        vehicle = vehicleDict.get(key)
-        vehicle_list.append(vehicle)
-
-    hospital_list = []
-    for key in vehicleDict:
-        guest = vehicleDict.get(key)
-        hospital = guest.get_location()
-        hospital_list.append(hospital)
-    hosp = dict(Counter(hospital_list))
-
-    db.close()
-
-    return render_template("vehicle_list.html",vehicle_list=vehicle_list, hosp=hosp)
 
 
 @app.route('/request-list')

@@ -7,11 +7,13 @@
   {{ super() }}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/royal_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/book.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/booking_colors.css') }}"/>
 {% endblock %}
-<br>
-<br>
-<div>
-    <center><h1>HOTEL LA BODO RESTAURANT</h1></center>
+<div class="Container" style="min-height:400px; background-image: url('../static/image/NovotelStevens-FoodExchange5-1500x400.jpg');">
+<div style="padding-top: 150px; font-colour:white;">
+    <strong><center><h1>HOTEL LA BODO RESTAURANT</h1></center></strong>
+</div>
 </div>
 
 <section class="about_history_area section_gap">
@@ -40,6 +42,106 @@
         <br>
         <br>
         <h3 class="card-title mb-4" style="width: 100%; text-align: center; border-bottom: 1px solid #000; line-height: 0.1em; margin: 10px 0 20px;"><span style="background:#fff; padding: 0 50px;">~ Pre-orders ~</span></h3>
+        <div class="container">
+            <div class="row" style="padding-left: 50px;">
+                <div class="item" style="padding-left: 80px;">
+                    <div class="card" style="width: 15rem;" >
+                        <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                        <div class="card-block">
+                            <h4 class="card-title">Orange</h4>
+                            <p class="card-text">Price: $0.5</p>
+                            <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" style="padding-left: 80px;">
+                <div class="card" style="width: 15rem;" >
+                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                    <div class="card-block" >
+                        <h4 class="card-title">Orange</h4>
+                        <p class="card-text">Price: $0.5</p>
+                        <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                    </div>
+                </div>
+                </div>
+                <div class="item" style="padding-left: 80px;">
+                    <div class="card" style="width: 15rem;" >
+                        <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                        <div class="card-block">
+                            <h4 class="card-title">Orange</h4>
+                            <p class="card-text">Price: $0.5</p>
+                            <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-left: 50px;">
+                <div class="item" style="padding-left: 80px;">
+                    <div class="card" style="width: 15rem;" >
+                        <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                        <div class="card-block">
+                            <h4 class="card-title">Orange</h4>
+                            <p class="card-text">Price: $0.5</p>
+                            <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" style="padding-left: 80px;">
+                <div class="card" style="width: 15rem;">
+                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                    <div class="card-block" >
+                        <h4 class="card-title">Orange</h4>
+                        <p class="card-text">Price: $0.5</p>
+                        <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                    </div>
+                </div>
+                </div>
+                <div class="item" style="padding-left: 80px;">
+                    <div class="card" style="width: 15rem;" >
+                        <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                        <div class="card-block">
+                            <h4 class="card-title">Orange</h4>
+                            <p class="card-text">Price: $0.5</p>
+                            <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-left: 50px;">
+                <div class="item" style="padding-left: 80px;">
+                    <div class="card" style="width: 15rem;" >
+                        <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                        <div class="card-block">
+                            <h4 class="card-title">Orange</h4>
+                            <p class="card-text">Price: $0.5</p>
+                            <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" style="padding-left: 80px;">
+                <div class="card" style="width: 15rem;" >
+                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                    <div class="card-block" >
+                        <h4 class="card-title">Orange</h4>
+                        <p class="card-text">Price: $0.5</p>
+                        <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                    </div>
+                </div>
+                </div>
+                <div class="item" style="padding-left: 80px;">
+                    <div class="card" style="width: 15rem;" >
+                        <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
+                        <div class="card-block">
+                            <h4 class="card-title">Orange</h4>
+                            <p class="card-text">Price: $0.5</p>
+                            <button name="add_cart" value="Pizza,5.00" type="submit" class="add-to-cart btn btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <br>
         <br>
         <br>
@@ -70,6 +172,38 @@
         </div>
     </div>
 </section>
+<section>
+<div class="section padding-top-bottom-small background-black over-hide footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 text-center text-md-left">
+                <img src="img/logo.png" alt="">
+                <p class="color-grey mt-4">180 Ang Mo Kio Ave 8,<br>Singapore 569830</p>
+            </div>
+            <div class="col-md-4 text-center text-md-left">
+                <h6 class="color-white mb-3">information</h6>
+                <a href="tandc.html">terms &amp; conditions</a>
+                <a href="services.html">services</a>
+                <a href="restaurant.html">restaurant</a>
+                <a href="testimonials.html">testimonials</a>
+                <a href="gallery.html">gallery &amp; images</a>
+            </div>
+            <div class="col-md-5 mt-4 mt-md-0 text-center text-md-left logos-footer">
+                <h6 class="color-white mb-3">about us</h6>
+                <p class="color-grey mb-4">You're not supposed to read this. Go away!</p>
+                <img src="img/logos/1.png" alt="">
+                <img src="img/logos/2.png" alt="">
+                <img src="img/logos/3.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+<div class="scroll-to-top"></div>
+
         <!--================ Testimonial Area  =================-->
 
 {% endblock %}
