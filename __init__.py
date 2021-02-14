@@ -28,16 +28,20 @@ app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
 
 
-@app.route('/geo')
-def nat_geo():
-    return render_template('geolocation_test.html')
+# Data from cart, do whatever you want with it
+@app.route('/payNowPls',methods=["GET","POST"])
+def payNowPls():
+    if request.method == 'POST':
+        data = request.json
+        testdb= shelve.open("temporary_session.db")
+
+        print(data)
+        return jsonify(data)
 
 
 #Gerald's part
 
-@app.route('/Demo')
-def Demo():
-    return render_template('TestuserHome.html')
+
 
 @app.route('/')
 def user_home():
@@ -226,16 +230,6 @@ def adm_deleteReview(id):
 
 @app.route('/cart', methods = ["GET","POST"])
 def cart():
-    if request.method == "POST":
-        item = request.form["add_cart"].split(',')
-        name = item[0]
-        cost = float(item[1])
-
-        if session['cart'].get(name):
-            session['cart'][name][1] += 1
-            session['cart'][name][2] = round(session['cart'][name][1] * session['cart'][name][0], 2)
-        else:
-            session['cart'][name] = [cost, 1, cost]
     return render_template('TestuserHome.html')
 
 
@@ -527,13 +521,17 @@ def edit_guest(id):
     hospital_list=[]
     hospitaldb = shelve.open("hospital.db")
     occupation_list = []
+    industry_list=[]
     occupationdb=shelve.open("occupation.db")
     hospital_list = hospitaldb["Hospital_choices"]
     occupation_list = occupationdb["Occupation_choices"]
+    industry_list= occupationdb["Industry_choices"]
+    industryChoices = list(zip(industry_list, industry_list))
     hospitalChoices=list(zip(hospital_list,hospital_list))
     occupationChoices=list(zip(occupation_list,occupation_list))
     createBooking.location.choices = hospitalChoices
     createBooking.occupation.choices = occupationChoices
+    createBooking.industry.choices = industryChoices
 
     if request.method== "POST" and createBooking.validate():
         guestDict={}
@@ -648,7 +646,7 @@ def hospital_create():
     hospitaldb = shelve.open("hospital.db")
     hospital_dict = {}
     data = hospitaldb["hospital_search"]
-    split_name=data.split(",")
+    split_name=data.split(", ")
     hospital_name=""
     for i in split_name:
         if "Hospital" in i:
@@ -670,7 +668,6 @@ def hospital_create():
         hospital_address=data
     if request.method== "POST" and createHospital.validate():
         try:
-            print("YESSS")
             hospital_list = hospitaldb["Hospital_choices"]
             hospital_dict=hospitaldb["Hospitals"]
             hospital_id= int(hospitaldb["hospital_id"])
@@ -688,7 +685,9 @@ def hospital_create():
             hospital_list = hospitaldb["Hospital_choices"]
 
         hospital_id += 1
-        hospital = Hospital(hospital_name,hospital_address,createHospital.hospital_contact.data,createHospital.hospital_beds.data)
+        hospital_name=createHospital.hospital_name.data
+        hospital_address = createHospital.hospital_address.data
+        hospital = Hospital(createHospital.hospital_name.data, createHospital.hospital_address.data,createHospital.hospital_contact.data,createHospital.hospital_beds.data)
         hospital.set_hospital_id(hospital_id)
         hospital_list.append(hospital.get_name())
         print(hospital_list)
@@ -808,6 +807,19 @@ def hospital_list():
         amount_list.append(amount)
     hosp = dict(Counter(amount_list))
 
+    # Count number of vehicles assigned in hospitals
+    try:
+        vehicle_list=[]
+        vehicledb = shelve.open("Vehicles")
+        vehicle_dict = vehicledb["Vehicles"]
+    except:
+        vehicle_dict = {}
+    for key in vehicle_dict:
+        vehicle = vehicle_dict.get(key)
+        hospital_assignment = vehicle.get_location()
+        vehicle_list.append(hospital_assignment)
+    hospital_assigned = dict(Counter(vehicle_list))
+
     for key in hospital_Dict:
         hospital = hospital_Dict.get(key)
         hospital_list.append(hospital)
@@ -815,7 +827,7 @@ def hospital_list():
     # hosp = dict(Counter(hospital_list))
     hospitaldb.close()
     db.close()
-    return render_template("hospital_list.html", hospital_list=hospital_list, hosp=hosp)
+    return render_template("hospital_list.html", hospital_list=hospital_list, hosp=hosp, hospital_assigned=hospital_assigned)
 
 @app.route('/hospital-edit/<int:id>',methods=["GET","POST"])
 def hospital_edit(id):
