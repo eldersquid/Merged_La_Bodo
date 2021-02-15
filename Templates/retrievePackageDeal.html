@@ -2,7 +2,8 @@
 {% block title %}HOTEL LÃ BODO - Retrieve PackageDeal{% endblock %}
 
 {% block content %}
-<h1 class="display-5">PackageDeal</h1>
+<div class="container-fluid">
+<h1 class="display-5">Package Deal</h1>
 <div>
   {% if count == 0 %}
   <p>There are no Package Deals.</p>
@@ -70,5 +71,6 @@
     {% endfor %}
     </tbody>
   </table>
+</div>
 </div>
 {% endblock %}
