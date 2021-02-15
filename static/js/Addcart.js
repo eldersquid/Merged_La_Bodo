@@ -170,7 +170,7 @@ $(document).ready(function () {
                            data : js_data
                        }).done(function(result) {
                            console.log(result);
-                           window.location.href = "/hospital-list";
+                           window.location.href = "/guest-list";
                            $("#data").html(result);
                        }).fail(function(jqXHR, textStatus, errorThrown) {
                            console.log("fail: ",textStatus, errorThrown);

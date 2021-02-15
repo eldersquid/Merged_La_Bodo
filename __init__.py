@@ -34,11 +34,9 @@ app.config["SECRET_KEY"]= "@ajhdfbajshd"
 def payNowPls():
     if request.method == 'POST':
         data = request.json
-        testdb= shelve.open("temporary_session.db")
-
         print(data)
         return jsonify(data)
-    return render_template("hospital_list.html")
+    return render_template("guest_list.html")
 
 
 #Gerald's part
@@ -324,6 +322,107 @@ def small_room():
         session['room_number'] = room_number
         return redirect(url_for('test_guest'))
     return render_template("small_room.html",form=form)
+
+
+@app.route("/apartment", methods=['GET', 'POST'])
+def apartment():
+    form = BookingForm()
+    roomList = []
+    guestDict = {}
+    if request.method == "POST" and form.validate():
+        try:
+            roomdb = shelve.open("room.db")
+            roomList = roomdb["apartment"]
+        except:
+            print("No apartments occupied.")
+            roomList = []
+            apartments = 200
+            for i in range(apartments):
+                roomList.append(i)
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("No guests found.")
+            guestDict = {}
+
+        roomsLeft = len(roomList)
+        room_number = random.randint(roomList[0], roomList[-1])
+        print(room_number)
+        session['bookindate'] = form.bookindate.data
+        session['bookoutdate'] = form.bookoutdate.data
+        session['room_choice'] = "Apartment"
+        session['room_number'] = room_number
+        return redirect(url_for('test_guest'))
+    return render_template("small_room.html", form=form)
+
+
+@app.route("/bigApartment", methods=['GET', 'POST'])
+def big_apartment():
+    form = BookingForm()
+    roomList = []
+    guestDict = {}
+    if request.method == "POST" and form.validate():
+        try:
+            roomdb = shelve.open("room.db")
+            roomList = roomdb["BigApartment"]
+        except:
+            print("No big apartments occupied.")
+            roomList = []
+            big_apartments = 200
+            for i in range(big_apartments):
+                roomList.append(i)
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("No guests found.")
+            guestDict = {}
+
+        roomsLeft = len(roomList)
+        room_number = random.randint(roomList[0], roomList[-1])
+        print(room_number)
+        session['bookindate'] = form.bookindate.data
+        session['bookoutdate'] = form.bookoutdate.data
+        session['room_choice'] = "Big Apartment"
+        session['room_number'] = room_number
+        return redirect(url_for('test_guest'))
+    return render_template("big_apartment.html", form=form)
+
+
+@app.route("/villa", methods=['GET', 'POST'])
+def villa():
+    form = BookingForm()
+    roomList = []
+    guestDict = {}
+    if request.method == "POST" and form.validate():
+        try:
+            roomdb = shelve.open("room.db")
+            roomList = roomdb["SmallRoom"]
+        except:
+            print("No Small Rooms occupied.")
+            roomList = []
+            small_rooms = 200
+            for i in range(small_rooms):
+                roomList.append(i)
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("No guests found.")
+            guestDict = {}
+
+        roomsLeft = len(roomList)
+        room_number = random.randint(roomList[0], roomList[-1])
+        print(room_number)
+        session['bookindate'] = form.bookindate.data
+        session['bookoutdate'] = form.bookoutdate.data
+        session['room_choice'] = "Small Room"
+        session['room_number'] = room_number
+        return redirect(url_for('test_guest'))
+    return render_template("small_room.html", form=form)
+
+
 
 
 @app.route("/server-dash")
@@ -657,10 +756,14 @@ def hospital_select():
     if request.method == 'POST':
         hospitaldb=shelve.open("hospital.db")
         data = request.json
-        hospitaldb["hospital_search"]=data
+        hospitaldb["hospital_search"] = data
         print(data)
         return jsonify(data)
-    return redirect(url_for('hospital_list'))
+    return redirect(url_for('cart_confirm'))
+
+@app.route('/cart-confirm',methods = ["GET","POST"])
+def cart_confirm():
+    return render_template("cart_confirm.html")
 
 
 
