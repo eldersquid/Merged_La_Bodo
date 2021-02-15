@@ -195,39 +195,29 @@ Rooms
 							<div class="row">
 								<div class="col-12 col-md-6 col-lg-12 pt-5">
 								  <h6 class="color-white mb-3">Guests exposed to COVID-19 will be graded from C to S and will be assigned to the upper floors of Hotel Lã Bodo. A separate exit and entrance will be assigned to you.</h6>
-								  <h6 class="color-white mb-3">You are entitled to a FREE :</h6>
-								  <h6 class="color-white">Infrared Thermometer, Pulse Oximeter, N95 Respirator </h6>
 								</div>
 								<div class="col-12 col-md-6 col-lg-12 pt-5">
 								  <h6 class="color-white mb-3">Additional Items:</h6>
+									{% if inventories_list %}
 								  <ul class="list">
+											{% for inventory in inventories_list %}
 								    <li class="list__item">
-								      <input type="checkbox" class="checkbox">
 								      <label>
-								        Face Shield
-								      </label>
-								    </li>
-								    <li class="list__item">
-								      <input type="checkbox" class="checkbox">
-								      <label>
-								        Surgical Gloves
-								      </label>
-								    </li>
-								    <li class="list__item">
-								      <input type="checkbox" class="checkbox">
-								      <label>
+												{{ form.hidden_tag() }}
+												{{ itemform.add_item() }}
+												
+								        {{inventory.get_item_name()}}
 
-								        HEPA Air Filter
-								      </label>
-								    </li>
-								    <li class="list__item">
-								      <input type="checkbox" class="checkbox">
-								      <label>
-								        Bedpan Washer Disinfector
+
 								      </label>
 
 								    </li>
+
+
 								  </ul>
+										{% endfor %}
+									{% else %}
+								{% endif %}
 								</div>
 								<div class="col-12 col-md-6 col-lg-12 pt-5">
 								  <h6 class="color-white mb-3">Miscellaneous Services:</h6>

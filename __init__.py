@@ -287,6 +287,17 @@ def small_room():
     form = BookingForm()
     roomList=[]
     guestDict={}
+    inventories_dict = {}
+    itemform=ItemForm()
+    inventorydb = shelve.open('inventory.db', 'c')
+    inventories_dict = inventorydb['Inventories']
+    inventories_list = []
+    for key in inventories_dict:
+        inventory = inventories_dict.get(key)
+        inventories_list.append(inventory)
+        print(inventory.get_item_name())
+    print(inventories_list)
+
     if request.method== "POST" and form.validate():
         try:
             roomdb = shelve.open("room.db")
@@ -312,7 +323,7 @@ def small_room():
         session['room_choice'] = "Small Room"
         session['room_number'] = room_number
         return redirect(url_for('test_guest'))
-    return render_template("small_room.html",form=form)
+    return render_template("small_room.html",form=form, inventories_list=inventories_list,itemform=itemform)
 
 
 @app.route("/apartment", methods=['GET', 'POST'])

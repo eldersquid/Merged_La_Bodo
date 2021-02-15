@@ -38,6 +38,10 @@ class BookingForm(FlaskForm):
     bookoutdate = DateField('Check-Out Date', format='%Y-%m-%d')
     submit = SubmitField('Submit')
 
+class ItemForm(Form):
+    add_item = BooleanField('')
+
+
 class BookRoomType(Form):
     room_type = SelectField('Room Type',
                         choices=[("", ""), ("Small Room", "Small Room"), ("Apartment", "Apartment"), ("Big Apartment", "Big Apartment"), ("Villa", "Villa")], default="")
