@@ -1694,7 +1694,7 @@ def update_supplier(company_name):
     except:
         print("Error in retrieving Product Category from productname.db.")
 
-    productname_list = [('', 'Select')]
+    productname_list = []
     for key in productname_dict:
         productname_list.append((key, key))
     createSupplierForm.product_name.choices = productname_list
