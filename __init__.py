@@ -2380,7 +2380,7 @@ def login_user():
             if password == real_password:
               session['CurrentUsername'] = username
               print('3')
-              return redirect(url_for('profile'))
+              return redirect(url_for('home_page'))
     return render_template('GuestL.html', form = log_in_user_form)
 
 @app.route('/GuestL')
@@ -2494,6 +2494,11 @@ def updateProfile(id):
         db.close()
 
         return render_template('updateProfile.html', form=update_profile,user=profile)
+
+
+@app.route('/price_deal')
+def price_deal():
+    return render_template("price_deal.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
