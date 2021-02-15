@@ -1,7 +1,6 @@
 from wtforms import *
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import *
-from wtforms.fields.html5 import *
 from wtforms.validators import DataRequired
 import phonenumbers
 import shelve
@@ -38,8 +37,6 @@ class BookingForm(FlaskForm):
     bookoutdate = DateField('Check-Out Date', format='%Y-%m-%d')
     submit = SubmitField('Submit')
 
-class ItemForm(Form):
-    add_item = BooleanField('')
 
 
 class BookRoomType(Form):
