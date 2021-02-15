@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "server_base.html" %}
 {% block title %}HOTEL LÃ BODO - Create PackageDeal{% endblock %}
 
 {% block content %}
 {% from "includes/_formHelper.html" import render_field %}
-
+<div class="container-fluid">
 <h1 class="display-5">Create New Package Deal</h1>
 
 <form method="POST" action="" enctype="multipart/form-data">
@@ -21,4 +21,5 @@
   </div>
   <input type="submit" value="Submit" class="btn btn-primary"/>
 </form>
+</div>
 {% endblock %}

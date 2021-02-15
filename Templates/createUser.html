@@ -222,10 +222,6 @@ img {
 body {
   background: #76b852;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #76b852, #8dc26f);
-  background: -moz-linear-gradient(to top, #76b852, #8dc26f);
-  background: -o-linear-gradient(to top, #76b852, #8dc26f);
-  background: linear-gradient(to top, #76b852, #8dc26f);
   background-size: cover;
   background-attachment: fixed;
   font-family: "Roboto", sans-serif;
@@ -249,7 +245,7 @@ h1 {
 .main-agileinfo {
   width: 35%;
   margin: 3em auto;
-  background: rgba(0, 0, 0, 0.18);
+  background: #D2B48C;
   background-size: cover;
 }
 
@@ -905,28 +901,28 @@ input.checkbox:checked:after {
 			<div class="agileits-top">
 				<form action="" method="POST">
 					<div class="form-group">
-    {{ render_field(form.name, class="form-control") }}
+                        <span style="color: #C71585;">{{ render_field(form.name, class="form-control") }}</span>
   </div>
     <div class="form-group">
-  {{ render_field(form.username, class="form-control") }}
+        <span style="color: #C71585;">{{ render_field(form.username, class="form-control") }}</span>
   </div>
  <div class="form-group">
-   {{ render_field(form.email, class="form-control") }}
+     <span style="color: #C71585;">{{ render_field(form.email, class="form-control") }}</span>
   </div>
  <div class="form-group">
-   {{ render_field(form.gender, class="form-control") }}
+     <span style="color: #C71585;">{{ render_field(form.gender, class="form-control") }}</span>
  </div>
  <div class="form-group">
-   {{ render_field(form.phone_num, class="form-check", style="list-style-type:none") }}
+     <span style="color: #C71585;"> {{ render_field(form.phone_num, class="form-check", style="list-style-type:none") }}</span>
  </div>
  <div class="form-group">
-   {{ render_field(form.password, class="form-check", style="list-style-type:none") }}
+     <span style="color: #C71585;"> {{ render_field(form.password, class="form-check", style="list-style-type:none") }}</span>
 </div>
    <div class="form-group">
-   {{ render_field(form.repeat_password, class="form-control") }}
+       <span style="color: #C71585;"> {{ render_field(form.repeat_password, class="form-control") }} </span>
  </div>
- <div class="form-group">-->
-    {{ render_field(form.deals, class="form-control") }}
+ <div class="form-group">
+     <span style="color: #C71585;"> {{ render_field(form.deals, class="form-control") }} </span>
   </div>
                    <div class="wthree-text">
 						<label class="anim">

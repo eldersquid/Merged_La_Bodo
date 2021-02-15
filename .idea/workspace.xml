@@ -19,16 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="test">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2021_7_10_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2021_7_10_PM__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2021_7_10_PM__Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_2021_7_10_PM__Default_Changelist_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_2_2021_1_30_AM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_2_2021_1_30_AM__Default_Changelist_.xml" afterDir="false" />
+    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="login and profile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/hotel_rooms.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/hotel_rooms.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/room.db.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/room.db.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/room.db.dir" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/createStaff.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/createStaff.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/updateProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/updateProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/User.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +47,6 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Danish\PycharmProjects\Merged_La_Bodo\Templates" />
       <recent name="C:\Users\proge\PycharmProjects\Merged_La_Bodo\Templates" />
     </key>
   </component>
@@ -129,18 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1613289712242</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="login and profile">
+      <created>1613295091836</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1613295091836</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
-  </component>
-  <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ORDER">
-      <list>
-        <option value="0" />
-        <option value="2" />
-        <option value="3" />
-        <option value="1" />
-      </list>
-    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -158,55 +150,44 @@
     <MESSAGE value="gbriel hi world" />
     <MESSAGE value="login test" />
     <MESSAGE value="login and profile" />
-    <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="login and profile" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="753" height="213" key="GridCell.Tab.0.bottom" timestamp="1613375415191">
-      <screen x="0" y="0" width="1536" height="920" />
+    <state width="1168" height="176" key="GridCell.Tab.0.bottom" timestamp="1613313446134">
+      <screen x="0" y="0" width="1189" height="720" />
     </state>
-    <state width="1168" height="176" key="GridCell.Tab.0.bottom/0.0.1189.720@0.0.1189.720" timestamp="1613237789708" />
-    <state width="753" height="213" key="GridCell.Tab.0.bottom/0.0.1536.920@0.0.1536.920" timestamp="1613375415191" />
-    <state width="753" height="213" key="GridCell.Tab.0.center" timestamp="1613375415191">
-      <screen x="0" y="0" width="1536" height="920" />
+    <state width="1168" height="176" key="GridCell.Tab.0.bottom/0.0.1189.720@0.0.1189.720" timestamp="1613313446134" />
+    <state width="1168" height="176" key="GridCell.Tab.0.center" timestamp="1613313446134">
+      <screen x="0" y="0" width="1189" height="720" />
     </state>
-    <state width="1168" height="176" key="GridCell.Tab.0.center/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
-    <state width="753" height="213" key="GridCell.Tab.0.center/0.0.1536.920@0.0.1536.920" timestamp="1613375415191" />
-    <state width="753" height="213" key="GridCell.Tab.0.left" timestamp="1613375415191">
-      <screen x="0" y="0" width="1536" height="920" />
+    <state width="1168" height="176" key="GridCell.Tab.0.center/0.0.1189.720@0.0.1189.720" timestamp="1613313446134" />
+    <state width="1168" height="176" key="GridCell.Tab.0.left" timestamp="1613313446134">
+      <screen x="0" y="0" width="1189" height="720" />
     </state>
-    <state width="1168" height="176" key="GridCell.Tab.0.left/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
-    <state width="753" height="213" key="GridCell.Tab.0.left/0.0.1536.920@0.0.1536.920" timestamp="1613375415191" />
-    <state width="753" height="213" key="GridCell.Tab.0.right" timestamp="1613375415191">
-      <screen x="0" y="0" width="1536" height="920" />
+    <state width="1168" height="176" key="GridCell.Tab.0.left/0.0.1189.720@0.0.1189.720" timestamp="1613313446134" />
+    <state width="1168" height="176" key="GridCell.Tab.0.right" timestamp="1613313446134">
+      <screen x="0" y="0" width="1189" height="720" />
     </state>
-    <state width="1168" height="176" key="GridCell.Tab.0.right/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
-    <state width="753" height="213" key="GridCell.Tab.0.right/0.0.1536.920@0.0.1536.920" timestamp="1613375415191" />
+    <state width="1168" height="176" key="GridCell.Tab.0.right/0.0.1189.720@0.0.1189.720" timestamp="1613313446134" />
     <state x="113" y="55" key="MergeDialog" timestamp="1613237524154">
       <screen x="0" y="0" width="1189" height="720" />
     </state>
     <state x="113" y="55" key="MergeDialog/0.0.1189.720@0.0.1189.720" timestamp="1613237524154" />
-    <state x="387" y="17" key="RollbackChangesDialog" timestamp="1613374402329">
-      <screen x="0" y="0" width="1536" height="920" />
-    </state>
-    <state x="387" y="17" key="RollbackChangesDialog/0.0.1536.920@0.0.1536.920" timestamp="1613374402329" />
     <state x="105" y="6" key="SettingsEditor" timestamp="1613236724712">
       <screen x="0" y="0" width="1189" height="720" />
     </state>
     <state x="105" y="6" key="SettingsEditor/0.0.1188.720@0.0.1188.720" timestamp="1612151193099" />
     <state x="105" y="6" key="SettingsEditor/0.0.1189.720@0.0.1189.720" timestamp="1613236724712" />
-    <state x="243" y="120" key="Vcs.Push.Dialog.v2" timestamp="1613373613302">
-      <screen x="0" y="0" width="1536" height="920" />
+    <state x="188" y="94" key="Vcs.Push.Dialog.v2" timestamp="1613295100456">
+      <screen x="0" y="0" width="1189" height="720" />
     </state>
     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1188.720@0.0.1188.720" timestamp="1612153337359" />
-    <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720" timestamp="1613294314303" />
-    <state x="243" y="120" key="Vcs.Push.Dialog.v2/0.0.1536.920@0.0.1536.920" timestamp="1613373613302" />
-    <state x="523" y="351" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613375423148">
-      <screen x="0" y="0" width="1536" height="920" />
+    <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720" timestamp="1613295100456" />
+    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613314031250">
+      <screen x="0" y="0" width="1189" height="720" />
     </state>
     <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1188.720@0.0.1188.720" timestamp="1612153088124" />
-    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1189.720@0.0.1189.720" timestamp="1613292520894" />
-    <state x="523" y="351" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.920@0.0.1536.920" timestamp="1613375423148" />
+    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1189.720@0.0.1189.720" timestamp="1613314031250" />
     <state x="309" y="150" key="git4idea.merge.GitPullDialog" timestamp="1612153325389">
       <screen x="0" y="0" width="1188" height="720" />
     </state>

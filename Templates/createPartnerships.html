@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "server_base.html" %}
 {% block title %}HOTEL LÃ BODO - Create Partnerships{% endblock %}
 
 {% block content %}
 {% from "includes/_formHelper.html" import render_field %}
-
+<div class="container-fluid">
 <h1 class="display-5">Create New Partnerships</h1>
 
 <form method="POST" action="">
@@ -18,4 +18,5 @@
   </div>
   <input type="submit" value="Submit" class="btn btn-primary"/>
 </form>
+</div>
 {% endblock %}

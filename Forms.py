@@ -15,6 +15,9 @@ class CreateReservationForm(Form):
     time_slot = TimeField('Time')
     remarks = TextAreaField('Remarks', [validators.Optional()])
 
+class ReservationDate(FlaskForm):
+    date = DateField('DATE', format='%d-%m-%Y')
+
 class CreateReviewForm(Form):
     reviewfeedback = TextAreaField('Testimonals from customers', [validators.Optional()])
     reviewfirst_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -101,7 +104,7 @@ class VehicleForm(Form):
     vehicle_name = StringField("Driver's Name", [validators.Length(min=1, max=150), validators.DataRequired()])
     vehicle_model = StringField('Vehicle Model:', )
     vehicle_car_plate = StringField('License Plate no.', )
-    vehicle_contact = StringField('Contact Number', [validators.Length(9), validators.DataRequired()])
+    vehicle_contact = StringField('Contact Number', [validators.Length(8), validators.DataRequired()])
     vehicle_location = SelectField('Assign Hospital Location', [validators.DataRequired()],
                            choices=[], default="")
 
@@ -130,26 +133,26 @@ class ChooseGuest(Form):
 
 
 class CreateProductForm(Form):
-    product_name = StringField("New Product Category", [validators.Length(min=1, max=150), validators.DataRequired()])
+    product_name = StringField("New Product Brand", [validators.Length(min=1, max=150), validators.DataRequired()])
 
 
 class CreateSupplierForm(Form):
     company_name = StringField('Company Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     uen_number = IntegerField('UEN Number', [validators.DataRequired()])
     email = EmailField('Email', [validators.Email(), validators.DataRequired()])
-    product_name = SelectMultipleField('Product Name', [validators.DataRequired()])
+    product_name = SelectMultipleField('Product Brand', [validators.DataRequired()])
 
 
 class CreateInventoryForm(Form):
     item_name = StringField('Item Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     supplier = SelectField('Supplier', [validators.DataRequired()], choices=[], default='')
-    product_name = SelectField('Product Name', [validators.DataRequired()], choices=[], default='')
+    product_name = SelectField('Product Brand', [validators.DataRequired()], choices=[], default='')
     quantity = IntegerField('Quantity', [validators.NumberRange(min=1), validators.DataRequired()])
 
 
 class CreateOrderForm(Form):
     item_name = SelectField('Item Name', [validators.DataRequired()], choices=[], default='')
-    product_name = SelectField('Product Name', [validators.DataRequired()], choices=[], default='')
+    product_name = SelectField('Product Brand', [validators.DataRequired()], choices=[], default='')
     supplier = SelectField('Supplier', [validators.DataRequired()], choices=[], default='')
     quantity = IntegerField('Quantity', [validators.NumberRange(min=1), validators.DataRequired()])
     remarks = TextAreaField('Remarks', [validators.Optional()])
