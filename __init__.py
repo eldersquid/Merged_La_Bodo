@@ -62,17 +62,19 @@ def home():
 @app.route('/createReservation', methods=['GET', 'POST'])
 def createReservation():
     createReservationForm = CreateReservationForm(request.form)
-    if request.method == 'POST' and createReservationForm.validate():
+    reservationDateForm = ReservationDateForm()
+    if request.method == 'POST' and createReservationForm.validate() and reservationDateForm.validate():
         reservations_dict = {}
         reservation_count_id = 0
-        db = shelve.open('Reservation.db', 'c')
+        db = shelve.open('Reservation.db')
         try:
             reservations_dict = db['Reservations']
             reservation_count_id = int(db['reservation_count_id'])
         except:
             print("Error in retrieving Reservation from Reservation.db.")
 
-        reservation = Reservation.Reservation(createReservationForm.first_name.data, createReservationForm.last_name.data, createReservationForm.email.data, createReservationForm.contact.data, createReservationForm.date.data, createReservationForm.time_slot.data, createReservationForm.remarks.data)
+        reservation = Reservation.Reservation(createReservationForm.first_name.data, createReservationForm.last_name.data, createReservationForm.email.data, createReservationForm.contact.data, reservationDateForm.date.data, createReservationForm.time_slot.data, createReservationForm.remarks.data)
+        print(reservationDateForm.date.data)
         #auto increment user_id from shelve
         reservation_count_id = reservation_count_id + 1
         reservation.set_reservation_id(reservation_count_id)
@@ -83,7 +85,7 @@ def createReservation():
         db.close()
 
         return redirect(url_for('confirmationReservation'))
-    return render_template('createReservation.html', form=createReservationForm)
+    return render_template('createReservation.html', form=createReservationForm, dateform = reservationDateForm)
 
 @app.route('/review', methods=['GET', 'POST'])
 def createReview():
@@ -122,7 +124,7 @@ def createReview():
 def adm_retrieveReservation():
     reservations_dict = {}
     try:
-        db = shelve.open('storage.db', 'r')
+        db = shelve.open('Reservation.db')
         reservations_dict = db['Reservations']
         db.close()
     except:
@@ -153,9 +155,10 @@ def adm_retrieveReservation():
 @app.route('/adm_updateReservation/<int:id>/', methods=['GET', 'POST'])
 def update_Reservation(id):
     update_reservation_form = CreateReservationForm(request.form)
+    update_date_reservation = ReservationDateForm(request.form)
     if request.method == 'POST' and update_reservation_form.validate():
         reservations_dict = {}
-        db = shelve.open('storage.db', 'w')
+        db = shelve.open('Reservation.db')
         reservations_dict = db['Reservations']
 
         reservation = reservations_dict.get(id)
@@ -163,16 +166,17 @@ def update_Reservation(id):
         reservation.set_last_name(update_reservation_form.last_name.data)
         reservation.set_email(update_reservation_form.email.data)
         reservation.set_contact(update_reservation_form.contact.data)
-        reservation.set_date(update_reservation_form.date.data)
+        reservation.set_date(update_date_reservation.date.data)
         reservation.set_time_slot(update_reservation_form.time_slot.data)
         reservation.set_remarks(update_reservation_form.remarks.data)
         db['Reservations'] = reservations_dict
+        print(reservation.get_date())
         db.close()
 
         return redirect(url_for('adm_retrieveReservation'))
     else:
         reservations_dict = {}
-        db = shelve.open('storage.db', 'r')
+        db = shelve.open('Reservation.db')
         reservations_dict = db['Reservations']
         db.close()
 
@@ -181,15 +185,12 @@ def update_Reservation(id):
         update_reservation_form.last_name.data = reservation.get_last_name()
         update_reservation_form.email.data = reservation.get_email()
         update_reservation_form.contact.data = reservation.get_contact()
-        update_reservation_form.date.data = reservation.get_date()
+        update_date_reservation.date.data = reservation.get_date()
         update_reservation_form.time_slot.data = reservation.get_time_slot()
         update_reservation_form.remarks.data = reservation.get_remarks()
 
-        return render_template('adm_updateReservation.html', form=update_reservation_form)
+        return render_template('adm_updateReservation.html', form=update_reservation_form, dateform = update_date_reservation)
 
-    return render_template('adm_updateReservation.html', form=update_reservation_form)
-
-    return render_template('adm_updateReservation.html')
 
 @app.route('/confirmation')
 def confirmationReservation():
@@ -199,7 +200,7 @@ def confirmationReservation():
 @app.route('/adm_deleteReservation/<int:id>', methods=['POST'])
 def adm_deleteReservation(id):
     reservations_dict = {}
-    db = shelve.open('storage.db', 'w')
+    db = shelve.open('Reservation.db')
     reservations_dict = db['Reservations']
     reservations_dict.pop(id)
 
@@ -1441,11 +1442,15 @@ def vehicle_edit(id):
 
         vehicle=vehicleDict.get(id)
         test = vehicle.get_vehicle_id()
-        vehicle.set_vehicle_id(createVehicle.vehicle_name.data)
+        vehicle.set_name(createVehicle.vehicle_name.data)
+        vehicle.set_model(createVehicle.vehicle_model.data)
+        vehicle.set_car_plate(createVehicle.vehicle_car_plate.data)
+        vehicle.set_contact(createVehicle.vehicle_contact.data)
+        vehicle.set_location(createVehicle.vehicle_location.data)
         createVehicle.vehicle_location.choices = hospitalChoices
         vehicle_list.append(createVehicle.vehicle_name.data)
         print(vehicle_list)
-        vehicledb["Vehicle"]= vehicleDict
+        vehicledb["Vehicles"]= vehicleDict
         vehicledb["Vehicle_choices"] = vehicle_list
         vehicledb.close()
         return redirect(url_for('vehicle_list'))
@@ -2396,7 +2401,7 @@ def login_user():
             if password == real_password:
               session['CurrentUsername'] = username
               print('3')
-              return redirect(url_for('profile'))
+              return redirect(url_for('home_page'))
     return render_template('GuestL.html', form = log_in_user_form)
 
 @app.route('/GuestL')
@@ -2510,6 +2515,11 @@ def updateProfile(id):
         db.close()
 
         return render_template('updateProfile.html', form=update_profile,user=profile)
+
+
+@app.route('/price_deal')
+def price_deal():
+    return render_template("price_deal.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
