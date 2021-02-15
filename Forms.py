@@ -100,6 +100,14 @@ class OccupationForm(Form):
                 raise ValidationError("Existing occupation in database. Enter a different occupation.")
 
 
+class OccupationEditForm(Form):
+    occupation_name = StringField('Occupation', [validators.Length(min=1, max=30), validators.DataRequired()])
+    occupation_industry = SelectField('Industry', [validators.DataRequired()],
+                                      choices=[], default="")
+    description = TextAreaField('Description', [validators.Optional()])
+
+
+
 
 class VehicleForm(Form):
     vehicle_name = StringField("Driver's Name", [validators.Length(min=1, max=150), validators.DataRequired()])

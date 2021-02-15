@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, session, request, jsonify
 from Forms import *
-from Forms import CreateReservationForm, CreateReviewForm
+
 from datetime import datetime
 from Guest import *
 from collections import Counter
@@ -660,6 +660,7 @@ def test_guest():
 def assign_grade(id):
     gradeForm= GradeForm(request.form)
     createBooking = GuestBooking(request.form)
+    createRoomType = BookRoomType(request.form)
     hospital_list=[]
     hospitaldb = shelve.open("hospital.db")
     occupation_list = []
@@ -700,8 +701,9 @@ def assign_grade(id):
             print("Error opening guests database.")
 
         guest=guestDict.get(id)
-        createBooking.name.data=guest.get_name()
-        createBooking.occupation.data=guest.get_occupation()
+        createRoomType.room_number.data = guest.get_room_number()
+        createRoomType.room_type.data = guest.get_room_type()
+        createBooking.occupation.data = guest.get_occupation()
         createBooking.industry.data = guest.get_industry()
         createBooking.location.data = guest.get_location()
         createBooking.transport.data = guest.get_transport()
@@ -1239,7 +1241,21 @@ def industry_create():
 
 @app.route('/occupation-edit/<int:id>',methods=["GET","POST"])
 def occupation_edit(id):
-    createOccupation= OccupationForm(request.form)
+    createOccupation= OccupationEditForm(request.form)
+    occupation_list = []
+    occupationdb = shelve.open("occupation.db")
+    occupation_dict = {}
+    industry_list = []
+    try:
+        industry_list = occupationdb["Industry_choices"]
+    except:
+        print("Error in loading industries. Resetting..")
+        occupationdb["Industry_choices"] = Industry.industryList
+        industry_list = occupationdb["Industry_choices"]
+
+    industryChoices = list(zip(industry_list, industry_list))
+    createOccupation.occupation_industry.choices = industryChoices
+    print(industryChoices)
     if request.method== "POST" and createOccupation.validate():
         occupationDict={}
         occupation_list=[]
