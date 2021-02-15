@@ -1799,7 +1799,7 @@ def update_supplier(company_name):
     except:
         print("Error in retrieving Product Category from productname.db.")
 
-    productname_list = [('', 'Select')]
+    productname_list = []
     for key in productname_dict:
         productname_list.append((key, key))
     createSupplierForm.product_name.choices = productname_list
@@ -2203,10 +2203,10 @@ def updatePartnerships(company):
         partnerships.set_resources(update_partnerships_form.resources.data)
         partnerships.set_industry(update_partnerships_form.industry.data)
 
-        db['partnerships'] = partnerships_dict
+        db['company'] = partnerships_dict
         db.close()
 
-        return redirect(url_for('updatePartnerships'))
+        return redirect(url_for('retrievePartnerships'))
     else:
         partnerships_dict = {}
         db = shelve.open('company.db')
@@ -2291,18 +2291,18 @@ def updatePackageDeal(packagedeal):
     if request.method == 'POST' and update_packagedeal_form.validate():
         packagedeal_dict = {}
         db = shelve.open('attractions.db', 'w')
-        packagedeal_dict = db['package']
+        packagedeal_dict = db['attraction']
 
         packagedeal = packagedeal_dict.get(packagedeal)
-        packagedeal.set_attractions(update_packagedeal_form.company.data)
-        packagedeal.set_transport(update_packagedeal_form.resources.data)
-        packagedeal.set_price(update_packagedeal_form.industry.data)
-        packagedeal.set_code(update_packagedeal_form.industry.data)
+        packagedeal.set_attractions(update_packagedeal_form.attractions.data)
+        packagedeal.set_transport(update_packagedeal_form.transport.data)
+        packagedeal.set_price(update_packagedeal_form.price.data)
+        packagedeal.set_code(update_packagedeal_form.code.data)
 
-        db['package'] = packagedeal_dict
+        db['attraction'] = packagedeal_dict
         db.close()
 
-        return redirect(url_for('updatePackageDeal'))
+        return redirect(url_for('retrievePackageDeal'))
     else:
         packagedeal_dict = {}
         db = shelve.open('attractions.db')
