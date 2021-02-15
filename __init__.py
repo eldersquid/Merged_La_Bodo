@@ -1776,16 +1776,26 @@ def createInventory():
 
     if request.method == 'POST' and createInventoryForm.validate():
         inventories_dict = {}
+        itemOnly_dict = {}
         db = shelve.open('inventory.db', 'c')
+        itemOnly_db = shelve.open('item.db', 'c')
         try:
             inventories_dict = db['Inventories']
+            itemOnly_dict = itemOnly_db['Item']
         except:
             print("Error in retrieving Item List from inventory.db.")
+            print("Error in retrieving Item from item.db.")
         inventory = Inventory(createInventoryForm.item_name.data, createInventoryForm.supplier.data,
                               createInventoryForm.product_name.data, createInventoryForm.quantity.data)
+
+        itemOnly = Inventory(createInventoryForm.item_name.data, createInventoryForm.quantity.data)
+
         inventories_dict[inventory.get_item_name()] = inventory
+        itemOnly_dict[itemOnly.get_item_name()] = itemOnly
         db['Inventories'] = inventories_dict
+        itemOnly_db['Item'] = itemOnly_dict
         db.close()
+        itemOnly_db.close()
         return redirect(url_for('retrieve_inventories'))
     return render_template('createInventory.html', form=createInventoryForm)
 
@@ -1841,18 +1851,26 @@ def update_inventory(item_name):
 
     if request.method == 'POST' and update_inventory_form.validate():
         inventories_dict = {}
+        itemOnly_dict = {}
         db = shelve.open('inventory.db', 'w')
+        itemOnly_db = shelve.open('item.db', 'w')
         inventories_dict = db['Inventories']
+        itemOnly_dict = itemOnly_db['Item']
 
         inventory = inventories_dict.get(item_name)
+        itemOnly = itemOnly_dict.get(item_name)
         inventory.set_item_name(update_inventory_form.item_name.data)
+        itemOnly.set_item_name(update_inventory_form.item_name.data)
         inventory.set_supplier(update_inventory_form.supplier.data)
         inventory.set_product_name(update_inventory_form.product_name.data)
         quantity = int(inventory.get_quantity() + update_inventory_form.quantity.data)
         inventory.set_quantity(quantity)
+        itemOnly.set_quantity(quantity)
 
         db['Inventories'] = inventories_dict
+        itemOnly_db['Item'] = itemOnly_dict
         db.close()
+        itemOnly_db.close()
 
         return redirect(url_for('retrieve_inventories'))
     else:
