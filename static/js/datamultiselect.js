@@ -48,15 +48,6 @@
                     });
                 });
 
-    $("#btnAll").on("click", function() {
-      var oAll = [];
-      $('#example tbody tr.selected').each(function() {
-        var pos = oTable.row(this).index();
-        var row = oTable.row(pos).data();
-        oAll.push(row);
-      });
-      console.log(oAll);
-      alert(oAll);
-    });
+
 
   });

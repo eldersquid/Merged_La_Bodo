@@ -1586,35 +1586,17 @@ def delete_request(id):
 def createProduct():
     createProductForm = CreateProductForm(request.form)
     if request.method == "POST" and createProductForm.validate():
-        productcat_list = []
-        db = shelve.open("productname.db")
-        productcat_dict = {}
+        productname_dict = {}
+        db = shelve.open('productname.db', 'c')
         try:
-            productcat_list = db["Product_Selection"]
-            productcat_dict = db["Product_Name"]
-            productcat_id = int(db["Product_ID"])
+            productname_dict = db['Product Name']
         except:
-            print("Error in retrieving Product Name from productname.db.")
-            db["Product_Selection"] = ProductCat.productList
-            productcat_id = 1
-            for x in ProductCat.productDict:
-                productcat = ProductCat(x)
-                productcat_dict[productcat_id] = productcat
-                productcat.set_productcat_id(productcat_id)
-                productcat_id += 1
-            productcat_id -= 1
-            db["Product_ID"] = productcat_id
-            db["Product_Name"] = productcat_dict
-            productcat_list = db["Product_Selection"]
+            print("Error in retrieving Product Category from productname.db.")
+        product = ProductCat(createProductForm.product_name.data)
 
-        productcat = ProductCat(createProductForm.productcat.data)
-        productcat_id += 1
-        productcat.set_productcat_id(productcat_id)
-        productcat_list.append(productcat.get_productcat())
-        productcat_dict[productcat.get_productcat_id()] = productcat
-        db["Product_ID"] = productcat_id
-        db["Product_Name"] = productcat_dict
-        db["Product_Selection"] = productcat_list
+        print(createProductForm.product_name.data)
+        productname_dict[product.get_product_name()] = product
+        db['Product Name'] = productname_dict
         db.close()
         return redirect(url_for('retrieve_productcat'))
     return render_template("createProduct.html", form=createProductForm)
@@ -1622,88 +1604,48 @@ def createProduct():
 
 @app.route('/retrieveProduct')
 def retrieve_productcat():
-    createProductForm = CreateProductForm(request.form)
-    db = shelve.open("productname.db")
-    productcat_list = []
-    productcat_dict = {}
+    productname_dict = {}
+    db = shelve.open('productname.db')
     try:
-        productcat_dict = db["Product_Name"]
-        productcat_id = int(db["Product_ID"])
+        productname_dict = db['Product Name']
     except:
-        print("Error in retrieving Product Name from productname.db.")
-        productcat_id = 1
-        db["Product_Selection"] = ProductCat.productList
-        for x in ProductCat.productDict:
-            productcat = ProductCat(x["Product Category"])
-            productcat_dict[productcat_id] = productcat
-            productcat.set_productcat_id(productcat_id)
-            productcat_id += 1
-        productcat_id -= 1
-        db["Product_ID"] = productcat_id
-        db["Product_Name"] = productcat_dict
+        print('Error in retrieving Product Category from productname.db.')
+        productname_dict = {}
 
-    for key in productcat_dict:
-        productcat = productcat_dict.get(key)
-        productcat_list.append(productcat)
-
+    productname_list = []
     db.close()
-    return render_template("ProductCat.html", productcat_list=productcat_list)
+    for key in productname_dict:
+        product = productname_dict.get(key)
+        productname_list.append(product)
+
+    return render_template("ProductCat.html", productcat_list=productname_list)
 
 
-@app.route('/deleteProductCat/<int:id>', methods=['POST'])
-def delete_productcat(id):
-    productcat_dict = {}
-    productcat_select = []
-    db = shelve.open("productname.db")
-    productcat_dict = db["Product_Name"]
-    productcat_select = db["Product_Selection"]
-
-    product_category = productcat_dict[id].get_productcat()
-    productcat_dict.pop(id)
-    productcat_select.remove(product_category)
-
-    db["Product_Name"] = productcat_dict
-    db["Product_Selection"] = productcat_select
+@app.route('/deleteProductCat/<product>', methods=['POST'])
+def delete_productcat(product):
+    productname_dict = {}
+    db = shelve.open('productname.db', 'w')
+    productname_dict = db['Product Name']
+    productname_dict.pop(product)
+    db['Product Name'] = productname_dict
     db.close()
     return redirect(url_for('retrieve_productcat'))
-
-
-@app.route('/selectmulti',methods=["GET", "POST"])
-def productcat_selectmulti():
-    productcat_dict = {}
-    productcat_choices = []
-    productcat_name=""
-    chooselist = []
-    db = shelve.open("productname.db")
-    productcat_dict = db["Product_Name"]
-    productcat_choices = db["Product_Selection"]
-    print("hello1")
-
-    if request.method == 'POST':
-        data = request.json
-        print("hello2")
-        print(data)
-        for x in data:
-            productcat_name = productcat_dict[int(x)].get_productcat()
-            chooselist.append(productcat_name)
-            # productcat_dict.pop(int(x))
-            # productcat_choices.remove(productcat_name)
-            print("hello3")
-            print(chooselist, "hello")
-
-        db["Product_Name"] = productcat_dict
-        print(productcat_choices)
-        print("hello4")
-        db["Product_Selection"] = productcat_choices
-        db.close()
-        return jsonify(data)
-    return redirect(url_for('retrieve_productcat'))
-
 
 @app.route('/createSupplier', methods=['GET', 'POST'])
 def createSupplier():
     createSupplierForm = CreateSupplierForm(request.form)
+    productname_dict = {}
+    try:
+        db = shelve.open("productname.db")
+        productname_dict = db["Product Name"]
+        db.close()
+    except:
+        print("Error in retrieving Product Category from productname.db.")
 
+    productname_list = []
+    for key in productname_dict:
+        productname_list.append((key, key))
+    createSupplierForm.product_name.choices = productname_list
 
     if request.method == 'POST' and createSupplierForm.validate():
         suppliers_dict = {}
@@ -1717,6 +1659,7 @@ def createSupplier():
         supplier = Supplier(createSupplierForm.company_name.data, createSupplierForm.uen_number.data,
                             createSupplierForm.email.data, createSupplierForm.product_name.data)
 
+        print(createSupplierForm.product_name.data)
         suppliers_dict[supplier.get_company_name()] = supplier
         db['Suppliers'] = suppliers_dict
         db.close()
@@ -1746,18 +1689,18 @@ def retrieve_suppliers():
 @app.route('/updateSupplier/<company_name>', methods=['GET', 'POST'])
 def update_supplier(company_name):
     createSupplierForm = CreateSupplierForm(request.form)
-    productname_list = []
-    productname_db = shelve.open("productname.db")
+    productname_dict = {}
     try:
-        productname_list = productname_db["Product Name"]
-
+        db = shelve.open("productname.db")
+        productname_dict = db["Product Name"]
+        db.close()
     except:
-        productname_db["Product_Name"] = Supplier.productList
-        productname_list = productname_db["Product_Name"]
+        print("Error in retrieving Product Category from productname.db.")
 
-    productname_db["Product_Name"] = productname_list
-    productnameChoices = list(zip(productname_list, productname_list))
-    createSupplierForm.product_name.choices = productnameChoices
+    productname_list = [('', 'Select')]
+    for key in productname_dict:
+        productname_list.append((key, key))
+    createSupplierForm.product_name.choices = productname_list
 
     if request.method == 'POST' and createSupplierForm.validate():
         suppliers_dict = {}
@@ -1769,19 +1712,6 @@ def update_supplier(company_name):
         supplier.set_uen_number(createSupplierForm.uen_number.data)
         supplier.set_email(createSupplierForm.email.data)
         supplier.set_product_name(createSupplierForm.product_name.data)
-        productname_list = []
-        productname_db = shelve.open("productname.db")
-        try:
-            productname_list = productname_db["Product_Name"]
-
-        except:
-            productname_db["Product_Name"] = Supplier.productList
-            productname_list = productname_db["Product_Name"]
-        if createSupplierForm.new_product_name.data == "":
-            pass
-        else:
-            productname_list.append(createSupplierForm.new_product_name.data)
-        productname_db["Product_Name"] = productname_list
 
         db['Suppliers'] = suppliers_dict
         db.close()
@@ -1810,7 +1740,6 @@ def delete_supplier(company_name):
     suppliers_dict.pop(company_name)
     db['Suppliers'] = suppliers_dict
     db.close()
-
     return redirect(url_for('retrieve_suppliers'))
 
 
@@ -1832,18 +1761,18 @@ def createInventory():
     createInventoryForm = CreateInventoryForm(request.form)
     createInventoryForm.supplier.choices = suppliers_list
 
-    productname_list = []
-    productname_db = shelve.open("productname.db")
+    productname_dict = {}
     try:
-        productname_list = productname_db["Product_Name"]
-
+        db = shelve.open("productname.db")
+        productname_dict = db["Product Name"]
+        db.close()
     except:
-        productname_db["Product_Name"] = ProductCat.productList
-        productname_list = productname_db["Product_Name"]
+        print("Error in retrieving Product Category from productname.db.")
 
-    productname_db["Product_Name"] = productname_list
-    productnameChoices = list(zip(productname_list, productname_list))
-    createInventoryForm.product_name.choices = productnameChoices
+    productname_list = [('', 'Select')]
+    for key in productname_dict:
+        productname_list.append((key,key))
+    createInventoryForm.product_name.choices = productname_list
 
     if request.method == 'POST' and createInventoryForm.validate():
         inventories_dict = {}
@@ -1897,18 +1826,18 @@ def update_inventory(item_name):
     update_inventory_form = CreateInventoryForm(request.form)
     update_inventory_form.supplier.choices = suppliers_list
 
-    productname_list = []
-    productname_db = shelve.open("productname.db")
+    productname_dict = {}
     try:
-        productname_list = productname_db["Product Name"]
-
+        db = shelve.open("productname.db")
+        productname_dict = db["Product Name"]
+        db.close()
     except:
-        productname_db["Product Name"] = ProductCat.productList
-        productname_list = productname_db["Product Name"]
+        print("Error in retrieving Product Category from productname.db.")
 
-    productname_db["Product Name"] = productname_list
-    productnameChoices = list(zip(productname_list, productname_list))
-    update_inventory_form.product_name.choices = productnameChoices
+    productname_list = [('', 'Select')]
+    for key in productname_dict:
+        productname_list.append((key, key))
+    update_inventory_form.product_name.choices = productname_list
 
     if request.method == 'POST' and update_inventory_form.validate():
         inventories_dict = {}
@@ -1989,18 +1918,18 @@ def createOrder():
         suppliers_email.append(supplier.get_email())
     createOrderForm.supplier.choices = suppliers_list
 
-    productname_list = []
-    productname_db = shelve.open("productname.db")
+    productname_dict = {}
     try:
-        productname_list = productname_db["Product Name"]
-
+        db = shelve.open("productname.db")
+        productname_dict = db["Product Name"]
+        db.close()
     except:
-        productname_db["Product Name"] = Supplier.productList
-        productname_list = productname_db["Product Name"]
+        print("Error in retrieving Product Category from productname.db.")
 
-    productname_db["Product Name"] = productname_list
-    productnameChoices = list(zip(productname_list, productname_list))
-    createOrderForm.product_name.choices = productnameChoices
+    productname_list = [('', "Select")]
+    for key in productname_dict:
+        productname_list.append((key, key))
+    createOrderForm.product_name.choices = productname_list
 
     if request.method == 'POST' and createOrderForm.validate():
         order_dict = {}
