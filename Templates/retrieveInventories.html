@@ -51,7 +51,7 @@
               <td>{{ inventory.get_supplier() }}</td>
               <td>{{ inventory.get_product_name() }}</td>
               <td>{{ inventory.get_quantity() }}</td>
-              <td><a href="/updateInventory/{{inventory.get_item_name()}}" class="btn btn-warning">Update</a></td>
+              <td><a href="/updateInventory/{{inventory.get_item_name()}}" style="display: flex; justify-content: center;" class="btn btn-warning">Update</a></td>
               <td>
                 <form action="{{url_for('delete_inventory', item_name=inventory.get_item_name())}}" method="POST">
 

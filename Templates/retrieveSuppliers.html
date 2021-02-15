@@ -51,7 +51,7 @@
               <td>{{ supplier.get_uen_number() }}</td>
               <td>{{ supplier.get_email() }}</td>
               <td>{{ supplier.get_product_name() }}</td>
-              <td><a href="/updateSupplier/{{supplier.get_company_name()}}" class="btn btn-warning">Update</a></td>
+              <td><a href="/updateSupplier/{{supplier.get_company_name()}}" style="display: flex; justify-content: center;" class="btn btn-warning">Update</a></td>
               <td>
                 <form action="{{url_for('delete_supplier', company_name=supplier.get_company_name())}}" method="POST">
 
