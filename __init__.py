@@ -18,6 +18,7 @@ import json
 import random
 import PackageDeal
 import requests
+import shelve, User, Staff
 from ProductCat import *
 
 
@@ -28,16 +29,19 @@ app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
 
 
-@app.route('/geo')
-def nat_geo():
-    return render_template('geolocation_test.html')
+# Data from cart, do whatever you want with it
+@app.route('/payNowPls',methods=["GET","POST"])
+def payNowPls():
+    if request.method == 'POST':
+        data = request.json
+        print(data)
+        return jsonify(data)
+    return render_template("guest_list.html")
 
 
 #Gerald's part
 
-@app.route('/Demo')
-def Demo():
-    return render_template('TestuserHome.html')
+
 
 @app.route('/')
 def user_home():
@@ -226,16 +230,6 @@ def adm_deleteReview(id):
 
 @app.route('/cart', methods = ["GET","POST"])
 def cart():
-    if request.method == "POST":
-        item = request.form["add_cart"].split(',')
-        name = item[0]
-        cost = float(item[1])
-
-        if session['cart'].get(name):
-            session['cart'][name][1] += 1
-            session['cart'][name][2] = round(session['cart'][name][1] * session['cart'][name][0], 2)
-        else:
-            session['cart'][name] = [cost, 1, cost]
     return render_template('TestuserHome.html')
 
 
@@ -328,6 +322,107 @@ def small_room():
         session['room_number'] = room_number
         return redirect(url_for('test_guest'))
     return render_template("small_room.html",form=form)
+
+
+@app.route("/apartment", methods=['GET', 'POST'])
+def apartment():
+    form = BookingForm()
+    roomList = []
+    guestDict = {}
+    if request.method == "POST" and form.validate():
+        try:
+            roomdb = shelve.open("room.db")
+            roomList = roomdb["apartment"]
+        except:
+            print("No apartments occupied.")
+            roomList = []
+            apartments = 200
+            for i in range(apartments):
+                roomList.append(i)
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("No guests found.")
+            guestDict = {}
+
+        roomsLeft = len(roomList)
+        room_number = random.randint(roomList[0], roomList[-1])
+        print(room_number)
+        session['bookindate'] = form.bookindate.data
+        session['bookoutdate'] = form.bookoutdate.data
+        session['room_choice'] = "Apartment"
+        session['room_number'] = room_number
+        return redirect(url_for('test_guest'))
+    return render_template("small_room.html", form=form)
+
+
+@app.route("/bigApartment", methods=['GET', 'POST'])
+def big_apartment():
+    form = BookingForm()
+    roomList = []
+    guestDict = {}
+    if request.method == "POST" and form.validate():
+        try:
+            roomdb = shelve.open("room.db")
+            roomList = roomdb["BigApartment"]
+        except:
+            print("No big apartments occupied.")
+            roomList = []
+            big_apartments = 200
+            for i in range(big_apartments):
+                roomList.append(i)
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("No guests found.")
+            guestDict = {}
+
+        roomsLeft = len(roomList)
+        room_number = random.randint(roomList[0], roomList[-1])
+        print(room_number)
+        session['bookindate'] = form.bookindate.data
+        session['bookoutdate'] = form.bookoutdate.data
+        session['room_choice'] = "Big Apartment"
+        session['room_number'] = room_number
+        return redirect(url_for('test_guest'))
+    return render_template("big_apartment.html", form=form)
+
+
+@app.route("/villa", methods=['GET', 'POST'])
+def villa():
+    form = BookingForm()
+    roomList = []
+    guestDict = {}
+    if request.method == "POST" and form.validate():
+        try:
+            roomdb = shelve.open("room.db")
+            roomList = roomdb["SmallRoom"]
+        except:
+            print("No Small Rooms occupied.")
+            roomList = []
+            small_rooms = 200
+            for i in range(small_rooms):
+                roomList.append(i)
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("No guests found.")
+            guestDict = {}
+
+        roomsLeft = len(roomList)
+        room_number = random.randint(roomList[0], roomList[-1])
+        print(room_number)
+        session['bookindate'] = form.bookindate.data
+        session['bookoutdate'] = form.bookoutdate.data
+        session['room_choice'] = "Small Room"
+        session['room_number'] = room_number
+        return redirect(url_for('test_guest'))
+    return render_template("small_room.html", form=form)
+
+
 
 
 @app.route("/server-dash")
@@ -446,7 +541,13 @@ def test_guest():
             print("Error in Guest Database. Try again.")
 
 
-        guest = Guest(createBooking.name.data,createBooking.industry.data,createBooking.occupation.data,createBooking.location.data,createBooking.transport.data)
+        guest = Guest(session["Name"],createBooking.industry.data,createBooking.occupation.data,createBooking.location.data,createBooking.transport.data)
+        guest.set_name(session["Name"])
+        guest.set_email(session["Email"])
+        guest.set_deals(session["Deals"])
+        guest.set_username(session["CurrentUsername"])
+        guest.set_check_in(session["bookindate"])
+        guest.set_check_out(session["bookoutdate"])
         guest_id+=1
         guest.set_guest_id(guest_id)
         guest.set_room_number(session['room_number'])
@@ -524,16 +625,22 @@ def assign_grade(id):
 def edit_guest(id):
     gradeForm= GradeForm(request.form)
     createBooking = GuestBooking(request.form)
+    createCheckInOut = BookingForm(request.form)
+    createRoomType = BookRoomType(request.form)
     hospital_list=[]
     hospitaldb = shelve.open("hospital.db")
     occupation_list = []
+    industry_list=[]
     occupationdb=shelve.open("occupation.db")
     hospital_list = hospitaldb["Hospital_choices"]
     occupation_list = occupationdb["Occupation_choices"]
+    industry_list= occupationdb["Industry_choices"]
+    industryChoices = list(zip(industry_list, industry_list))
     hospitalChoices=list(zip(hospital_list,hospital_list))
     occupationChoices=list(zip(occupation_list,occupation_list))
     createBooking.location.choices = hospitalChoices
     createBooking.occupation.choices = occupationChoices
+    createBooking.industry.choices = industryChoices
 
     if request.method== "POST" and createBooking.validate():
         guestDict={}
@@ -543,7 +650,8 @@ def edit_guest(id):
         except:
             print("Error opening guest database.")
         guest=guestDict.get(id)
-        guest.set_name(createBooking.name.data)
+        guest.set_room_number(createRoomType.room_number.data)
+        guest.set_room_type(createRoomType.room_type.data)
         guest.set_occupation(createBooking.occupation.data)
         guest.set_industry(createBooking.industry.data)
         guest.set_location(createBooking.location.data)
@@ -560,7 +668,8 @@ def edit_guest(id):
             print("Error opening guests database.")
 
         guest=guestDict.get(id)
-        createBooking.name.data=guest.get_name()
+        createRoomType.room_number.data = guest.get_room_number()
+        createRoomType.room_type.data = guest.get_room_type()
         createBooking.occupation.data=guest.get_occupation()
         createBooking.industry.data = guest.get_industry()
         createBooking.location.data = guest.get_location()
@@ -571,7 +680,38 @@ def edit_guest(id):
 
 
 
-        return render_template('guest_edit.html',guest=guest,form=createBooking,guestForm=gradeForm)
+        return render_template('guest_edit.html',guest=guest,form=createBooking,guestForm=gradeForm,checkInOut=createCheckInOut, roomType=createRoomType)
+
+
+@app.route('/edit-checkInOut/<int:id>', methods=["GET", "POST"])
+def edit_checkInOut(id):
+    createCheckInOut = BookingForm(request.form)
+
+    if request.method == "POST" and createCheckInOut.validate():
+        guestDict = {}
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("Error opening guest database.")
+        guest = guestDict.get(id)
+        guest.set_check_in(createCheckInOut.bookindate.data)
+        guest.set_check_out(createCheckInOut.bookoutdate.data)
+        db["Guests"] = guestDict
+        db.close()
+        return redirect(url_for('server_guests'))
+    else:
+        guestDict = {}
+        try:
+            db = shelve.open("guests.db")
+            guestDict = db["Guests"]
+        except:
+            print("Error opening guests database.")
+
+        guest = guestDict.get(id)
+        db.close()
+
+        return render_template('checkInOut_edit.html', guest=guest, form=createCheckInOut)
 
 
 @app.route('/delete-guest/<int:id>', methods=['POST'])
@@ -616,10 +756,14 @@ def hospital_select():
     if request.method == 'POST':
         hospitaldb=shelve.open("hospital.db")
         data = request.json
-        hospitaldb["hospital_search"]=data
+        hospitaldb["hospital_search"] = data
         print(data)
         return jsonify(data)
-    return redirect(url_for('hospital_list'))
+    return redirect(url_for('cart_confirm'))
+
+@app.route('/cart-confirm',methods = ["GET","POST"])
+def cart_confirm():
+    return render_template("cart_confirm.html")
 
 
 
@@ -648,7 +792,7 @@ def hospital_create():
     hospitaldb = shelve.open("hospital.db")
     hospital_dict = {}
     data = hospitaldb["hospital_search"]
-    split_name=data.split(",")
+    split_name=data.split(", ")
     hospital_name=""
     for i in split_name:
         if "Hospital" in i:
@@ -670,7 +814,6 @@ def hospital_create():
         hospital_address=data
     if request.method== "POST" and createHospital.validate():
         try:
-            print("YESSS")
             hospital_list = hospitaldb["Hospital_choices"]
             hospital_dict=hospitaldb["Hospitals"]
             hospital_id= int(hospitaldb["hospital_id"])
@@ -688,7 +831,9 @@ def hospital_create():
             hospital_list = hospitaldb["Hospital_choices"]
 
         hospital_id += 1
-        hospital = Hospital(hospital_name,hospital_address,createHospital.hospital_contact.data,createHospital.hospital_beds.data)
+        hospital_name=createHospital.hospital_name.data
+        hospital_address = createHospital.hospital_address.data
+        hospital = Hospital(createHospital.hospital_name.data, createHospital.hospital_address.data,createHospital.hospital_contact.data,createHospital.hospital_beds.data)
         hospital.set_hospital_id(hospital_id)
         hospital_list.append(hospital.get_name())
         print(hospital_list)
@@ -808,6 +953,19 @@ def hospital_list():
         amount_list.append(amount)
     hosp = dict(Counter(amount_list))
 
+    # Count number of vehicles assigned in hospitals
+    try:
+        vehicle_list=[]
+        vehicledb = shelve.open("Vehicles")
+        vehicle_dict = vehicledb["Vehicles"]
+    except:
+        vehicle_dict = {}
+    for key in vehicle_dict:
+        vehicle = vehicle_dict.get(key)
+        hospital_assignment = vehicle.get_location()
+        vehicle_list.append(hospital_assignment)
+    hospital_assigned = dict(Counter(vehicle_list))
+
     for key in hospital_Dict:
         hospital = hospital_Dict.get(key)
         hospital_list.append(hospital)
@@ -815,7 +973,7 @@ def hospital_list():
     # hosp = dict(Counter(hospital_list))
     hospitaldb.close()
     db.close()
-    return render_template("hospital_list.html", hospital_list=hospital_list, hosp=hosp)
+    return render_template("hospital_list.html", hospital_list=hospital_list, hosp=hosp, hospital_assigned=hospital_assigned)
 
 @app.route('/hospital-edit/<int:id>',methods=["GET","POST"])
 def hospital_edit(id):
@@ -2069,60 +2227,174 @@ def deletePackageDeal(attractions):
 
     return redirect(url_for('retrievePackageDeal'))
 
+@app.route('/createUser', methods=['GET', 'POST'])
+def create_user():
+    sign_up_form = Signup(request.form)
+    print("yeeyee")
+    if request.method == 'POST' and sign_up_form.validate():
+        print("ass")
+        users_dict = {}
+        db = shelve.open('storage.db', 'c')
+        try:
+            users_dict = db['Users']
+            print("haircut")
+        except:
+            print("Error in retrieving Users from storage.db.")
 
-@app.route('/login', methods = ['GET', 'POST'])
+        user = User.User(sign_up_form.name.data,
+                         sign_up_form.username.data,
+                         sign_up_form.email.data,
+                         sign_up_form.gender.data,
+                         sign_up_form.phone_num.data,
+                         sign_up_form.password.data,
+                         sign_up_form.deals.data
+                         )
+
+        users_dict[user.get_username()] = user
+        session['CurrentUsername'] = user.get_username()
+        session["Name"]= user.get_name()
+        session["Email"] = user.get_email()
+        session["Deals"] = user.get_deals()
+        db['Users'] = users_dict
+        db.close()
+        print('working')
+        return redirect(url_for('profile'))
+    return render_template('createUser.html', form=sign_up_form)
+
+@app.route('/GuestL', methods = ['GET', 'POST'])
 def login_user():
     log_in_user_form = Login(request.form)
     if request.method == 'POST' and log_in_user_form.validate():
         customer_dict = {}
-        db = shelve.open('guests.db', 'r')
+        db = shelve.open('storage.db', 'r')
         try:
-            customer_dict = db['CustomerInfo']
+            customer_dict = db['Users']
         except:
             print('Error in retrieving information')
 
         username = log_in_user_form.username.data
         password = log_in_user_form.password.data
+        print('1')
         if username in customer_dict:
             real_password = customer_dict[username].get_password()
+            print('2')
             if password == real_password:
-                session['user_created'] = customer_dict[username].get_name()
-                session['Username'] = username
+              session['CurrentUsername'] = username
+              print('3')
+              return redirect(url_for('profile'))
+    return render_template('GuestL.html', form = log_in_user_form)
 
-    return render_template('login.html', form = log_in_user_form)
+@app.route('/GuestL')
+def logout():
+    session.pop('CurrentUsername', None)
+    return redirect(url_for('GuestL'))
+
+@app.route('/createStaff', methods=['GET', 'POST'])
+def create_staff():
+    staff_sign_up_form = Staff_Signup(request.form)
+    print("yeeyee")
+    if request.method == 'POST' and staff_sign_up_form.validate():
+        print("ass")
+        staff_dict = {}
+        db = shelve.open('storage.db', 'c')
+        try:
+            staff_dict = db['Staff']
+            print("haircut")
+        except:
+            print("Error in retrieving Users from storage.db.")
+
+        staff = Staff.Staff(staff_sign_up_form.id.data,
+                            staff_sign_up_form.email.data,
+                            staff_sign_up_form.password.data,
+                            )
+
+        staff_dict[staff.get_id()] = staff
+        session['CurrentID'] = staff.get_id()
+        db['Staff'] = staff_dict
+        db.close()
+        print('working')
+        return redirect(url_for('login_staff'))
+    return render_template('createStaff.html', form=staff_sign_up_form)
+
+@app.route('/StaffL', methods = ['GET', 'POST'])
+def login_staff():
+    log_in_staff_form = Staff_Login(request.form)
+    if request.method == 'POST' and log_in_staff_form.validate():
+        staff_dict = {}
+        db = shelve.open('storage.db', 'r')
+        try:
+            staff_dict = db['Staff']
+        except:
+            print('Error in retrieving information')
+
+        id = log_in_staff_form.id.data
+        password = log_in_staff_form.password.data
+        print('1')
+        if id in staff_dict:
+            real_password = staff_dict[id].get_password()
+            print('2')
+            if password == real_password:
+              session['CurrentID'] = id
+              print('3')
+              return redirect(url_for('home'))
+    return render_template('StaffL.html', form = log_in_staff_form)
 
 
-# @app.route('/loginstaff', methods = ['GET', 'POST'])
-# def staff_login():
-#     error = None
-#     if request.method == 'POST':
-#         staff_dict = {}
-#         db = shelve.open('storage.db', 'r')
-#         staff_dict = db['Staff']
-#         for staff_id in staff_dict:
-#             staff = staff_dict.get(staff_id)
-#             if request.form['username'] == staff.get_username() and request.form['password'] == staff.get_password():
-#                 session['staff_account'] = staff.get_staff_id()
-#                 session['staff_username'] = staff.get_username()
-#                 return redirect(url_for('home'))
-#             elif request.form['username'] == 'staff' and request.form['password'] == 'password':
-#                 return redirect(url_for('retrieveStaff'))
-#             else:
-#                 error = 'Invalid Staff'
-#
-#     return render_template('loginstaff.html', error=error)
-#
-#
-#
-# @app.route('/home')
-# def staff_home():
-#     return render_template('home.html')
-#
-# @app.route('/logout')
-# def logout():
-#    session.pop('username', None)
-#    return redirect(url_for('login'))
+@app.route('/StaffL')
+def staff_logout():
+    session.pop('CurrentID', None)
+    return redirect(url_for('StaffL'))
 
+
+@app.route('/profile')
+def profile():
+    customer_dict = {}
+    db = shelve.open('storage.db', 'r')
+    try:
+        customer_dict = db['Users']
+    except:
+        print('error')
+    id = session['CurrentUsername']
+    user = customer_dict[id]
+    return render_template('profile.html', user = user)
+
+@app.route('/updateProfile/<id>/', methods=['GET','POST'])
+def updateProfile(id):
+    update_profile = Signup(request.form)
+    if request.method == 'POST' and update_profile.validate():
+        users_dict = {}
+        db = shelve.open('storage.db')
+        users_dict = db['Users']
+
+        profile = users_dict.get(User)
+        profile.set_name(update_profile.name.data)
+        profile.set_username(update_profile.username.data)
+        profile.set_email(update_profile.email.data)
+        profile.set_phone_num(update_profile.phone_num.data)
+        profile.set_gender(update_profile.gender.data)
+        profile.set_password(update_profile.password.data)
+
+        db['Users'] = users_dict
+        db.close()
+
+        return redirect(url_for('updateProfile'))
+    else:
+        users_dict = {}
+        db = shelve.open('storage.db')
+        users_dict = db['Users']
+        id = session['CurrentUsername']
+        profile = users_dict[id]
+
+        update_profile.name.data = profile.get_name()
+        update_profile.username.data = profile.get_username()
+        update_profile.email.data = profile.get_email()
+        update_profile.phone_num.data = profile.get_phone_num()
+        update_profile.gender.data = profile.get_gender()
+        update_profile.password.data = profile.get_password()
+
+        db.close()
+
+        return render_template('updateProfile.html', form=update_profile,user=profile)
 
 if __name__ == '__main__':
     app.run(debug=True)

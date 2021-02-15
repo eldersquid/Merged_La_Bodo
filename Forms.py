@@ -4,13 +4,14 @@ from wtforms.fields.html5 import *
 from wtforms.fields.html5 import *
 from wtforms.validators import DataRequired
 import phonenumbers
+import shelve
 
 class CreateReservationForm(Form):
     first_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     last_name = StringField('Last Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     email = EmailField('Email', [validators.Length(min=8,max=200), validators.DataRequired()])
     contact = TelField('Contact no.', [validators.length(min=1, max=30), validators.DataRequired()])
-    date = StringField('Date')
+    date = DateField('DATE', format='%d-%m-%Y')
     time_slot = TimeField('Time')
     remarks = TextAreaField('Remarks', [validators.Optional()])
 
@@ -21,7 +22,6 @@ class CreateReviewForm(Form):
 
 
 class GuestBooking(Form):
-    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     industry = SelectField('Industry', [validators.DataRequired()],
                            choices=[], default="")
     occupation = SelectField('Occupation', [validators.DataRequired()],
@@ -31,28 +31,71 @@ class GuestBooking(Form):
 
 
 class BookingForm(FlaskForm):
-    bookindate = DateField('CHECK-IN DATE', format='%Y-%m-%d')
-    bookoutdate = DateField('CHECK-OUT DATE', format='%Y-%m-%d')
+    bookindate = DateField('Check-In Date', format='%Y-%m-%d')
+    bookoutdate = DateField('Check-Out Date', format='%Y-%m-%d')
     submit = SubmitField('Submit')
+
+class BookRoomType(Form):
+    room_type = SelectField('Room Type',
+                        choices=[("", ""), ("Small Room", "Small Room"), ("Apartment", "Apartment"), ("Big Apartment", "Big Apartment"), ("Villa", "Villa")], default="")
+    room_number= IntegerField('Room Number', [validators.required()])
 
 
 class GradeForm(Form):
-    grade = SelectField('Grade', [validators.DataRequired()],
+    grade = SelectField('Grade',
                         choices=[("", ""), ("S", "S"), ("A", "A"), ("B", "B"), ("C", "C")], default="")
-    priority = SelectField('Priority', [validators.DataRequired()],
+    priority = SelectField('Priority',
                            choices=[("", ""), ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4"), ("5", "5")], default="")
+
+    def validate_grade(form,field):
+        if field.data=="":
+            raise ValidationError("Grade cannot be empty.")
+
+    def validate_priority(form, field):
+        if field.data == "":
+            raise ValidationError("Priority cannot be empty.")
+
 
 
 class HospitalForm(Form):
+    hospital_name = StringField('Hospital Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    hospital_address = StringField('Address', [validators.Length(min=1, max=150), validators.DataRequired()])
     hospital_beds = IntegerField('Number of Beds', [validators.required()])
-    hospital_contact = StringField('Contact Number', [validators.Length(9), validators.DataRequired()])
+    hospital_contact = StringField('Contact Number', [validators.DataRequired()])
+
+    def validate_hospital_name(form,field):
+        hospital_list=[]
+        hospitaldb = shelve.open("hospital.db")
+        hospital_list = hospitaldb["Hospital_choices"]
+        for hospitals in hospital_list:
+            if field.data == hospitals:
+                raise ValidationError("Existing hospital in database. Search for another hospital.")
+
+    # def validate_hospital_contact(form,field):
+    #     if len(field.data) > 9:
+    #         raise ValidationError("Invalid Contact Number. Try again.")
+    #     try:
+    #         x=phonenumbers.parse(field.data)
+    #
+
+
 
 
 class OccupationForm(Form):
-    occupation_name = StringField('Occupation', [validators.Length(min=1, max=150), validators.DataRequired()])
+    occupation_name = StringField('Occupation', [validators.Length(min=1, max=30), validators.DataRequired()])
     occupation_industry = SelectField('Industry', [validators.DataRequired()],
                                       choices=[], default="")
     description = TextAreaField('Description', [validators.Optional()])
+
+    def validate_occupation_name(form, field):
+        occupation_list = []
+        occupationdb = shelve.open("occupation.db")
+        occupation_list = occupationdb["Occupation_choices"]
+        for occupations in occupation_list:
+            if field.data == occupations:
+                raise ValidationError("Existing occupation in database. Enter a different occupation.")
+
+
 
 class VehicleForm(Form):
     vehicle_name = StringField("Driver's Name", [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -66,6 +109,14 @@ class VehicleForm(Form):
 class IndustryForm(Form):
     industry_name = StringField('Industry', [validators.Length(min=1, max=150), validators.DataRequired()])
 
+    def validate_industry_name(form, field):
+        industry_list = []
+        occupationdb = shelve.open("occupation.db")
+        industry_list = occupationdb["Industry_choices"]
+        for industries in industry_list:
+            if field.data == industries:
+                raise ValidationError("Existing industry in database. Enter a different industry.")
+
 
 class RequestForm(Form):
     type = SelectField('Request Type', [validators.DataRequired()],
@@ -76,6 +127,7 @@ class RequestForm(Form):
 
 class ChooseGuest(Form):
     guest_name = SelectField("Guest Name", [validators.DataRequired()], choices=[], default="")
+
 
 class CreateProductForm(Form):
     product_name = StringField("New Product Category", [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -117,19 +169,30 @@ class CreatePackageDeal(Form):
 
 
 class Login(Form):
-    username = StringField('Username', [validators.Length(min=1, max=150), validators.DataRequired()])
-    password = StringField('Password', [validators.Length(min=1, max=150), validators.DataRequired()])
+    username = StringField('Username', [validators.DataRequired()])
+    password = StringField('Password', [ validators.DataRequired()])
 
 
 class Signup(Form):
-    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
-    email = StringField('Email', [validators.Length(min=1, max=150), validators.DataRequired()])
-    gender = SelectField('Gender', [validators.DataRequired()],
-                         choices=[('', 'Select'), ('F', 'Female'), ('M', 'Male')], default='')
-    password = StringField('Password', [validators.Length(min=1, max=150), validators.DataRequired()])
-    repeat_password = StringField('Repeat Password', [validators.Length(min=1, max=150), validators.DataRequired()])
-    accept_tos = BooleanField('I accept the Terms of Service and Privacy Notice (updated Jan 28. 2420)',
-                              [validators.DataRequired()])
+    name = StringField('Name', [ validators.DataRequired()])
+    username = StringField('Username', [ validators.DataRequired()])
+    email = StringField('Email', [ validators.DataRequired()])
+    phone_num = IntegerField('Phone Number', [ validators.DataRequired()])
+    gender = SelectField('Gender', [validators.DataRequired()], choices=[('', 'Select'), ('F', 'Female'), ('M', 'Male')] , default='')
+    password = PasswordField('Password', [validators.DataRequired(), validators.EqualTo('repeat_password', message ='Incorrect Password')])
+    repeat_password = PasswordField('Repeat Password')
+    deals = SelectField('Package Deals', choices=[('ZWM', 'Zoo Wee Mama'), ('MCF', 'Middle Class Fun'), ('KL', 'Kinda Loaded'), ('SA', 'Spend Away'), ('WIT', 'What In The-')])
+
+class Staff_Login(Form):
+    id = IntegerField('ID', [validators.DataRequired()])
+    password = StringField('Password', [validators.DataRequired()])
+
+class Staff_Signup(Form):
+    id = IntegerField('ID', [validators.DataRequired()])
+    email = StringField('Email Address', [validators.DataRequired()])
+    password = PasswordField('Password', [validators.DataRequired(), validators.EqualTo('repeat_password', message='Incorrect password')])
+    repeat_password = PasswordField('Repeat Password')
+
 
 # class RoomForm(Form):
 #

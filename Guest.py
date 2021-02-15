@@ -111,9 +111,25 @@ class Guest:
     def set_request_id(self,request_id):
         self.__request_id=int(request_id)
 
-    # def __str__(self):
-    #     s=" Guest ID : {}\n Name : {} \n".format(self.__guest_id,self.__name)
-    #     print(s)
+    def get_email(self):
+        return self.__email
+
+    def set_email(self, email):
+        self.__email = email
+
+    def get_deals(self):
+        return self.__deals
+
+    def set_deals(self, deals):
+        self.__deals = deals
+
+    def get_username(self):
+        return self.__username
+
+    def set_username(self, username):
+        self.__username = username
+
+
 
 
 

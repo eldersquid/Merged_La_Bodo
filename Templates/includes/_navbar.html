@@ -11,11 +11,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                 <ul class="nav navbar-nav menu_nav ml-auto">
-                  <li class="nav-item"><a class="nav-link" href="{{ url_for('server_guests') }}">Server-side</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('server_guests') }}">Server-side</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('hotel_rooms') }}">Stay</a></li>
-                    <li class="nav-item active"><a class="nav-link" href="about.html">Events</a></li>
-                    <li class="nav-item"><a class="nav-link" href="accomodation.html">Forum</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item submenu dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events</a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('user_home') }}">Fine Dining Experience</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item submenu dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Forum</a>
                         <ul class="dropdown-menu">
@@ -23,20 +26,22 @@
                             <li class="nav-item"><a class="nav-link" href="blog-single.html">Posts</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href=>About us</a></li>
                     <li class="nav-item">
                       <a class="nav-link" href="contact.html">Feedback</a>
                     </li>
                     <li class="nav-item submenu dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{ url_for('static',filename='image/avatar.png') }}" alt="" width="50" height="35">
-                          <span>Dr . K</span>
+
+                          <span>{{session["CurrentUsername"]}}</span>
                           <p>Welcome Back , </p>
 
 
 
                         </a>
                         <ul class="dropdown-menu">
-                          <li class="nav-item"><a class="nav-link" href="blog.html">Login</a></li>
-                            <li class="nav-item"><a class="nav-link" href="blog.html">Sign Up</a></li>
+                          <li class="nav-item"><a class="nav-link" href="{{url_for('login_user')}}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{url_for('create_user')}}">Sign Up</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -44,3 +49,5 @@
         </nav>
     </div>
 </header>
+
+

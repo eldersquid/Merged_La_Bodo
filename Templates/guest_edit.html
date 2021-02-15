@@ -48,9 +48,9 @@
                                   </div>
                                   <div class="text-center text-sm-right">
                                     <span class="badge badge-secondary">Guest</span>
-                                    <span class="badge badge-secondary">No Grade</span>
-                                    <span class="badge badge-secondary">No Priority</span>
-                                    <div class="text-muted"><small>Joined 15 Nov 2020</small></div>
+                                    <span class="badge badge-secondary">Grade {{guest.get_grade()}}</span>
+                                    <span class="badge badge-secondary">Priority {{guest.get_priority()}}</span>
+                                    <div class="text-muted"><small>Checking in {{guest.get_check_in()}}</small></div>
                                   </div>
                                 </div>
                               </div>
@@ -60,18 +60,21 @@
                               <div class="tab-content pt-3">
                                 <div class="tab-pane active">
                                   <form class="form" novalidate="" method="POST" action="">
+
                                     <div class="row">
                                       <div class="col">
                                         <div class="row">
                                           <div class="col">
                                             <div class="form-group">
-                                            {{ render_field(form.name, class="form-control") }}
+                                              <label>Name</label>
+                                              <input class="form-control" type="text" name="username"
+                                                     value="{{guest.get_name()}}" readonly>
                                           </div>
                                           </div>
                                           <div class="col">
                                             <div class="form-group">
                                               <label>Username</label>
-                                              <input class="form-control" type="text" name="username" placeholder="sooyaaa__" value="sooyaaa__" readonly>
+                                              <input class="form-control" type="text" name="username"  value="{{guest.get_username()}}" readonly>
                                             </div>
                                           </div>
                                         </div>
@@ -79,7 +82,30 @@
                                           <div class="col">
                                             <div class="form-group">
                                               <label>Email</label>
-                                              <input class="form-control" type="text" placeholder="peeepeepoopoo@gmail.com" readonly>
+                                              <input class="form-control" type="text" placeholder="{{guest.get_email()}}" readonly>
+                                            </div>
+                                          </div>
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Deal Selected</label>
+                                              <input class="form-control" type="text"
+                                                     placeholder="{{guest.get_deals()}}" readonly>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Check In Date</label>
+                                              <input class="form-control" type="text" name="username"
+                                                     value="{{guest.get_check_in()}}" readonly>
+                                            </div>
+                                          </div>
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Check Out Date</label>
+                                              <input class="form-control" type="text" name="username"
+                                                     value="{{guest.get_check_out()}}" readonly>
                                             </div>
                                           </div>
                                         </div>
@@ -109,6 +135,25 @@
                                             <div class="form-group">
                                             {{ render_field(form.transport, class="form-check-input") }}
                                           </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12 mb-5">
+                                            <div class="form-group">
+                                              {{ render_field(form.transport, class="form-check-input") }}
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                              {{ render_field(roomType.room_type, class="form-control") }}
+                                            </div>
+                                          </div>
+                                          <div class="col">
+                                            <div class="form-group">
+                                              {{ render_field(roomType.room_number, class="form-control") }}
+                                            </div>
                                           </div>
                                         </div>
                                         <div class="row">
@@ -146,10 +191,14 @@
                         <div class="card mb-3">
                           <div class="card-body">
                             <div class="px-xl-3">
-                              <button class="btn btn-block btn-secondary">
+                              <a class="btn btn-block btn-secondary" href="/edit-checkInOut/{{guest.get_guest_id()}}">
                                 <i class="fa fa-sign-out"></i>
                                 <span>Switch Guest</span>
-                              </button>
+                              </a>
+                              <a class="btn btn-block btn-secondary" href="{{ url_for('server_guests') }}">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Change Check In/Out Date</span>
+                              </a>
                             </div>
                           </div>
                         </div>

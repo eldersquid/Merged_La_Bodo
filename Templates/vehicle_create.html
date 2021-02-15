@@ -19,8 +19,8 @@
                 <div class="container-fluid">
                   <a class="btn btn-outline-secondary" href="{{ url_for('server_guests') }}">Guest Details</a>
                   <a class="btn btn-outline-secondary" href="{{ url_for('hospital_list') }}">Hospitals</a>
-                  <a class="btn btn-secondary" href="{{ url_for('occupation_list') }}">Occupations</a>
-                  <a class="btn btn-outline-secondary">Vehicles</a>
+                  <a class="btn btn-outline-secondary" href="{{ url_for('occupation_list') }}">Occupations</a>
+                  <a class="btn btn-secondary">Vehicles</a>
                   <a class="btn btn-outline-secondary" href="{{ url_for('request_list') }}">Requests</a>
                   <hr>
                 <div class="row flex-lg-nowrap">
@@ -97,28 +97,6 @@
                           </div>
                         </div>
                       </div>
-
-                      <div class="col-12 col-md-3 mb-3">
-                        <div class="card mb-3">
-                          <div class="card-body">
-                            <div class="px-xl-3">
-                              <button class="btn btn-block btn-secondary">
-                                <i class="fas fa-plus-circle"></i>
-                                <span>Add</span>
-                              </button>
-                              <button class="btn btn-block btn-info">
-                                <i class="fas fa-edit"></i>
-                                <span>Edit</span>
-                              </button>
-                              <button class="btn btn-block btn-danger">
-                                <i class="far fa-times-circle"></i>
-                                <span>Delete</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
                     </div>
 
                   </div>
@@ -131,6 +109,7 @@
         <!-- End of Content Wrapper -->
 
     </div>
+
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
@@ -157,6 +136,7 @@
             </div>
         </div>
     </div>
+</body>
 
 {% endblock %}
 

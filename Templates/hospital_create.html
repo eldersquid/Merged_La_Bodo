@@ -58,8 +58,7 @@
                                         <div class="row">
                                           <div class="col">
                                             <div class="form-group">
-                                              <label>Hospital Name</label>
-                                              <input type="text" id="location" class="form-control" value="{{hospital_name}}">
+                                              {{ render_field(form.hospital_name, class="form-control",value=hospital_name) }}
                                             </div>
                                           </div>
                                         </div>
@@ -67,8 +66,7 @@
                                         <div class="row">
                                           <div class="col">
                                             <div class="form-group">
-                                              <label>Hospital Address</label>
-                                              <input type="text" id="location" class="form-control" value="{{hospital_address}}">
+                                              {{ render_field(form.hospital_address, class="form-control",value=hospital_address) }}
                                             </div>
                                           </div>
                                         </div>
@@ -94,7 +92,7 @@
 
                                     <div class="row">
                                       <div class="col d-flex">
-                                        <button type="button" class="btn btn-secondary">Link Vehicles</button>
+                                        <a class="btn btn-secondary" href="{{ url_for('hospital_search') }}">Hospital Search</a>
                                       </div>
                                       <div class="col d-flex justify-content-end">
                                         <button class="btn btn-primary" type="submit">Create</button>

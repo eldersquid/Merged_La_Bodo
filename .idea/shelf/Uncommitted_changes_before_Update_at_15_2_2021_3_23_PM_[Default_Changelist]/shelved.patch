@@ -1,0 +1,806 @@
+Index: Templates/AddCart.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"user_base.html\" %}\r\n{% block title %}Library Loan System - Cart {% endblock %}\r\n\r\n{% block css %}\r\n  {{ super() }}\r\n  <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/jquery.fancybox.min.css') }}\"/>\r\n  <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/owl.carousel.css') }}\"/>\r\n  <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/owl.transitions.css') }}\"/>\r\n  <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/book.css') }}\"/>\r\n  <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/booking_colors.css') }}\"/>\r\n  <link href=\"https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css\" rel=\"stylesheet\">\r\n\r\n\r\n{% endblock %}\r\n\r\n\r\n\r\n{% block content %}\r\n<br>\r\n<br>\r\n<br>\r\n<br>\r\n<!-- Modal -->\r\n<div class=\"modal fade\" id=\"cartModal\" tabindex=\"-1\" role=\"dialog\" id=\"cart\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h5 class=\"modal-title\">Cart</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <ul class=\"show-cart\">\r\n                <li>???????</li>\r\n            </ul>\r\n            <div>You have <span class=\"total-count\">X</span> items in your cart</div>\r\n            <div>Total Cart:$<span class=\"total-cart\"></span></div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n          <button class=\"clear-cart btn btn-danger\">Clear Cart</button>\r\n        <button type=\"submit\" class=\"btn btn-primary\" id=\"pay_now\" data-target=\"#cartModal\" data-dismiss=\"modal\">Check Out</button>\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n    <!-- Main -->\r\n<form method=\"POST\">\r\n    <div class=\"container\">\r\n      <div class=\"row\">\r\n          <div class=\"col\">\r\n              <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#cartModal\" >Cart (<span class=\"total-count\"></span>)</button>\r\n          </div>\r\n      </div>\r\n<hr>\r\n      <div class=\"row\">\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Pasta</h4>\r\n                        <p class=\"card-text\">Price: $15.90</p>\r\n                      <button type=\"button\" data-name=\"Pasta\" data-price=\"15.90\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                   </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Fried Rice</h4>\r\n                        <p class=\"card-text\">Price: $16.50</p>\r\n                        <button name=\"add_cart\" data-name=\"Fried Rice\" data-price=\"16.50\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Fried Noodle</h4>\r\n                        <p class=\"card-text\">Price: $14.90</p>\r\n                        <button name=\"add_cart\" data-name=\"Fried Noodle\" data-price=\"14.90\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n      </div>\r\n        <hr>\r\n      <div class=\"row\">\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Chicken Rice</h4>\r\n                        <p class=\"card-text\">Price: $12.90</p>\r\n                      <button type=\"button\" data-name=\"Chicken Rice\" data-price=\"12.90\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                   </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Baked Rice</h4>\r\n                        <p class=\"card-text\">Price: $14.90</p>\r\n                        <button name=\"add_cart\" data-name=\"Baked Rice\" data-price=\"14.90\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Pizza</h4>\r\n                        <p class=\"card-text\">Price: $20</p>\r\n                        <button name=\"add_cart\" data-name=\"Pizza\" data-price=\"20\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n      </div>\r\n      <hr>\r\n      <div class=\"row\">\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Mushroom Soup</h4>\r\n                        <p class=\"card-text\">Price: $10</p>\r\n                      <button type=\"button\" data-name=\"Mushroom Soup\" data-price=\"10\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                   </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Steak</h4>\r\n                        <p class=\"card-text\">Price: $30.00</p>\r\n                        <button name=\"add_cart\" data-name=\"Steak\" data-price=\"30\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"col\">\r\n                <div class=\"card\" style=\"width: 20rem;\">\r\n                    <img class=\"card-img-top\" src=\"http://www.azspagirls.com/files/2010/09/orange.jpg\" alt=\"Card image cap\">\r\n                    <div class=\"card-block\">\r\n                        <h4 class=\"card-title\">Burger</h4>\r\n                        <p class=\"card-text\">Price: $25.90</p>\r\n                        <button name=\"add_cart\" data-name=\"Burger\" data-price=\"50\" class=\"add-to-cart btn btn-primary\">Add to cart</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n      </div>\r\n\r\n\r\n</div>\r\n</form>\r\n{% endblock %}\r\n\r\n    {% block scripts %}\r\n      {{ super() }}\r\n      <script src=\"{{url_for('static', filename='js/Addcart.js')}}\"></script>\r\n\r\n\r\n    {%endblock%}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Templates/AddCart.html	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ Templates/AddCart.html	(date 1613372991032)
+@@ -49,6 +49,10 @@
+ 
+ 
+     <!-- Main -->
++<center><h4> ~ MENU ~</h4></center>
++<br>
++<br>
++<br>
+ <form method="POST">
+     <div class="container">
+       <div class="row">
+@@ -60,7 +64,7 @@
+       <div class="row">
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/pasta.jpg" alt="Card image cap">
+                     <div class="card-block">
+                         <h4 class="card-title">Pasta</h4>
+                         <p class="card-text">Price: $15.90</p>
+@@ -70,22 +74,22 @@
+             </div>
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/pizza.jpg" alt="Card image cap">
+                     <div class="card-block">
+-                        <h4 class="card-title">Fried Rice</h4>
++                        <h4 class="card-title">Pizza</h4>
+                         <p class="card-text">Price: $16.50</p>
+-                        <button name="add_cart" data-name="Fried Rice" data-price="16.50" class="add-to-cart btn btn-primary">Add to cart</button>
++                        <button name="add_cart" data-name="Pizza" data-price="16.50" class="add-to-cart btn btn-primary">Add to cart</button>
+                     </div>
+                 </div>
+             </div>
+ 
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/Fried_noodle.jpg" alt="Card image cap">
+                     <div class="card-block">
+                         <h4 class="card-title">Fried Noodle</h4>
+                         <p class="card-text">Price: $14.90</p>
+-                        <button name="add_cart" data-name="Fried Noodle" data-price="14.90" class="add-to-cart btn btn-primary">Add to cart</button>
++                        <button name="add_cart" data-name="FriedNoodle" data-price="14.90" class="add-to-cart btn btn-primary">Add to cart</button>
+                     </div>
+                 </div>
+             </div>
+@@ -94,51 +98,55 @@
+       <div class="row">
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/chicken_rice.jpg" alt="Card image cap">
+                     <div class="card-block">
+                         <h4 class="card-title">Chicken Rice</h4>
+                         <p class="card-text">Price: $12.90</p>
+-                      <button type="button" data-name="Chicken Rice" data-price="12.90" class="add-to-cart btn btn-primary">Add to cart</button>
++                      <button type="button" data-name="ChickenRice" data-price="12.90" class="add-to-cart btn btn-primary">Add to cart</button>
+                    </div>
+                 </div>
+             </div>
++          <hr>
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/Baked_rice.jpg" alt="Card image cap">
+                     <div class="card-block">
+                         <h4 class="card-title">Baked Rice</h4>
+                         <p class="card-text">Price: $14.90</p>
+-                        <button name="add_cart" data-name="Baked Rice" data-price="14.90" class="add-to-cart btn btn-primary">Add to cart</button>
++                        <button name="add_cart" data-name="BakedRice" data-price="14.90" class="add-to-cart btn btn-primary">Add to cart</button>
+                     </div>
+                 </div>
+             </div>
+-
++          <hr>
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/fried_rice.jpg" alt="Card image cap">
+                     <div class="card-block">
+-                        <h4 class="card-title">Pizza</h4>
++                        <h4 class="card-title">Fried Rice</h4>
+                         <p class="card-text">Price: $20</p>
+-                        <button name="add_cart" data-name="Pizza" data-price="20" class="add-to-cart btn btn-primary">Add to cart</button>
++                        <button name="add_cart" data-name="FriedRice" data-price="20" class="add-to-cart btn btn-primary">Add to cart</button>
+                     </div>
+                 </div>
+             </div>
+       </div>
+       <hr>
++        <br>
+       <div class="row">
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/Mushroom_soup.jpg" alt="Card image cap">
+                     <div class="card-block">
+                         <h4 class="card-title">Mushroom Soup</h4>
+                         <p class="card-text">Price: $10</p>
+-                      <button type="button" data-name="Mushroom Soup" data-price="10" class="add-to-cart btn btn-primary">Add to cart</button>
++                      <button type="button" data-name="MushroomSoup" data-price="10" class="add-to-cart btn btn-primary">Add to cart</button>
+                    </div>
+                 </div>
+             </div>
++          <hr>
++          <br>
+             <div class="col">
+-                <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                <div class="card" style=" bwidth: 20rem;">
++                    <img class="card-img-top" src="static/image/steak.jpg" alt="Card image cap">
+                     <div class="card-block">
+                         <h4 class="card-title">Steak</h4>
+                         <p class="card-text">Price: $30.00</p>
+@@ -146,10 +154,11 @@
+                     </div>
+                 </div>
+             </div>
+-
++          <hr>
++          <br>
+             <div class="col">
+                 <div class="card" style="width: 20rem;">
+-                    <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg" alt="Card image cap">
++                    <img class="card-img-top" src="static/image/Burger.jpg" alt="Card image cap">
+                     <div class="card-block">
+                         <h4 class="card-title">Burger</h4>
+                         <p class="card-text">Price: $25.90</p>
+@@ -157,10 +166,15 @@
+                     </div>
+                 </div>
+             </div>
++          <hr>
+       </div>
+ 
+-
++<hr>
++        <br>
+ </div>
++    <br>
++    <br>
++    <br>
+ </form>
+ {% endblock %}
+ 
+Index: Templates/confirmationReservation.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"userBase.html\" %}\r\n{% block title %}Library Loan System - Confirmation {% endblock %}\r\n\r\n\r\n<link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/royal_style.css') }}\">\r\n\r\n{% block content %}\r\n<form action=\"{{url_for('confirmationReservation')}}\" method=\"POST\">\r\n<div class=\"container\">\r\n   <header><h1>Confirmation</h1></header>\r\n    <h2>Hi, {{reservation.get_first_name()}} {{reservation.get_last_name()}}</h2>\r\n    <p>Thank you for making reservation with HOTEL LA BODO. We will send the following reservation\r\n        details to your email.<br>To continue, click the button below to acknowledge.</p>\r\n    <a href=\"{{ url_for('user_home') }}\" class=\"button_hover theme_btn_two\">Ok</a>\r\n    <p>Thanks, <br> HOTEL LA BODO</p>\r\n</div>\r\n</form>\r\n\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Templates/confirmationReservation.html	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ Templates/confirmationReservation.html	(date 1613363112840)
+@@ -1,19 +1,177 @@
+ {% extends "userBase.html" %}
+ {% block title %}Library Loan System - Confirmation {% endblock %}
+ 
+-
+-<link rel="stylesheet" href="{{ url_for('static',filename='styles/royal_style.css') }}">
++<link rel="stylesheet" href="{{ url_for('static',filename='styles/royal_style.css') }}">\
+ 
+ {% block content %}
+-<form action="{{url_for('confirmationReservation')}}" method="POST">
+-<div class="container">
+-   <header><h1>Confirmation</h1></header>
+-    <h2>Hi, {{reservation.get_first_name()}} {{reservation.get_last_name()}}</h2>
+-    <p>Thank you for making reservation with HOTEL LA BODO. We will send the following reservation
+-        details to your email.<br>To continue, click the button below to acknowledge.</p>
+-    <a href="{{ url_for('user_home') }}" class="button_hover theme_btn_two">Ok</a>
+-    <p>Thanks, <br> HOTEL LA BODO</p>
+-</div>
+-</form>
++
++<head>
++    <title></title>
++    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1">
++    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
++    <style type="text/css">
++        @media screen {
++            @font-face {
++                font-family: 'Lato';
++                font-style: normal;
++                font-weight: 400;
++                src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
++            }
++
++            @font-face {
++                font-family: 'Lato';
++                font-style: normal;
++                font-weight: 700;
++                src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
++            }
++
++            @font-face {
++                font-family: 'Lato';
++                font-style: italic;
++                font-weight: 400;
++                src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
++            }
++
++            @font-face {
++                font-family: 'Lato';
++                font-style: italic;
++                font-weight: 700;
++                src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
++            }
++        }
++
++        /* CLIENT-SPECIFIC STYLES */
++        body,
++        table,
++        td,
++        a {
++            -webkit-text-size-adjust: 100%;
++            -ms-text-size-adjust: 100%;
++        }
++
++        table,
++        td {
++            mso-table-lspace: 0pt;
++            mso-table-rspace: 0pt;
++        }
++
++        img {
++            -ms-interpolation-mode: bicubic;
++        }
++
++        /* RESET STYLES */
++        img {
++            border: 0;
++            height: auto;
++            line-height: 100%;
++            outline: none;
++            text-decoration: none;
++        }
++
++        table {
++            border-collapse: collapse !important;
++        }
++
++        body {
++            height: 100% !important;
++            margin: 0 !important;
++            padding: 0 !important;
++            width: 100% !important;
++        }
++
++        /* iOS BLUE LINKS */
++        a[x-apple-data-detectors] {
++            color: inherit !important;
++            text-decoration: none !important;
++            font-size: inherit !important;
++            font-family: inherit !important;
++            font-weight: inherit !important;
++            line-height: inherit !important;
++        }
++
++        /* MOBILE STYLES */
++        @media screen and (max-width:600px) {
++            h1 {
++                font-size: 32px !important;
++                line-height: 32px !important;
++            }
++        }
++
++        /* ANDROID CENTER FIX */
++        div[style*="margin: 16px 0;"] {
++            margin: 0 !important;
++        }
++    </style>
++</head>
++
++<body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
++    <!-- HIDDEN PREHEADER TEXT -->
++    <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
++    <table border="0" cellpadding="0" cellspacing="0" width="100%">
++        <!-- LOGO -->
++        <tr>
++            <td bgcolor="#FFA73B" align="center">
++                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
++                    <tr>
++                        <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
++                    </tr>
++                </table>
++            </td>
++        </tr>
++        <tr>
++            <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
++                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
++                    <tr>
++                        <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
++                            <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Order Confirmation</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
++                        </td>
++                    </tr>
++                </table>
++            </td>
++        </tr>
++        <tr>
++            <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
++                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
++                    <tr>
++                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
++                            <p style="margin: 0;">Thank you for making reservation with HOTEL LA BODO. We will send the following Pre-orders
++                                                    details to your email.<br>To continue, click the button below to acknowledge..</p>
++                        </td>
++                    </tr>
++                    <tr>
++                        <td bgcolor="#ffffff" align="left">
++                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
++                                <tr>
++                                    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
++                                        <table border="0" cellspacing="0" cellpadding="0">
++                                            <tr>
++                                                <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="#" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Order</a></td>
++                                            </tr>
++                                        </table>
++                                    </td>
++                                </tr>
++                            </table>
++                        </td>
++                    </tr> <!-- COPY -->
++                    <tr>
++                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
++                            <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
++                        </td>
++                    </tr>
++                    <tr>
++                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
++                            <p style="margin: 0;">Cheers,<br>HOTEL LA BODO Team</p>
++                        </td>
++                    </tr>
++                </table>
++            </td>
++        </tr>
++        <tr>
++        </tr>
++        <tr>
++        </tr>
++    </table>
++
+ 
+ {% endblock %}
+\ No newline at end of file
+Index: Templates/cart_confirmation.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"userBase.html\" %}\r\n{% block title %}Library Loan System - Confirmation {% endblock %}\r\n\r\n<link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/royal_style.css') }}\">\\\r\n\r\n{% block content %}\r\n<form action=\"{{url_for('confirmationReservation')}}\" method=\"POST\">\r\n<div class=\"container\">\r\n   <header><h1>Confirmation</h1></header>\r\n    <h2>Hi, </h2>\r\n    <p>Thank you for making Pre-Orders with HOTEL LA BODO. We will send the pre-orders\r\n        details to your email.<br>To continue, click the button below to acknowledge.</p>\r\n    <a href=\"{{ url_for('user_home') }}\" class=\"button_hover theme_btn_two\">Ok</a>\r\n    <p>Thanks, <br> HOTEL LA BODO</p>\r\n</div>\r\n</form>\r\n\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Templates/cart_confirmation.html	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ Templates/cart_confirmation.html	(date 1613362993464)
+@@ -4,15 +4,173 @@
+ <link rel="stylesheet" href="{{ url_for('static',filename='styles/royal_style.css') }}">\
+ 
+ {% block content %}
+-<form action="{{url_for('confirmationReservation')}}" method="POST">
+-<div class="container">
+-   <header><h1>Confirmation</h1></header>
+-    <h2>Hi, </h2>
+-    <p>Thank you for making Pre-Orders with HOTEL LA BODO. We will send the pre-orders
+-        details to your email.<br>To continue, click the button below to acknowledge.</p>
+-    <a href="{{ url_for('user_home') }}" class="button_hover theme_btn_two">Ok</a>
+-    <p>Thanks, <br> HOTEL LA BODO</p>
+-</div>
+-</form>
++
++<head>
++    <title></title>
++    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1">
++    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
++    <style type="text/css">
++        @media screen {
++            @font-face {
++                font-family: 'Lato';
++                font-style: normal;
++                font-weight: 400;
++                src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
++            }
++
++            @font-face {
++                font-family: 'Lato';
++                font-style: normal;
++                font-weight: 700;
++                src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
++            }
++
++            @font-face {
++                font-family: 'Lato';
++                font-style: italic;
++                font-weight: 400;
++                src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
++            }
++
++            @font-face {
++                font-family: 'Lato';
++                font-style: italic;
++                font-weight: 700;
++                src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
++            }
++        }
++
++        /* CLIENT-SPECIFIC STYLES */
++        body,
++        table,
++        td,
++        a {
++            -webkit-text-size-adjust: 100%;
++            -ms-text-size-adjust: 100%;
++        }
++
++        table,
++        td {
++            mso-table-lspace: 0pt;
++            mso-table-rspace: 0pt;
++        }
++
++        img {
++            -ms-interpolation-mode: bicubic;
++        }
++
++        /* RESET STYLES */
++        img {
++            border: 0;
++            height: auto;
++            line-height: 100%;
++            outline: none;
++            text-decoration: none;
++        }
++
++        table {
++            border-collapse: collapse !important;
++        }
++
++        body {
++            height: 100% !important;
++            margin: 0 !important;
++            padding: 0 !important;
++            width: 100% !important;
++        }
++
++        /* iOS BLUE LINKS */
++        a[x-apple-data-detectors] {
++            color: inherit !important;
++            text-decoration: none !important;
++            font-size: inherit !important;
++            font-family: inherit !important;
++            font-weight: inherit !important;
++            line-height: inherit !important;
++        }
++
++        /* MOBILE STYLES */
++        @media screen and (max-width:600px) {
++            h1 {
++                font-size: 32px !important;
++                line-height: 32px !important;
++            }
++        }
++
++        /* ANDROID CENTER FIX */
++        div[style*="margin: 16px 0;"] {
++            margin: 0 !important;
++        }
++    </style>
++</head>
++
++<body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
++    <!-- HIDDEN PREHEADER TEXT -->
++    <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;"> We're thrilled to have you here! Get ready to dive into your new account. </div>
++    <table border="0" cellpadding="0" cellspacing="0" width="100%">
++        <!-- LOGO -->
++        <tr>
++            <td bgcolor="#FFA73B" align="center">
++                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
++                    <tr>
++                        <td align="center" valign="top" style="padding: 40px 10px 40px 10px;"> </td>
++                    </tr>
++                </table>
++            </td>
++        </tr>
++        <tr>
++            <td bgcolor="#FFA73B" align="center" style="padding: 0px 10px 0px 10px;">
++                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
++                    <tr>
++                        <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;">
++                            <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Order Confirmation</h1> <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" style="display: block; border: 0px;" />
++                        </td>
++                    </tr>
++                </table>
++            </td>
++        </tr>
++        <tr>
++            <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
++                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
++                    <tr>
++                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
++                            <p style="margin: 0;">Thank you for making reservation with HOTEL LA BODO. We will send the following Pre-orders
++                                                    details to your email.<br>To continue, click the button below to acknowledge..</p>
++                        </td>
++                    </tr>
++                    <tr>
++                        <td bgcolor="#ffffff" align="left">
++                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
++                                <tr>
++                                    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
++                                        <table border="0" cellspacing="0" cellpadding="0">
++                                            <tr>
++                                                <td align="center" style="border-radius: 3px;" bgcolor="#FFA73B"><a href="#" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Confirm Order</a></td>
++                                            </tr>
++                                        </table>
++                                    </td>
++                                </tr>
++                            </table>
++                        </td>
++                    </tr> <!-- COPY -->
++                    <tr>
++                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
++                            <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
++                        </td>
++                    </tr>
++                    <tr>
++                        <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
++                            <p style="margin: 0;">Cheers,<br>HOTEL LA BODO Team</p>
++                        </td>
++                    </tr>
++                </table>
++            </td>
++        </tr>
++        <tr>
++        </tr>
++        <tr>
++        </tr>
++    </table>
+ 
+ {% endblock %}
+\ No newline at end of file
+Index: storage.db.bak
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- storage.db.bak	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ storage.db.bak	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
+@@ -1,1 +0,0 @@
+-'Users', (0, 255)
+Index: storage.db.dat
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- storage.db.dat	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ storage.db.dat	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
+@@ -1,6 +0,0 @@
+-�}q X   rose01qcUser
+-User
+-q)�q}q(X   _User__nameqX   GeraldqX   _User__usernameqhX   _User__emailqX   urmom@gmail.comq	X   _User__phone_numq
+-X   MqX
+-   _User__genderqJI��X   _User__passwordq
+-X   22qX   _User__dealsqX   WITqubs.
+\ No newline at end of file
+Index: storage.db.dir
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- storage.db.dir	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ storage.db.dir	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
+@@ -1,1 +0,0 @@
+-'Users', (0, 255)
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"BranchesTreeState\">\r\n    <expand>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\r\n      </path>\r\n    </expand>\r\n    <select />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d581c3c9-fccb-461c-b42e-e35779b3d8df\" name=\"Default Changelist\" comment=\"login and profile\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1nrbTCyGdqiS1YvojdZuY6SolUm\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\proge\\PycharmProjects\\Merged_La_Bodo\\Templates\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"__init__\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Merged La Bodo\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/__init__.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.__init__\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d581c3c9-fccb-461c-b42e-e35779b3d8df\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1612151162221</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1612151162221</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"gbriel hi world\">\r\n      <created>1612151342750</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1612151342750</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"login test\">\r\n      <created>1612152835873</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1612152835873</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"login test\">\r\n      <created>1612153145802</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1612153145802</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"login and profile\">\r\n      <created>1613237579851</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1613237579851</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"gbriel hi world\" />\r\n    <MESSAGE value=\"login test\" />\r\n    <MESSAGE value=\"login and profile\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"login and profile\" />\r\n  </component>\r\n  <component name=\"WindowStateProjectService\">\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1613237789708\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.bottom/0.0.1189.720@0.0.1189.720\" timestamp=\"1613237789708\" />\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.center\" timestamp=\"1613237789707\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.center/0.0.1189.720@0.0.1189.720\" timestamp=\"1613237789707\" />\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.left\" timestamp=\"1613237789707\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.left/0.0.1189.720@0.0.1189.720\" timestamp=\"1613237789707\" />\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.right\" timestamp=\"1613237789707\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state width=\"1168\" height=\"176\" key=\"GridCell.Tab.0.right/0.0.1189.720@0.0.1189.720\" timestamp=\"1613237789707\" />\r\n    <state x=\"113\" y=\"55\" key=\"MergeDialog\" timestamp=\"1613237524154\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state x=\"113\" y=\"55\" key=\"MergeDialog/0.0.1189.720@0.0.1189.720\" timestamp=\"1613237524154\" />\r\n    <state x=\"105\" y=\"6\" key=\"SettingsEditor\" timestamp=\"1613236724712\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state x=\"105\" y=\"6\" key=\"SettingsEditor/0.0.1188.720@0.0.1188.720\" timestamp=\"1612151193099\" />\r\n    <state x=\"105\" y=\"6\" key=\"SettingsEditor/0.0.1189.720@0.0.1189.720\" timestamp=\"1613236724712\" />\r\n    <state x=\"188\" y=\"94\" key=\"Vcs.Push.Dialog.v2\" timestamp=\"1613237819536\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state x=\"188\" y=\"94\" key=\"Vcs.Push.Dialog.v2/0.0.1188.720@0.0.1188.720\" timestamp=\"1612153337359\" />\r\n    <state x=\"188\" y=\"94\" key=\"Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720\" timestamp=\"1613237819536\" />\r\n    <state x=\"405\" y=\"275\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2\" timestamp=\"1613237429009\">\r\n      <screen x=\"0\" y=\"0\" width=\"1189\" height=\"720\" />\r\n    </state>\r\n    <state x=\"405\" y=\"275\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1188.720@0.0.1188.720\" timestamp=\"1612153088124\" />\r\n    <state x=\"405\" y=\"275\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1189.720@0.0.1189.720\" timestamp=\"1613237429009\" />\r\n    <state x=\"309\" y=\"150\" key=\"git4idea.merge.GitPullDialog\" timestamp=\"1612153325389\">\r\n      <screen x=\"0\" y=\"0\" width=\"1188\" height=\"720\" />\r\n    </state>\r\n    <state x=\"309\" y=\"150\" key=\"git4idea.merge.GitPullDialog/0.0.1188.720@0.0.1188.720\" timestamp=\"1612153325389\" />\r\n    <state x=\"357\" y=\"151\" key=\"git4idea.ui.GitUnstashDialog\" timestamp=\"1612153331403\">\r\n      <screen x=\"0\" y=\"0\" width=\"1188\" height=\"720\" />\r\n    </state>\r\n    <state x=\"357\" y=\"151\" key=\"git4idea.ui.GitUnstashDialog/0.0.1188.720@0.0.1188.720\" timestamp=\"1612153331403\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ .idea/workspace.xml	(date 1613368319602)
+@@ -1,5 +1,8 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="AnalysisUIOptions">
++    <option name="SCOPE_TYPE" value="4" />
++  </component>
+   <component name="BranchesTreeState">
+     <expand>
+       <path>
+@@ -19,7 +22,18 @@
+     <select />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="login and profile" />
++    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="YES 4 CRUD DOWN">
++      <change beforePath="$PROJECT_DIR$/.idea/Merged La Bodo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Merged La Bodo.iml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Templates/AddCart.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/AddCart.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Templates/cart_confirmation.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/cart_confirmation.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Templates/confirmationReservation.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/confirmationReservation.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Templates/userHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/userHome.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/storage.db.bak" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/storage.db.dat" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/storage.db.dir" beforeDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -111,9 +125,19 @@
+       <option name="project" value="LOCAL" />
+       <updated>1613237579851</updated>
+     </task>
+-    <option name="localTasksCounter" value="5" />
++    <task id="LOCAL-00005" summary="YES 4 CRUD DOWN">
++      <created>1613322666372</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1613322666372</updated>
++    </task>
++    <option name="localTasksCounter" value="6" />
+     <servers />
+   </component>
++  <component name="UnknownFeatures">
++    <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
++  </component>
+   <component name="Vcs.Log.Tabs.Properties">
+     <option name="TAB_STATES">
+       <map>
+@@ -130,25 +154,30 @@
+     <MESSAGE value="gbriel hi world" />
+     <MESSAGE value="login test" />
+     <MESSAGE value="login and profile" />
+-    <option name="LAST_COMMIT_MESSAGE" value="login and profile" />
++    <MESSAGE value="YES 4 CRUD DOWN" />
++    <option name="LAST_COMMIT_MESSAGE" value="YES 4 CRUD DOWN" />
+   </component>
+   <component name="WindowStateProjectService">
+-    <state width="1168" height="176" key="GridCell.Tab.0.bottom" timestamp="1613237789708">
+-      <screen x="0" y="0" width="1189" height="720" />
++    <state width="1899" height="72" key="GridCell.Tab.0.bottom" timestamp="1613363134815">
++      <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state width="1168" height="176" key="GridCell.Tab.0.bottom/0.0.1189.720@0.0.1189.720" timestamp="1613237789708" />
+-    <state width="1168" height="176" key="GridCell.Tab.0.center" timestamp="1613237789707">
+-      <screen x="0" y="0" width="1189" height="720" />
++    <state width="1899" height="72" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1613363134815" />
++    <state width="1899" height="72" key="GridCell.Tab.0.center" timestamp="1613363134815">
++      <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state width="1168" height="176" key="GridCell.Tab.0.center/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
+-    <state width="1168" height="176" key="GridCell.Tab.0.left" timestamp="1613237789707">
+-      <screen x="0" y="0" width="1189" height="720" />
++    <state width="1899" height="72" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1613363134815" />
++    <state width="1899" height="72" key="GridCell.Tab.0.left" timestamp="1613363134815">
++      <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state width="1168" height="176" key="GridCell.Tab.0.left/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
+-    <state width="1168" height="176" key="GridCell.Tab.0.right" timestamp="1613237789707">
+-      <screen x="0" y="0" width="1189" height="720" />
++    <state width="1899" height="72" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1613363134815" />
++    <state width="1899" height="72" key="GridCell.Tab.0.right" timestamp="1613363134815">
++      <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state width="1168" height="176" key="GridCell.Tab.0.right/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
++    <state width="1899" height="72" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1613363134815" />
+     <state x="113" y="55" key="MergeDialog" timestamp="1613237524154">
+       <screen x="0" y="0" width="1189" height="720" />
+     </state>
+@@ -158,16 +187,18 @@
+     </state>
+     <state x="105" y="6" key="SettingsEditor/0.0.1188.720@0.0.1188.720" timestamp="1612151193099" />
+     <state x="105" y="6" key="SettingsEditor/0.0.1189.720@0.0.1189.720" timestamp="1613236724712" />
+-    <state x="188" y="94" key="Vcs.Push.Dialog.v2" timestamp="1613237819536">
+-      <screen x="0" y="0" width="1189" height="720" />
++    <state x="304" y="136" key="Vcs.Push.Dialog.v2" timestamp="1613358692648">
++      <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1188.720@0.0.1188.720" timestamp="1612153337359" />
+     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720" timestamp="1613237819536" />
+-    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613237429009">
+-      <screen x="0" y="0" width="1189" height="720" />
++    <state x="304" y="136" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613358692648" />
++    <state x="654" y="397" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613358666073">
++      <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1188.720@0.0.1188.720" timestamp="1612153088124" />
+     <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1189.720@0.0.1189.720" timestamp="1613237429009" />
++    <state x="654" y="397" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613358666073" />
+     <state x="309" y="150" key="git4idea.merge.GitPullDialog" timestamp="1612153325389">
+       <screen x="0" y="0" width="1188" height="720" />
+     </state>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.8\" project-jdk-type=\"Python SDK\" />\r\n  <component name=\"PyCharmProfessionalAdvertiser\">\r\n    <option name=\"shown\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ .idea/misc.xml	(date 1613322914125)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.7" project-jdk-type="Python SDK" />
+   <component name="PyCharmProfessionalAdvertiser">
+     <option name="shown" value="true" />
+   </component>
+Index: Templates/userHome.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends \"userBase.html\" %}\r\n{% block title %}Library Loan System - Home{% endblock %}\r\n\r\n{% block content %}\r\n<h1 class=\"display-4\"></h1>\r\n{% block css %}\r\n  {{ super() }}\r\n    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">\r\n    <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/royal_style.css') }}\">\r\n    <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/book.css') }}\"/>\r\n    <link rel=\"stylesheet\" href=\"{{ url_for('static',filename='styles/booking_colors.css') }}\"/>\r\n{% endblock %}\r\n<div class=\"Container\" style=\"min-height:400px; background-image: url('../static/image/NovotelStevens-FoodExchange5-1500x400.jpg');\">\r\n<div style=\"font-size: 1000px; padding-top: 150px; font-colour:white;\">\r\n    <strong><center><h1>HOTEL LA BODO RESTAURANT</h1></center></strong>\r\n</div>\r\n</div>\r\n\r\n<section class=\"about_history_area section_gap\">\r\n    <div class=\"container\" style=\"padding-top: 200px;\">\r\n        <hr>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 d_flex align-items-center\">\r\n                <div class=\"about_content \">\r\n                    <h2 class=\"title title_color\">DINE IN</h2>\r\n                    <p>We believe the choices we make about what we eat, where it comes from and how it’s prepared have a direct and powerful impact on the health of individuals, communities and the environment</p>\r\n                    <a href=\"{{ url_for('createReservation') }}\" class=\"button_hover theme_btn_two\">Book Reservation</a>\r\n                </div>\r\n            </div>\r\n            <div class=\"col-md-6\">\r\n                <img class=\"img-fluid\" src=\"static/image/fine food 1.jpg\" alt=\"\">\r\n            </div>\r\n        </div>\r\n        <hr>\r\n    </div>\r\n</section>\r\n\r\n<section class=\"Pre-order\">\r\n    <div class=\"container\" style=\"d-flex justify-content-center\">\r\n        <center><h2>Menu</h2></center>\r\n        <a href=\"{{ url_for('cart') }}\" class=\"button_hover theme_btn_two float-right\">Cart</a>\r\n        <br>\r\n        <br>\r\n        <h3 class=\"card-title mb-4\" style=\"width: 100%; text-align: center; border-bottom: 1px solid #000; line-height: 0.1em; margin: 10px 0 20px;\"><span style=\"background:#fff; padding: 0 50px;\">~ Pre-orders ~</span></h3>\r\n\r\n        <br>\r\n        <br>\r\n        <br>\r\n        <br>\r\n        <br>\r\n    </div>\r\n\r\n</section>\r\n  <center><a href=\"{{ url_for('createReview') }}\" class=\"button_hover theme_btn_two \">Write a review</a></center>\r\n\r\n<!--================ Testimonial Area  =================-->\r\n<section class=\"testimonial_area section_gap\">\r\n    <div class=\"container\">\r\n        <div class=\"section_title text-center\">\r\n            <h2 class=\"title_color\">Feedback from our Customers</h2>\r\n        </div>\r\n\r\n            {% for review in reviews_list %}\r\n        <div class=\"testimonial_slider owl-carousel\">\r\n            <div class=\"media testimonial_item\">\r\n                <img class=\"rounded-circle\" src=\"static/image/testtimonial-1.jpg\" alt=\"\">\r\n                <div class=\"media-body\">\r\n                    <a href=\"#\"><h4 class=\"sec_h4\"> {{ review[1] + ' ' + review[2] }} </h4></a>\r\n                    <p>{{ review[3] }} </p>\r\n                </div>\r\n            </div>\r\n            {% endfor %}\r\n        </div>\r\n    </div>\r\n</section>\r\n<section>\r\n<div class=\"section padding-top-bottom-small background-black over-hide footer\">\r\n    <div class=\"container\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-3 text-center text-md-left\">\r\n                <img src=\"img/logo.png\" alt=\"\">\r\n                <p class=\"color-grey mt-4\">180 Ang Mo Kio Ave 8,<br>Singapore 569830</p>\r\n            </div>\r\n            <div class=\"col-md-4 text-center text-md-left\">\r\n                <h6 class=\"color-white mb-3\">information</h6>\r\n                <a href=\"tandc.html\">terms &amp; conditions</a>\r\n                <a href=\"services.html\">services</a>\r\n                <a href=\"restaurant.html\">restaurant</a>\r\n                <a href=\"testimonials.html\">testimonials</a>\r\n                <a href=\"gallery.html\">gallery &amp; images</a>\r\n            </div>\r\n            <div class=\"col-md-5 mt-4 mt-md-0 text-center text-md-left logos-footer\">\r\n                <h6 class=\"color-white mb-3\">about us</h6>\r\n                <p class=\"color-grey mb-4\">You're not supposed to read this. Go away!</p>\r\n                <img src=\"img/logos/1.png\" alt=\"\">\r\n                <img src=\"img/logos/2.png\" alt=\"\">\r\n                <img src=\"img/logos/3.png\" alt=\"\">\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n</section>\r\n\r\n\r\n\r\n<div class=\"scroll-to-top\"></div>\r\n\r\n\r\n\r\n        <!--================ Testimonial Area  =================-->\r\n{% endblock %}\r\n\r\n{% block scripts %}\r\n      {{ super() }}\r\n      <script src=\"{{url_for('static', filename='js/Addcart.js')}}\"></script>\r\n\r\n\r\n    {%endblock%}\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Templates/userHome.html	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ Templates/userHome.html	(date 1613369281477)
+@@ -33,25 +33,38 @@
+         </div>
+         <hr>
+     </div>
++    <br>
++    <br>
++    <br>
++    <br>
++    <div class="container" style="padding-top: 200px;">
++        <hr>
++        <div class="row">
++            <div class="col-md-6">
++                <img class="img-fluid" src="static/image/Pre_order_food_new.png" alt="">
++            </div>
++            <div class="col-md-6 d_flex align-items-center">
++                <div class="about_content ">
++                    <h2 class="title title_color">Pre-Order</h2>
++                    <p>We believe the choices we make about what we eat, where it comes from and how it’s prepared have a direct and powerful impact on the health of individuals, communities and the environment</p>
++                    <a href="{{ url_for('cart') }}" class="button_hover theme_btn_two">Order Now</a>
++                </div>
++            </div>
++        </div>
++        <hr>
++    </div>
+ </section>
+-
+-<section class="Pre-order">
+-    <div class="container" style="d-flex justify-content-center">
+-        <center><h2>Menu</h2></center>
+-        <a href="{{ url_for('cart') }}" class="button_hover theme_btn_two float-right">Cart</a>
+-        <br>
+-        <br>
+-        <h3 class="card-title mb-4" style="width: 100%; text-align: center; border-bottom: 1px solid #000; line-height: 0.1em; margin: 10px 0 20px;"><span style="background:#fff; padding: 0 50px;">~ Pre-orders ~</span></h3>
+-
+-        <br>
+-        <br>
+-        <br>
+-        <br>
+-        <br>
+-    </div>
+-
+-</section>
+-  <center><a href="{{ url_for('createReview') }}" class="button_hover theme_btn_two ">Write a review</a></center>
++<br>
++<br>
++<br>
++<hr>
++<br>
++<br>
++<br>
++  <center><a href="{{ url_for('createReview') }}" class="button_hover theme_btn_two ">Write a review</a></center>
++<br>
++<br>
++<br>
+ 
+ <!--================ Testimonial Area  =================-->
+ <section class="testimonial_area section_gap">
+Index: .idea/Merged La Bodo.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.8\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"module\" module-name=\"Inventory\" />\r\n    <orderEntry type=\"module\" module-name=\"Supplier\" />\r\n    <orderEntry type=\"module\" module-name=\"SimpleWebApplication\" />\r\n  </component>\r\n  <component name=\"PyDocumentationSettings\">\r\n    <option name=\"format\" value=\"PLAIN\" />\r\n    <option name=\"myDocStringFormat\" value=\"Plain\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/Merged La Bodo.iml	(revision 919ef2b6a7441cb7bf0be1b5b19a0daed5fe8dca)
++++ .idea/Merged La Bodo.iml	(date 1613322914102)
+@@ -4,7 +4,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.8" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.7" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="module" module-name="Inventory" />
+     <orderEntry type="module" module-name="Supplier" />
