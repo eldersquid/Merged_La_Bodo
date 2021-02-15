@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% from "__formhelperwithoutlabel.html" import render_field  %}
 <style>
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -23,7 +24,7 @@ button {
   display: inline-block;
   padding: 8px;
   color: white;
-  background-color: #000;
+  background-color: #00000;
   text-align: center;
   cursor: pointer;
   width: 100%;
@@ -45,20 +46,52 @@ button:hover, a:hover {
 
 <h2 style="text-align:center">User Profile</h2>
 
-<div class="card">
-<img src="https://cdn.discordapp.com/attachments/778875110450135050/779273238215393280/avatar.png" alt="John" style="width:80%">
-  <h1>{{user.get_name()}}</h1>
-  <p class="title">Username: {{user.get_username()}}</p>
-  <p class="title">Gender: {{user.get_phone_num()}}</p>
-  <p class="title">Phone Number: {{user.get_gender()}}</p>
-  <p class="title">Email: {{user.get_email()}}</p>
-  <p class="title">Password: {{user.get_password()}}</p>
-  <p class="title">Package Deal: {{user.get_deals()}}</p>
-  <button>
+<form class='block-register' action="" method="POST" enctype="multipart/form-data">
+  <div class="card">
+  <img src="https://cdn.discordapp.com/attachments/778875110450135050/779273238215393280/avatar.png" alt="John" style="width:80%">
+    <h1>{{user.get_name()}}</h1>
+    <div class="form-group form-row">
+      <label class="col-md-1 col-form-label">Username:</label>
+          <div class="col-md-3">
+               {{ render_field(form.username, class="form-control", value=user.get_username()) }}
+          </div>
+    </div>
+    <div class="form-group form-row">
+      <label class="col-md-1 col-form-label">Gender:</label>
+          <div class="col-md-3">
+               {{ render_field(form.gender, class="form-control", value=user.get_gender()) }}
+          </div>
+    </div>
+    <div class="form-group form-row">
+      <label class="col-md-1 col-form-label">Phone Number:</label>
+          <div class="col-md-3">
+               {{ render_field(form.phone_num, class="form-control", value=user.get_phone_num()) }}
+          </div>
+    </div>
+    <div class="form-group form-row">
+      <label class="col-md-2 col-form-label">Email:</label>
+          <div class="col-md-3">
+               {{ render_field(form.email, class="form-control", value=user.get_email()) }}
+          </div>
+    </div>
+    <div class="form-group form-row">
+      <label class="col-md-1 col-form-label">Password:</label>
+          <div class="col-md-3">
+               {{ render_field(form.password, class="form-control", value=user.get_password()) }}
+          </div>
+    </div>
+    <div class="form-group form-row">
+      <label class="col-md-1 col-form-label">Package Deal:</label>
+          <div class="col-md-3">
+               {{ render_field(form.deals, class="form-control", value=user.get_deals()) }}
+          </div>
+    </div>
+    <button>
 
-  <a href="/profile" class="btn btn-primary">Confirm</a>
-  </button>
-</div>
+    <a href="/profile" class="btn btn-primary">Confirm</a>
+    </button>
+  </div>
+</form>
 
 </body>
 </html>

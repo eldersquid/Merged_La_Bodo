@@ -19,14 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="login and profile">
-      <change beforePath="$PROJECT_DIR$/.idea/Merged La Bodo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Merged La Bodo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/createStaff.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/createStaff.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/updateProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/updateProfile.html" afterDir="false" />
-    </list>
+    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="login and profile" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -118,14 +111,7 @@
       <option name="project" value="LOCAL" />
       <updated>1613237579851</updated>
     </task>
-    <task id="LOCAL-00005" summary="login and profile">
-      <created>1613289712242</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1613289712242</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -172,16 +158,16 @@
     </state>
     <state x="105" y="6" key="SettingsEditor/0.0.1188.720@0.0.1188.720" timestamp="1612151193099" />
     <state x="105" y="6" key="SettingsEditor/0.0.1189.720@0.0.1189.720" timestamp="1613236724712" />
-    <state x="188" y="94" key="Vcs.Push.Dialog.v2" timestamp="1613294314303">
+    <state x="188" y="94" key="Vcs.Push.Dialog.v2" timestamp="1613237819536">
       <screen x="0" y="0" width="1189" height="720" />
     </state>
     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1188.720@0.0.1188.720" timestamp="1612153337359" />
-    <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720" timestamp="1613294314303" />
-    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613292520894">
+    <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720" timestamp="1613237819536" />
+    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613237429009">
       <screen x="0" y="0" width="1189" height="720" />
     </state>
     <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1188.720@0.0.1188.720" timestamp="1612153088124" />
-    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1189.720@0.0.1189.720" timestamp="1613292520894" />
+    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1189.720@0.0.1189.720" timestamp="1613237429009" />
     <state x="309" y="150" key="git4idea.merge.GitPullDialog" timestamp="1612153325389">
       <screen x="0" y="0" width="1188" height="720" />
     </state>
