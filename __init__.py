@@ -11,12 +11,12 @@ from Supplier import *
 from Inventory import *
 from Industry import *
 from Partnerships import *
+from PackageDeal import *
 from Order import *
 from Request import *
 import shelve ,Reservation, Review,smtplib,ssl
 import json
 import random
-import PackageDeal
 import requests
 import shelve, User, Staff
 from ProductCat import *
@@ -2121,7 +2121,7 @@ def updatePartnerships(company):
         return render_template('updatePartnerships.html', form=update_partnerships_form, partnerships=partnerships)
 
 
-@app.route('/deletePartnerships', methods=['POST'])
+@app.route('/deletePartnerships/<company>', methods=['POST'])
 def deletePartnerships(company):
     partnerships_dict = {}
     db = shelve.open('company.db', 'w')
@@ -2130,7 +2130,7 @@ def deletePartnerships(company):
     db['company'] = partnerships_dict
     db.close()
 
-    return redirect(url_for('retrievePartnerships.html'))
+    return redirect(url_for('retrievePartnerships'))
 
 
 @app.route('/createPackageDeal', methods=['GET', 'POST'])
@@ -2183,7 +2183,7 @@ def retrievePackageDeal():
     return render_template('retrievePackageDeal.html', count=len(attractions_list), attractions_list=attractions_list)
 
 
-@app.route('/updatePackageDeal/<attractions>', methods=['GET', 'POST'])
+@app.route('/updatePackageDeal/<packagedeal>', methods=['GET', 'POST'])
 def updatePackageDeal(packagedeal):
     update_packagedeal_form = CreatePackageDeal(request.form)
     if request.method == 'POST' and update_packagedeal_form.validate():
@@ -2234,7 +2234,7 @@ def create_user():
     sign_up_form = Signup(request.form)
     print("yeeyee")
     if request.method == 'POST' and sign_up_form.validate():
-        print("ass")
+        print("mmm")
         users_dict = {}
         db = shelve.open('storage.db', 'c')
         try:
