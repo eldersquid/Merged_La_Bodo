@@ -2331,7 +2331,7 @@ def login_staff():
     log_in_staff_form = Staff_Login(request.form)
     if request.method == 'POST' and log_in_staff_form.validate():
         staff_dict = {}
-        db = shelve.open('storage.db', 'r')
+        db = shelve.open('storage.db', 'c')
         try:
             staff_dict = db['Staff']
         except:
