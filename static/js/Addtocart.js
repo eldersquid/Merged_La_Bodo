@@ -164,13 +164,13 @@ $(document).ready(function () {
                        var js_data = JSON.stringify(cart);
                        $.ajax({
                            url: '/payNowPls',
-                           type : 'post',
+                           type : 'POST',
                            contentType: 'application/json',
                            dataType : 'json',
                            data : js_data
                        }).done(function(result) {
                            console.log(result);
-                           window.location.href = "/guest-list";
+                           window.location.href = "/cart_confirmation";
                            $("#data").html(result);
                        }).fail(function(jqXHR, textStatus, errorThrown) {
                            console.log("fail: ",textStatus, errorThrown);
@@ -233,13 +233,17 @@ $('.show-cart').on("click", ".delete-item", function(event) {
 // -1
 $('.show-cart').on("click", ".minus-item", function(event) {
   var name = $(this).data('name')
-  shoppingCart.removeItemFromCart(name);
+  var price = Number($(this).data('price'));
+  var quantity = parseInt($(this).data('count'))
+  shoppingCart.removeItemFromCart(name, price, quantity);
   displayCart();
 })
 // +1
 $('.show-cart').on("click", ".plus-item", function(event) {
   var name = $(this).data('name')
-  shoppingCart.addItemToCart(name);
+  var price = Number($(this).data('price'));
+  var quantity = Number($(this).data('count'))
+  shoppingCart.addItemToCart(name, price, quantity);
   displayCart();
 })
 

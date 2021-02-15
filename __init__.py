@@ -29,21 +29,13 @@ app = Flask(__name__)
 app.config["SECRET_KEY"]= "@ajhdfbajshd"
 
 
-# Data from cart, do whatever you want with it
-@app.route('/payNowPls',methods=["GET","POST"])
-def payNowPls():
-    if request.method == 'POST':
-        data = request.json
-        print(data)
-        return jsonify(data)
-    return render_template("guest_list.html")
-
 
 #Gerald's part
-
-
-
 @app.route('/')
+def home_page():
+    return render_template('homura.html')
+
+@app.route('/userHome')
 def user_home():
     reviews_dict = {}
     try:
@@ -228,53 +220,52 @@ def adm_deleteReview(id):
 
     return redirect(url_for('adm_retrieveReservation'))
 
+# Data from cart, do whatever you want with it
+# call the stored data in admin
+@app.route('/payNowPls',methods=["GET","POST"])
+def payNowPls():
+    if request.method == 'POST':
+        data = request.json
+        menu = shelve.open("Menu.db")
+        preOrder = menu
+        preOrder[session["CurrentUsername"]] = data
+        menu = preOrder
+        menu.close()
+        print(data)
+        print("i am in pay now")
+        return jsonify(data)
+    return redirect(url_for('cart_confirmation'))
+
 @app.route('/cart', methods = ["GET","POST"])
 def cart():
-    return render_template('TestuserHome.html')
+
+    return render_template('AddCart.html')
+
+@app.route('/cart_confirmation', methods = ["GET","POST"])
+def cart_confirmation():
+
+    return render_template('cart_confirmation.html')
 
 
 
-@app.route('/view_cart', methods = ["GET","POST"])
-def view_cart():
-    return render_template('Cart.html')
+@app.route('/adm_viewPreOrders', methods = ['POST','GET'])
+def view_preOrder():
+    menu = shelve.open('Menu.db')
+    usernames = []
+    for item in menu:
+        usernames.append(item)
 
+    return render_template('adm_viewPreOrders.html', preorders=usernames)
 
+@app.route('/adm_viewPreOrdersDetails/<username>', methods = ['POST','GET'])
+def preorderdetail(username):
+    menu = shelve.open('Menu.db')
+    orderDetails = menu[username]
+    listing = []
+    for i in orderDetails:
+        listing.append(i)
 
-@app.route('/adm_createMenu', methods = ['POST','GET'])
-def create_menu():
-    return render_template('adm_createMenu.html')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render_template('adm_viewPreOrdersDetails.html', order=listing)
 
 
 
@@ -1314,10 +1305,16 @@ def vehicle_create():
 
 @app.route('/vehicle-edit/<int:id>', methods = ["GET", "POST"])
 def vehicle_edit(id):
+    hospital_list = []
+    hospitaldb = shelve.open("hospital.db")
+    hospital_list = hospitaldb["Hospital_choices"]
+    hospitalChoices = list(zip(hospital_list, hospital_list))
     createVehicle = VehicleForm(request.form)
+    createVehicle.vehicle_location.choices = hospitalChoices
     if request.method== "POST" and createVehicle.validate():
         vehicleDict={}
         vehicle_list=[]
+
         try:
             vehicledb=shelve.open("Vehicles")
             vehicleDict = vehicledb["Vehicles"]
@@ -1327,9 +1324,9 @@ def vehicle_edit(id):
             print("Error opening Vehicle database.")
 
         vehicle=vehicleDict.get(id)
-        test=vehicle.get_vehicle()
-        vehicle.set_vehicle(createVehicle.vehicle_name.data)
-        vehicle_list.remove(test)
+        test = vehicle.get_vehicle_id()
+        vehicle.set_vehicle_id(createVehicle.vehicle_name.data)
+        createVehicle.vehicle_location.choices = hospitalChoices
         vehicle_list.append(createVehicle.vehicle_name.data)
         print(vehicle_list)
         vehicledb["Vehicle"]= vehicleDict

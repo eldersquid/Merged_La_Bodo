@@ -15,6 +15,9 @@ class CreateReservationForm(Form):
     time_slot = TimeField('Time')
     remarks = TextAreaField('Remarks', [validators.Optional()])
 
+class ReservationDate(FlaskForm):
+    date = DateField('DATE', format='%d-%m-%Y')
+
 class CreateReviewForm(Form):
     reviewfeedback = TextAreaField('Testimonals from customers', [validators.Optional()])
     reviewfirst_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -101,7 +104,7 @@ class VehicleForm(Form):
     vehicle_name = StringField("Driver's Name", [validators.Length(min=1, max=150), validators.DataRequired()])
     vehicle_model = StringField('Vehicle Model:', )
     vehicle_car_plate = StringField('License Plate no.', )
-    vehicle_contact = StringField('Contact Number', [validators.Length(9), validators.DataRequired()])
+    vehicle_contact = StringField('Contact Number', [validators.Length(8), validators.DataRequired()])
     vehicle_location = SelectField('Assign Hospital Location', [validators.DataRequired()],
                            choices=[], default="")
 
