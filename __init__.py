@@ -287,6 +287,18 @@ def small_room():
     form = BookingForm()
     roomList=[]
     guestDict={}
+    inventories_dict = {}
+    inventorydb = shelve.open('inventory.db', 'c')
+    inventories_dict = inventorydb['Inventories']
+    inventories_list = []
+    inventory_name_list=[]
+    for key in inventories_dict:
+        inventory = inventories_dict.get(key)
+        inventories_list.append(inventory)
+        inventory_name_list.append(inventory.get_item_name())
+    print(inventory_name_list)
+    print(inventories_list)
+
     if request.method== "POST" and form.validate():
         try:
             roomdb = shelve.open("room.db")
@@ -304,15 +316,28 @@ def small_room():
             print("No guests found.")
             guestDict={}
 
+
+        chosen_items= request.form.getlist("checkbox")
+        print(chosen_items)
+        for item in chosen_items:
+            if item in inventory_name_list:
+                print(item+" is in inventory list, subtracting..")
+                original_value= inventories_dict[item].get_quantity()
+                print("BEFORE :",original_value)
+                inventories_dict[item].set_quantity(original_value-1)
+                print("AFTER : ",inventories_dict[item].get_quantity())
         roomsLeft=len(roomList)
         room_number= random.randint(roomList[0],roomList[-1])
         print(room_number)
+        roomList.remove(room_number)
+        roomdb["SmallRoom"] = roomList
+        inventorydb['Inventories'] = inventories_dict
         session['bookindate'] = form.bookindate.data
         session['bookoutdate'] = form.bookoutdate.data
         session['room_choice'] = "Small Room"
         session['room_number'] = room_number
         return redirect(url_for('test_guest'))
-    return render_template("small_room.html",form=form)
+    return render_template("small_room.html",form=form, inventories_list=inventories_list)
 
 
 @app.route("/apartment", methods=['GET', 'POST'])
@@ -320,6 +345,17 @@ def apartment():
     form = BookingForm()
     roomList = []
     guestDict = {}
+    inventories_dict = {}
+    inventorydb = shelve.open('inventory.db', 'c')
+    inventories_dict = inventorydb['Inventories']
+    inventories_list = []
+    inventory_name_list = []
+    for key in inventories_dict:
+        inventory = inventories_dict.get(key)
+        inventories_list.append(inventory)
+        inventory_name_list.append(inventory.get_item_name())
+    print(inventory_name_list)
+    print(inventories_list)
     if request.method == "POST" and form.validate():
         try:
             roomdb = shelve.open("room.db")
@@ -329,6 +365,7 @@ def apartment():
             roomList = []
             apartments = 200
             for i in range(apartments):
+                i=i+200
                 roomList.append(i)
         try:
             db = shelve.open("guests.db")
@@ -337,15 +374,28 @@ def apartment():
             print("No guests found.")
             guestDict = {}
 
+        chosen_items = request.form.getlist("checkbox")
+        print(chosen_items)
+        for item in chosen_items:
+            if item in inventory_name_list:
+                print(item + " is in inventory list, subtracting..")
+                original_value = inventories_dict[item].get_quantity()
+                print("BEFORE :", original_value)
+                inventories_dict[item].set_quantity(original_value - 1)
+                print("AFTER : ", inventories_dict[item].get_quantity())
+
         roomsLeft = len(roomList)
         room_number = random.randint(roomList[0], roomList[-1])
         print(room_number)
+        roomList.remove(room_number)
+        roomdb["apartment"] = roomList
+        inventorydb['Inventories'] = inventories_dict
         session['bookindate'] = form.bookindate.data
         session['bookoutdate'] = form.bookoutdate.data
         session['room_choice'] = "Apartment"
         session['room_number'] = room_number
         return redirect(url_for('test_guest'))
-    return render_template("small_room.html", form=form)
+    return render_template("apartment.html", form=form, inventories_list=inventories_list)
 
 
 @app.route("/bigApartment", methods=['GET', 'POST'])
@@ -353,6 +403,17 @@ def big_apartment():
     form = BookingForm()
     roomList = []
     guestDict = {}
+    inventories_dict = {}
+    inventorydb = shelve.open('inventory.db', 'c')
+    inventories_dict = inventorydb['Inventories']
+    inventories_list = []
+    inventory_name_list = []
+    for key in inventories_dict:
+        inventory = inventories_dict.get(key)
+        inventories_list.append(inventory)
+        inventory_name_list.append(inventory.get_item_name())
+    print(inventory_name_list)
+    print(inventories_list)
     if request.method == "POST" and form.validate():
         try:
             roomdb = shelve.open("room.db")
@@ -362,6 +423,7 @@ def big_apartment():
             roomList = []
             big_apartments = 200
             for i in range(big_apartments):
+                i = i + 400
                 roomList.append(i)
         try:
             db = shelve.open("guests.db")
@@ -370,15 +432,28 @@ def big_apartment():
             print("No guests found.")
             guestDict = {}
 
+        chosen_items = request.form.getlist("checkbox")
+        print(chosen_items)
+        for item in chosen_items:
+            if item in inventory_name_list:
+                print(item + " is in inventory list, subtracting..")
+                original_value = inventories_dict[item].get_quantity()
+                print("BEFORE :", original_value)
+                inventories_dict[item].set_quantity(original_value - 1)
+                print("AFTER : ", inventories_dict[item].get_quantity())
+
         roomsLeft = len(roomList)
         room_number = random.randint(roomList[0], roomList[-1])
         print(room_number)
+        roomList.remove(room_number)
+        roomdb["BigApartment"] = roomList
+        inventorydb['Inventories'] = inventories_dict
         session['bookindate'] = form.bookindate.data
         session['bookoutdate'] = form.bookoutdate.data
         session['room_choice'] = "Big Apartment"
         session['room_number'] = room_number
         return redirect(url_for('test_guest'))
-    return render_template("big_apartment.html", form=form)
+    return render_template("big_apartment.html", form=form, inventories_list=inventories_list)
 
 
 @app.route("/villa", methods=['GET', 'POST'])
@@ -386,15 +461,27 @@ def villa():
     form = BookingForm()
     roomList = []
     guestDict = {}
+    inventories_dict = {}
+    inventorydb = shelve.open('inventory.db', 'c')
+    inventories_dict = inventorydb['Inventories']
+    inventories_list = []
+    inventory_name_list = []
+    for key in inventories_dict:
+        inventory = inventories_dict.get(key)
+        inventories_list.append(inventory)
+        inventory_name_list.append(inventory.get_item_name())
+    print(inventory_name_list)
+    print(inventories_list)
     if request.method == "POST" and form.validate():
         try:
             roomdb = shelve.open("room.db")
-            roomList = roomdb["SmallRoom"]
+            roomList = roomdb["Villa"]
         except:
             print("No Small Rooms occupied.")
             roomList = []
-            small_rooms = 200
-            for i in range(small_rooms):
+            villas = 200
+            for i in range(villas):
+                i = i + 600
                 roomList.append(i)
         try:
             db = shelve.open("guests.db")
@@ -403,15 +490,28 @@ def villa():
             print("No guests found.")
             guestDict = {}
 
+        chosen_items = request.form.getlist("checkbox")
+        print(chosen_items)
+        for item in chosen_items:
+            if item in inventory_name_list:
+                print(item + " is in inventory list, subtracting..")
+                original_value = inventories_dict[item].get_quantity()
+                print("BEFORE :", original_value)
+                inventories_dict[item].set_quantity(original_value - 1)
+                print("AFTER : ", inventories_dict[item].get_quantity())
+
         roomsLeft = len(roomList)
         room_number = random.randint(roomList[0], roomList[-1])
         print(room_number)
+        roomList.remove(room_number)
+        roomdb["Villa"] = roomList
+        inventorydb['Inventories'] = inventories_dict
         session['bookindate'] = form.bookindate.data
         session['bookoutdate'] = form.bookoutdate.data
-        session['room_choice'] = "Small Room"
+        session['room_choice'] = "Villa"
         session['room_number'] = room_number
         return redirect(url_for('test_guest'))
-    return render_template("small_room.html", form=form)
+    return render_template("villa.html", form=form, inventories_list=inventories_list)
 
 
 
@@ -2320,7 +2420,7 @@ def login_staff():
     log_in_staff_form = Staff_Login(request.form)
     if request.method == 'POST' and log_in_staff_form.validate():
         staff_dict = {}
-        db = shelve.open('storage.db', 'r')
+        db = shelve.open('storage.db', 'c')
         try:
             staff_dict = db['Staff']
         except:

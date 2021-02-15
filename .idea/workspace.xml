@@ -16,10 +16,18 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="login and profile" />
+    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="Navbar changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/homura.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/homura.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,7 +119,49 @@
       <option name="project" value="LOCAL" />
       <updated>1613237579851</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Homepage, add to cart page, userHome, cartConfirmation, confirmationReservation">
+      <created>1613401059206</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1613401059206</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Homepage, add to cart page, userHome, cartConfirmation, confirmationReservation">
+      <created>1613401182441</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1613401182441</updated>
+    </task>
+    <task id="LOCAL-00007" summary="photo">
+      <created>1613401320897</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1613401320897</updated>
+    </task>
+    <task id="LOCAL-00008" summary="GuestL">
+      <created>1613403347174</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1613403347174</updated>
+    </task>
+    <task id="LOCAL-00009" summary="StaffL">
+      <created>1613403506269</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1613403506269</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Navbar changes">
+      <created>1613404229932</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1613404229932</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -130,25 +180,38 @@
     <MESSAGE value="gbriel hi world" />
     <MESSAGE value="login test" />
     <MESSAGE value="login and profile" />
-    <option name="LAST_COMMIT_MESSAGE" value="login and profile" />
+    <MESSAGE value="Homepage, add to cart page, userHome, cartConfirmation, confirmationReservation" />
+    <MESSAGE value="photo" />
+    <MESSAGE value="GuestL" />
+    <MESSAGE value="StaffL" />
+    <MESSAGE value="Navbar changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Navbar changes" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1168" height="176" key="GridCell.Tab.0.bottom" timestamp="1613237789708">
-      <screen x="0" y="0" width="1189" height="720" />
+    <state x="0" y="0" key="DiffContextDialog" timestamp="1613401208629">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="0" y="0" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1613401208629" />
+    <state width="1899" height="223" key="GridCell.Tab.0.bottom" timestamp="1613405376177">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1168" height="176" key="GridCell.Tab.0.bottom/0.0.1189.720@0.0.1189.720" timestamp="1613237789708" />
-    <state width="1168" height="176" key="GridCell.Tab.0.center" timestamp="1613237789707">
-      <screen x="0" y="0" width="1189" height="720" />
+    <state width="1899" height="223" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1613405376177" />
+    <state width="1899" height="223" key="GridCell.Tab.0.center" timestamp="1613405376177">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1168" height="176" key="GridCell.Tab.0.center/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
-    <state width="1168" height="176" key="GridCell.Tab.0.left" timestamp="1613237789707">
-      <screen x="0" y="0" width="1189" height="720" />
+    <state width="1899" height="223" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1613405376177" />
+    <state width="1899" height="223" key="GridCell.Tab.0.left" timestamp="1613405376177">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1168" height="176" key="GridCell.Tab.0.left/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
-    <state width="1168" height="176" key="GridCell.Tab.0.right" timestamp="1613237789707">
-      <screen x="0" y="0" width="1189" height="720" />
+    <state width="1899" height="223" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1613405376177" />
+    <state width="1899" height="223" key="GridCell.Tab.0.right" timestamp="1613405376177">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1168" height="176" key="GridCell.Tab.0.right/0.0.1189.720@0.0.1189.720" timestamp="1613237789707" />
+    <state width="1899" height="223" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1613405376177" />
     <state x="113" y="55" key="MergeDialog" timestamp="1613237524154">
       <screen x="0" y="0" width="1189" height="720" />
     </state>
@@ -158,16 +221,18 @@
     </state>
     <state x="105" y="6" key="SettingsEditor/0.0.1188.720@0.0.1188.720" timestamp="1612151193099" />
     <state x="105" y="6" key="SettingsEditor/0.0.1189.720@0.0.1189.720" timestamp="1613236724712" />
-    <state x="188" y="94" key="Vcs.Push.Dialog.v2" timestamp="1613237819536">
-      <screen x="0" y="0" width="1189" height="720" />
+    <state x="304" y="136" key="Vcs.Push.Dialog.v2" timestamp="1613404244771">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1188.720@0.0.1188.720" timestamp="1612153337359" />
     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720" timestamp="1613237819536" />
-    <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613237429009">
-      <screen x="0" y="0" width="1189" height="720" />
+    <state x="304" y="136" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613404244771" />
+    <state x="654" y="397" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613404200497">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1188.720@0.0.1188.720" timestamp="1612153088124" />
     <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1189.720@0.0.1189.720" timestamp="1613237429009" />
+    <state x="654" y="397" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613404200497" />
     <state x="309" y="150" key="git4idea.merge.GitPullDialog" timestamp="1612153325389">
       <screen x="0" y="0" width="1188" height="720" />
     </state>
