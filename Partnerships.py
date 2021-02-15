@@ -6,11 +6,7 @@ class Partnerships:
         self.__resources = resources
         self.__industry = industry
 
-    def set_Partnerships_id(self, Partnerships_id):
-        self.__Partnerships_id = int(Partnerships_id)
 
-    def get_Partnerships_id(self):
-        return self.__Partnerships_id
 
     def set_company(self, company):
         self.__company = company
