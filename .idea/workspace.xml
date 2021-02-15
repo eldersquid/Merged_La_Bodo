@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="login and profile" />
+    <list default="true" id="d581c3c9-fccb-461c-b42e-e35779b3d8df" name="Default Changelist" comment="Homepage, add to cart page, userHome, cartConfirmation, confirmationReservation">
+      <change beforePath="$PROJECT_DIR$/Templates/homura.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/homura.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613237579851</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Homepage, add to cart page, userHome, cartConfirmation, confirmationReservation">
+      <created>1613401059206</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1613401059206</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -130,7 +139,8 @@
     <MESSAGE value="gbriel hi world" />
     <MESSAGE value="login test" />
     <MESSAGE value="login and profile" />
-    <option name="LAST_COMMIT_MESSAGE" value="login and profile" />
+    <MESSAGE value="Homepage, add to cart page, userHome, cartConfirmation, confirmationReservation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Homepage, add to cart page, userHome, cartConfirmation, confirmationReservation" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1168" height="176" key="GridCell.Tab.0.bottom" timestamp="1613237789708">
@@ -158,11 +168,12 @@
     </state>
     <state x="105" y="6" key="SettingsEditor/0.0.1188.720@0.0.1188.720" timestamp="1612151193099" />
     <state x="105" y="6" key="SettingsEditor/0.0.1189.720@0.0.1189.720" timestamp="1613236724712" />
-    <state x="188" y="94" key="Vcs.Push.Dialog.v2" timestamp="1613237819536">
-      <screen x="0" y="0" width="1189" height="720" />
+    <state x="304" y="136" key="Vcs.Push.Dialog.v2" timestamp="1613401083874">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1188.720@0.0.1188.720" timestamp="1612153337359" />
     <state x="188" y="94" key="Vcs.Push.Dialog.v2/0.0.1189.720@0.0.1189.720" timestamp="1613237819536" />
+    <state x="304" y="136" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613401083874" />
     <state x="405" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613237429009">
       <screen x="0" y="0" width="1189" height="720" />
     </state>

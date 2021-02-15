@@ -1,4 +1,4 @@
-{% extends "userBase.html" %}
+{% extends "user_base.html" %}
 {% block title %}Library Loan System - Home{% endblock %}
 
 {% block content %}
@@ -10,14 +10,16 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/book.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/booking_colors.css') }}"/>
 {% endblock %}
-<div class="Container" style="min-height:400px; background-image: url('../static/image/NovotelStevens-FoodExchange5-1500x400.jpg');">
+<div class="Container" style="background-image: url('static/image/NovotelStevens-FoodExchange5-1500x400.jpg');">
 <div style="font-size: 1000px; padding-top: 150px; font-colour:white;">
     <strong><center><h1>HOTEL LA BODO RESTAURANT</h1></center></strong>
 </div>
 </div>
+<br>
+<br>
 
 <section class="about_history_area section_gap">
-    <div class="container" style="padding-top: 200px;">
+    <div class="container" style="padding-top: 150px;">
         <hr>
         <div class="row">
             <div class="col-md-6 d_flex align-items-center">
@@ -35,22 +37,29 @@
     </div>
 </section>
 
-<section class="Pre-order">
-    <div class="container" style="d-flex justify-content-center">
-        <center><h2>Menu</h2></center>
-        <a href="{{ url_for('cart') }}" class="button_hover theme_btn_two float-right">Cart</a>
-        <br>
-        <br>
-        <h3 class="card-title mb-4" style="width: 100%; text-align: center; border-bottom: 1px solid #000; line-height: 0.1em; margin: 10px 0 20px;"><span style="background:#fff; padding: 0 50px;">~ Pre-orders ~</span></h3>
-
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+<section class="about_history_area section_gap">
+    <div class="container" style="padding-top: 50px;">
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <img class="img-fluid" src="static/image/fine food 1.jpg" alt="">
+            </div>
+            <div class="col-md-6 d_flex align-items-center">
+                <div class="about_content ">
+                    <h2 class="title title_color">Pre Order</h2>
+                    <p>We believe the choices we make about what we eat, where it comes from and how it’s prepared have a direct and powerful impact on the health of individuals, communities and the environment</p>
+                    <a href="{{ url_for('cart') }}" class="button_hover theme_btn_two">Order Now</a>
+                </div>
+            </div>
+        </div>
+        <hr>
     </div>
-
 </section>
+<br>
+<br>
+<br>
+<br>
+<br>
   <center><a href="{{ url_for('createReview') }}" class="button_hover theme_btn_two ">Write a review</a></center>
 
 <!--================ Testimonial Area  =================-->
@@ -104,6 +113,8 @@
 
 
 <div class="scroll-to-top"></div>
+
+
 
 
 

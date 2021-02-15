@@ -1,6 +1,13 @@
-{% extends "userBase.html" %}
+{% extends "user_base.html" %}
 {% block title %}Library Loan System - Order Confirmation {% endblock %}
 {% block content %}
+{% block css %}
+  {{ super() }}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/royal_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/book.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/booking_colors.css') }}"/>
+{% endblock %}
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width ,initial-scale=1.0">
@@ -20,13 +27,13 @@
             <li data-target="#myCarousel" data-slide-to="2"></li>
             <li data-target="#myCarousel" data-slide-to="3"></li>
           </ol>
-          <div class="carousel-inner">
-            <div class="carousel-item carousel-image-1 active" src="static/image/Burger.jpg">
+          <div class="carousel-inner" style="background-image:url('static/image/hotel_4.jpg');">
+            <div class="carousel-item carousel-image-1 active">
               <div class="container">
                 <div class="carousel-caption d-none d-sm-block text-right mb-5">
                   <h1 class="display-3">Hotel La Bodo</h1>
                   <p class="lead">Find out what is the flavor of the month circulating!</p>
-                  <a href="#features" class="btn btn-primary btn-lg">Rooms</a>
+                  <a href="{{url_for('hotel_rooms')}}" class="btn btn-primary btn-lg">Rooms</a>
                 </div>
               </div>
             </div>
@@ -34,9 +41,9 @@
             <div class="carousel-item carousel-image-2" src="static/image/Burger.jpg">
               <div class="container">
                 <div class="carousel-caption d-none d-sm-block text-right mb-5">
-                  <h1 class="display-3">Hotel La Bodo Restaurant</h1>
+                  <h1 class="display-3" style="font-colour:#FFFFFF;">Hotel La Bodo Restaurant</h1>
                   <p class="lead">Know more about the world-famous organization and what we stand for.</p>
-                  <a href="#features" class="btn btn-primary btn-lg">Details</a>
+                  <a href="{{url_for('user_home')}}" class="btn btn-primary btn-lg">Details</a>
                 </div>
               </div>
             </div>
@@ -49,6 +56,7 @@
           <a href="#myCarousel" data-slide="next" class="carousel-control-next">
             <span class="carousel-control-next-icon"></span>
           </a>
+          </div>
         </div>
       </section>
 
@@ -58,17 +66,27 @@
         <div class="dark-box">
           <div class="row">
             <div class="container pt-5">
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
               <h1>Who are we?</h1>
-              <p class="lead p-3">Hotel La Bodo is created by some teenagers doing app dev project, the project started in 2020 and is gonna end today. Their goal is to get the project done and over with, so can enjoy chinese new year and semester break.
-              Hopefully after today the teacher's will be kind enough to give us a A for this project !!!.</p>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <strong><p class="lead p-3">Hotel La Bodo is created by some teenagers doing app dev project, the project started in 2020 and is gonna end today. Their goal is to get the project done and over with, so can enjoy chinese new year and semester break.
+              Hopefully after today the teacher's will be kind enough to give us a A for this project !!!.</p></strong>
             </div>
           </div>
         </div>
       </section>
 
       <!-- What do we do -->
-
-      <section id="purpose" class="p-5">
+<section id="purpose" class="p-5">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-4 py-5">
@@ -89,10 +107,10 @@
                       <p>Join the Miyawaki Chefs and chat with like-minded members. Get recommendations for restaurants to look out for, and form relationships that share a common interest in food.</p>
                       </div>
                   </div>
-              </div>
+            </div>
 
             <div class="col-md-4 p-5">
-              <img src="image/sakura.png" width="400" height="400">
+              <img src="static/image/hotel_2.jpg" width="400" height="400">
             </div>
 
             <div class="col-md-4 py-5">
@@ -114,7 +132,36 @@
                     </div>
                   </div>
               </div>
-      </section>
+          </div>
+        </div>
+</section>
+<section>
+  <div class="section padding-top-bottom-small background-black over-hide footer">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-3 text-center text-md-left">
+                  <img src="img/logo.png" alt="">
+                  <p class="color-grey mt-4">180 Ang Mo Kio Ave 8,<br>Singapore 569830</p>
+              </div>
+              <div class="col-md-4 text-center text-md-left">
+                  <h6 class="color-white mb-3">information</h6>
+                  <a href="tandc.html">terms &amp; conditions</a>
+                  <a href="services.html">services</a>
+                  <a href="restaurant.html">restaurant</a>
+                  <a href="testimonials.html">testimonials</a>
+                  <a href="gallery.html">gallery &amp; images</a>
+              </div>
+              <div class="col-md-5 mt-4 mt-md-0 text-center text-md-left logos-footer">
+                  <h6 class="color-white mb-3">about us</h6>
+                  <p class="color-grey mb-4">You're not supposed to read this. Go away!</p>
+                  <img src="img/logos/1.png" alt="">
+                  <img src="img/logos/2.png" alt="">
+                  <img src="img/logos/3.png" alt="">
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
 
 
 
