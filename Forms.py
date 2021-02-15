@@ -10,12 +10,11 @@ class CreateReservationForm(Form):
     last_name = StringField('Last Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     email = EmailField('Email', [validators.Length(min=8,max=200), validators.DataRequired()])
     contact = TelField('Contact no.', [validators.length(min=1, max=30), validators.DataRequired()])
-    date = DateField('DATE', format='%d-%m-%Y')
     time_slot = TimeField('Time')
     remarks = TextAreaField('Remarks', [validators.Optional()])
 
-class ReservationDate(FlaskForm):
-    date = DateField('DATE', format='%d-%m-%Y')
+class ReservationDateForm(FlaskForm):
+    date = DateField('DATE', format='%Y-%m-%d')
 
 class CreateReviewForm(Form):
     reviewfeedback = TextAreaField('Testimonals from customers', [validators.Optional()])
