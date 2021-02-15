@@ -9,17 +9,11 @@
 
 {% block content %}
 <div class="container-fluid">
-  <h1 class="display-5">Item List</h1>
-  <div>
-    {% if count == 0 %}
-    <p>There are no Order being Sent.</p>
-    {% elif count == 1 %}
-    <p>There is 1 Order is Sent.</p>
-    {% else %}
-    <p>There are {{ count }} Order Sent.</p>
-    {% endif %}
-  </div>
-  <div>
+    <div>
+      <div class="col d-flex justify-content-end">
+      <a class="btn btn-outline-secondary ml-1" href="{{ url_for('createOrder') }}"><i class="fas fa-plus-circle"></i> Create New Ordery</a>
+    </div>
+    <p></p>
     <div class="card shadow mb-4">
       <div class="card-body">
         <div class="table-responsive">

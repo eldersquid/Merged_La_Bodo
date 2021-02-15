@@ -5,7 +5,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html" style="margin-top: 10%; margin-bottom: 10%">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('home_page') }}" style="margin-top: 10%; margin-bottom: 10%">
           <img src="{{ url_for('static',filename='image/logo.png') }}" alt="" style="max-width: 75%; height: auto;">
       </a>
 
@@ -72,7 +72,7 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                   <a class="collapse-item" href="{{ url_for('createInventory') }}">Create</a>
                   <a class="collapse-item" href="{{ url_for('retrieve_inventories') }}">Update</a>
-                  <a class="collapse-item" href="{{ url_for('createOrder') }}">Order</a>
+                  <a class="collapse-item" href="{{ url_for('retrieve_order') }}">Order</a>
                 </div>
             </div>
         </li>
