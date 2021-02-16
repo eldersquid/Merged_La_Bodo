@@ -2414,7 +2414,7 @@ def create_staff():
     staff_sign_up_form = Staff_Signup(request.form)
     print("yeeyee")
     if request.method == 'POST' and staff_sign_up_form.validate():
-        print("ass")
+        print("ok")
         staff_dict = {}
         db = shelve.open('storage.db', 'c')
         try:
