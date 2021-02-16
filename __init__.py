@@ -1860,7 +1860,7 @@ def update_supplier(company_name):
         return render_template('updateSupplier.html', form=createSupplierForm)
 
 
-@app.route('/deleteSupplier/<company_name>', methods=['POST'])
+@app.route('/deleteSupplier/<string:company_name>', methods=['POST'])
 def delete_supplier(company_name):
     suppliers_dict = {}
     db = shelve.open('supplier.db', 'w')
@@ -1937,7 +1937,7 @@ def retrieve_inventories():
     return render_template('retrieveInventories.html', count=len(inventories_list), inventories_list=inventories_list)
 
 
-@app.route('/updateInventory/<item_name>/', methods=['GET', 'POST'])
+@app.route('/updateInventory/<string:item_name>/', methods=['GET', 'POST'])
 def update_inventory(item_name):
     suppliers_dict = {}
     try:
@@ -1999,7 +1999,7 @@ def update_inventory(item_name):
         return render_template('updateInventory.html', form=update_inventory_form)
 
 
-@app.route('/deleteInventory/<item_name>', methods=['POST'])
+@app.route('/deleteInventory/<string:item_name>', methods=['POST'])
 def delete_inventory(item_name):
     inventories_dict = {}
     db = shelve.open('inventory.db', 'w')
@@ -2423,7 +2423,7 @@ def create_staff():
     staff_sign_up_form = Staff_Signup(request.form)
     print("yeeyee")
     if request.method == 'POST' and staff_sign_up_form.validate():
-        print("ass")
+        print("ok")
         staff_dict = {}
         db = shelve.open('storage.db', 'c')
         try:
