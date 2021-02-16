@@ -33,13 +33,7 @@
                           <div class="card-body">
                             <div class="e-profile">
                               <div class="row">
-                                <div class="col-12 col-sm-auto mb-3">
-                                  <div class="mx-auto" style="width: 140px;">
-                                    <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                                      <img class="img-thumbnail" src="img/jisoo.jpg" alt="">
-                                    </div>
-                                  </div>
-                                </div>
+
                                 <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                                   <div class="text-center text-sm-left mb-2 mb-sm-0">
                                     <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{guest.get_name()}}</h4>
@@ -83,11 +77,21 @@
                                       <div class="col">
                                         <div class="form-group">
                                           {{ form.bookindate.label }} {{form.bookindate(class='datepicker form-control')}} {{form.hidden_tag()}}
+                                            {% if form.bookindate.errors %}
+                                            {% for error in form.bookindate.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                            {% endfor %}
+                                            {% endif %}
                                         </div>
                                       </div>
                                       <div class="col">
                                         <div class="form-group">
                                           {{ form.bookoutdate.label }} {{form.bookoutdate(class='datepicker form-control')}} {{form.hidden_tag()}}
+                                            {% if form.bookoutdate.errors %}
+                                            {% for error in form.bookoutdate.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                            {% endfor %}
+                                            {% endif %}
                                         </div>
                                       </div>
                                     </div>

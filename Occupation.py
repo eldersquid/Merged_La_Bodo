@@ -26,6 +26,7 @@ class Occupation(Industry):
     def __init__(self,occupation,industry):
         super().__init__(industry)
         self.__occupation = occupation
+        self.__description=""
 
     def get_occupation(self):
         return self.__occupation
@@ -38,3 +39,9 @@ class Occupation(Industry):
 
     def set_occupation_id(self,occupation_id):
         self.__occupation_id= int(occupation_id)
+
+    def get_description(self):
+        return self.__description
+
+    def set_description(self, description):
+        self.__description = description

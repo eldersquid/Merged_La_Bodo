@@ -587,6 +587,7 @@ def test_guest():
     occupation_list = []
     occupationdb=shelve.open("occupation.db")
     industry_list=[]
+    error=""
     try:
         hospital_list = hospitaldb["Hospital_choices"]
 
@@ -654,7 +655,11 @@ def test_guest():
         db.close()
         return redirect(url_for('server_guests'))
 
-    return render_template("booking_details.html",form=form)
+
+    elif request.method=="POST" and createBooking.validate()==False:
+        error = createBooking.errors["transport"]
+
+    return render_template("booking_details.html",form=form,error=error)
 
 
 
@@ -929,6 +934,7 @@ def hospital_create():
         hospital_name=createHospital.hospital_name.data
         hospital_address = createHospital.hospital_address.data
         hospital = Hospital(createHospital.hospital_name.data, createHospital.hospital_address.data,createHospital.hospital_contact.data,createHospital.hospital_beds.data)
+        print(createHospital.hospital_contact.data)
         hospital.set_hospital_id(hospital_id)
         hospital_list.append(hospital.get_name())
         print(hospital_list)
@@ -1072,9 +1078,8 @@ def hospital_list():
 
 @app.route('/hospital-edit/<int:id>',methods=["GET","POST"])
 def hospital_edit(id):
-    hospitalForm= HospitalForm(request.form)
-    createHospital = HospitalForm(request.form)
-    if request.method== "POST" and hospitalForm.validate():
+    createHospital = HospitalEditForm(request.form)
+    if request.method== "POST" and createHospital.validate():
         hospitalDict={}
         hospital_list=[]
         try:
@@ -1097,6 +1102,7 @@ def hospital_edit(id):
     else:
         print("2nd option desu")
         hospitalDict = {}
+        print(createHospital.errors.items())
         try:
             hospitaldb = shelve.open("hospital.db")
             hospitalDict = hospitaldb["Hospitals"]
@@ -1190,6 +1196,7 @@ def occupation_create():
 
         occupation = Occupation(createOccupation.occupation_name.data,createOccupation.occupation_industry.data)
         occupation_id+=1
+        occupation.set_description(createOccupation.description.data)
         occupation.set_occupation_id(occupation_id)
         occupation_list.append(occupation.get_occupation())
         print(occupation_list)
@@ -1272,6 +1279,7 @@ def occupation_edit(id):
         occupation=occupationDict.get(id)
         test=occupation.get_occupation()
         occupation.set_occupation(createOccupation.occupation_name.data)
+        occupation.set_description(createOccupation.description.data)
         occupation_list.remove(test)
         occupation_list.append(createOccupation.occupation_name.data)
         print(occupation_list)
@@ -1292,6 +1300,7 @@ def occupation_edit(id):
         occupation=occupationDict.get(id)
         createOccupation.occupation_name.data=occupation.get_occupation()
         createOccupation.occupation_industry.data=occupation.get_industry()
+        createOccupation.description.data=occupation.get_description()
 
         return render_template('occupation_edit.html',occupation=occupation,form=createOccupation)
 

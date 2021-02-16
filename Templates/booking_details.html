@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hotel La Bodo - Guest Booking</title>
+    <title>Hotel La Bodo - Guest Booking Form</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/material-design-iconic-font.min.css') }}">
 
     <!-- Main css -->
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/wowni.css') }}">
+
 </head>
 
 {% from "includes/_formHelper.html" import render_field %}
@@ -25,6 +26,7 @@
                 </div>
                 <div class="signup-form">
                     <form method="POST" class="register-form" id="register-form">
+
                         <h2>Additional Guest Information</h2>
 
                         <div class="form-row">
@@ -69,7 +71,12 @@
                             {{ render_field(form.location, class="form-control") }}
                         </div>
                         <div class="form-group">
+
                             {{ render_field(form.transport, class="form-control") }}
+                            {% if error %}
+                                <div class="text-danger" ><h3 style="color:red;">{{ error }}</h3></div>
+                            {% else %}
+                            {% endif %}
                         </div>
                         <div class="form-row">
                         <div class="form-group">

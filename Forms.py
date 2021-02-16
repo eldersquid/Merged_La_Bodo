@@ -4,6 +4,7 @@ from wtforms.fields.html5 import *
 from wtforms.validators import DataRequired
 import phonenumbers
 import shelve
+import re
 
 class CreateReservationForm(Form):
     first_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
@@ -28,7 +29,7 @@ class GuestBooking(Form):
     occupation = SelectField('Occupation', [validators.DataRequired()],
                              choices=[], default="")
     location = SelectField("Location of Workplace", [validators.DataRequired()], choices=[], default="")
-    transport = RadioField('Transport Required?', choices=[('Yes', 'Yes'), ('No', 'No')], default='Y')
+    transport = RadioField('Transport Required?', [validators.DataRequired()], choices=[('Yes', 'Yes'), ('No', 'No')], default='Y')
 
 
 class BookingForm(FlaskForm):
@@ -37,17 +38,17 @@ class BookingForm(FlaskForm):
     submit = SubmitField('Submit')
 
     def validate_bookindate(form, field):
-        if field.data=="":
-            raise ValidationError("Enter a book in date.")
+        if field.data == None:
+            raise ValidationError("Please enter a check-in date")
 
     def validate_bookoutdate(form, field):
-        if field.data == "":
-            raise ValidationError("Enter a book out date.")
+        if field.data == None:
+            raise ValidationError("Please enter a check-out date")
 
 
 class BookRoomType(Form):
-    room_type = SelectField('Room Type',
-                        choices=[("", ""), ("Small Room", "Small Room"), ("Apartment", "Apartment"), ("Big Apartment", "Big Apartment"), ("Villa", "Villa")], default="")
+    room_type = SelectField('Room Type', [validators.DataRequired()],
+                        choices=[("", ""), ("Small Room", "Small Room"), ("Apartment", "Apartment"), ("Big Apartment", "Big Apartment"), ("Villa", "Villa")],  default="")
     room_number= IntegerField('Room Number', [validators.required()])
 
 
@@ -81,12 +82,47 @@ class HospitalForm(Form):
             if field.data == hospitals:
                 raise ValidationError("Existing hospital in database. Search for another hospital.")
 
-    # def validate_hospital_contact(form,field):
-    #     if len(field.data) > 9:
-    #         raise ValidationError("Invalid Contact Number. Try again.")
-    #     try:
-    #         x=phonenumbers.parse(field.data)
-    #
+    def validate_hospital_contact(form,field):
+        if len(field.data) > 8 or not field.data.isdigit():
+            raise ValidationError("Only 8 characters allowed. Do not add spaces or use letters in contact number.")
+        try:
+            x=phonenumbers.parse(field.data)
+            if phonenumbers.is_valid_number(x):
+                pass
+            else:
+                raise ValidationError("Wrong Contact Number. Try again.")
+        except:
+            x= phonenumbers.parse("+65" + field.data)
+            if phonenumbers.is_valid_number(x):
+                pass
+            else:
+                raise ValidationError("Must be a Singaporean contact number. Try again.")
+
+
+class HospitalEditForm(Form):
+    hospital_name = StringField('Hospital Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    hospital_address = StringField('Address', [validators.Length(min=1, max=150), validators.DataRequired()])
+    hospital_beds = IntegerField('Number of Beds', [validators.required()])
+    hospital_contact = StringField('Contact Number', [validators.DataRequired()])
+
+    def validate_hospital_contact(form, field):
+        if len(field.data) > 8 or not field.data.isdigit():
+            raise ValidationError("Only 8 characters allowed. Do not add spaces or use letters in contact number.")
+        try:
+            x = phonenumbers.parse(field.data)
+            if phonenumbers.is_valid_number(x):
+                pass
+            else:
+                raise ValidationError("Wrong Contact Number. Try again.")
+        except:
+            x = phonenumbers.parse("+65" + field.data)
+            if phonenumbers.is_valid_number(x):
+                pass
+            else:
+                raise ValidationError("Must be a Singaporean contact number. Try again.")
+
+
+
 
 
 

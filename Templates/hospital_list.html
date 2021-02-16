@@ -85,6 +85,7 @@
                                         <tbody>
                                         {% if hospital_list %}
                                           {% for hospital in hospital_list %}
+                                            {% set contact_number = hospital.get_contact() | string %}
                                           <tr>
                                             <td>
                                               {{hospital.get_hospital_id()}}
@@ -96,7 +97,7 @@
                                               {{hospital.get_address()}}
                                             </td>
                                             <td>
-                                              {{hospital.get_contact()}}
+                                              {{ contact_number[0:4]+" "+ contact_number[4:8] }}
                                             </td>
                                             <td>
                                               {{hospital.get_beds()}}
@@ -133,7 +134,7 @@
 
 
                                               <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#deleteModal_{{ hospital.get_hospital_id() }}">
-                                              <i class="far fa-times-circle"></i>
+
                                               <span>Delete</span>
                                             </button>
                                             </form>
