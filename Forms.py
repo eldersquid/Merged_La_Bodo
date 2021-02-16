@@ -188,7 +188,7 @@ class CreatePackageDeal(Form):
 
 class Login(Form):
     username = StringField('Username', [validators.DataRequired()])
-    password = StringField('Password', [ validators.DataRequired()])
+    password = PasswordField('Password', [ validators.DataRequired()])
 
 
 class Signup(Form):
@@ -203,7 +203,7 @@ class Signup(Form):
 
 class Staff_Login(Form):
     id = IntegerField('ID', [validators.DataRequired()])
-    password = StringField('Password', [validators.DataRequired()])
+    password = PasswordField('Password', [validators.DataRequired()])
 
 class Staff_Signup(Form):
     id = IntegerField('ID', [validators.DataRequired()])
