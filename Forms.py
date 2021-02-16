@@ -36,6 +36,13 @@ class BookingForm(FlaskForm):
     bookoutdate = DateField('Check-Out Date', format='%Y-%m-%d')
     submit = SubmitField('Submit')
 
+    def validate_bookindate(form, field):
+        if field.data=="":
+            raise ValidationError("Enter a book in date.")
+
+    def validate_bookoutdate(form, field):
+        if field.data == "":
+            raise ValidationError("Enter a book out date.")
 
 
 class BookRoomType(Form):

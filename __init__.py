@@ -318,6 +318,7 @@ def small_room():
             guestDict={}
 
 
+
         chosen_items= request.form.getlist("checkbox")
         print(chosen_items)
         for item in chosen_items:
