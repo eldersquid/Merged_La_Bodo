@@ -1960,7 +1960,6 @@ def update_inventory(item_name):
 
     if request.method == 'POST' and update_inventory_form.validate():
         inventories_dict = {}
-        itemOnly_dict = {}
         db = shelve.open('inventory.db', 'w')
         inventories_dict = db['Inventories']
 

@@ -141,26 +141,26 @@ class ChooseGuest(Form):
 
 
 class CreateProductForm(Form):
-    product_name = StringField("New Product Brand", [validators.Length(min=1, max=150), validators.DataRequired()])
+    product_name = StringField("New Product Name", [validators.Length(min=1, max=150), validators.DataRequired()])
 
 
 class CreateSupplierForm(Form):
     company_name = StringField('Company Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     uen_number = IntegerField('UEN Number', [validators.DataRequired()])
     email = EmailField('Email', [validators.Email(), validators.DataRequired()])
-    product_name = SelectMultipleField('Product Brand', [validators.DataRequired()])
+    product_name = SelectMultipleField('Product Name', [validators.DataRequired()])
 
 
 class CreateInventoryForm(Form):
     item_name = StringField('Item Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     supplier = SelectField('Supplier', [validators.DataRequired()], choices=[], default='')
-    product_name = SelectField('Product Brand', [validators.DataRequired()], choices=[], default='')
+    product_name = SelectField('Product Name', [validators.DataRequired()], choices=[], default='')
     quantity = IntegerField('Quantity', [validators.NumberRange(min=1), validators.DataRequired()])
 
 
 class CreateOrderForm(Form):
     item_name = SelectField('Item Name', [validators.DataRequired()], choices=[], default='')
-    product_name = SelectField('Product Brand', [validators.DataRequired()], choices=[], default='')
+    product_name = SelectField('Product Name', [validators.DataRequired()], choices=[], default='')
     supplier = SelectField('Supplier', [validators.DataRequired()], choices=[], default='')
     quantity = IntegerField('Quantity', [validators.NumberRange(min=1), validators.DataRequired()])
     remarks = TextAreaField('Remarks', [validators.Optional()])
